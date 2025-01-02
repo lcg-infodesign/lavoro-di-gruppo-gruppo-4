@@ -1,8 +1,120 @@
+@font-face {
+  font-family: "Ribes Regular";
+  src: url("assets/Ribes-Regular.woff2") format("woff2");
+}
+
 html, body {
   margin: 0;
   padding: 0;
+  overflow-x: hidden;
+  position: relative;
 }
 
-canvas {
-  display: block;
+body {
+  background-color: rgb(255, 198, 198);
+  background-image: url('assets/background01.jpg'); 
+  background-attachment: fixed;
+  background-size: cover;
+  cursor: crosshair;
 }
+
+h1 {
+  font-family: 'Ribes Regular';
+  font-size: 5em;
+  line-height: 0.9;
+  margin: 0;
+  padding-top: 2.65%;
+  padding-left: 2.65%;
+  display:inline-block;
+}
+
+h2 {
+  font-family: 'Ribes Regular';
+  font-size: 2em;
+  line-height: 0.9;
+  margin: 0;
+  padding: 2.65%;
+
+}
+
+.text-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  background: white;
+  overflow: hidden;
+}
+
+.marquee {
+  position: fixed; 
+  bottom: 0; 
+  left: 0; 
+  width: 100%; 
+  background-color: white;
+  padding: 0.5em; 
+  z-index: 1000; 
+  white-space: nowrap; 
+}
+
+.marquee-content {
+  display: flex; 
+  animation: move-rtl 40000ms linear infinite; 
+  width: calc(200%); 
+}
+
+
+
+@keyframes move-rtl {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+p {
+  font-family: 'Ribes Regular';
+  font-size: 1.3em;
+  white-space: nowrap;
+  margin: 0 0em; 
+}
+
+.separator {
+  font-size: 1.88em; 
+  margin: 0 1em; 
+  line-height: 1; 
+  display: flex;
+  align-items: center; 
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  h1 {
+    font-size: 3em; 
+  }
+
+  p {
+    font-size: 1em; 
+  }
+
+  .marquee {
+    padding: 0.2em; 
+  }
+}
+
+
+
+
+.right-image {
+  position: relative;
+  margin: 0;
+  max-width: 50%;
+  height: auto;
+float: right;
+display: block;
+}
+
