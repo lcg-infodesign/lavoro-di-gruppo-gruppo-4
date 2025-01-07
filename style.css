@@ -11,30 +11,83 @@ html, body {
 }
 
 body {
-  background-color: pink;
-  background-image: url('ASSETS/background01.jpg'); 
+  background-color: rgb(255, 216, 223);
+  background-image: url("ASSETS/background01.jpg");
   background-attachment: fixed;
   background-size: cover;
+  cursor: crosshair;
+  padding-top: 0;
+}
+
+.trasparent {
+  background: transparent;
+}
+
+.home {
+  background: white;
+  font-weight: bold;
+}
+
+.home:hover {
+  background-color: #000000;
+  cursor: crosshair;
+  color: white;
+}
+
+.navbar {
+  overflow: hidden;
+  display: inline;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000; 
+  padding-left: 2.65%;
+}
+
+a {
+  font-size: 1.2rem; /* Usa rem per la dimensione del font */
+  color: black;
+  display: inline-block;
+  text-align: center;
+  padding: 1em; /* Usa em per il padding */
+  text-decoration: none;
+  font-family: "Ribes Regular";
+  margin: 0;
+}
+
+a:hover {
+  background-color: #ffffff;
+  color: black;
   cursor: crosshair;
 }
 
 h1 {
   font-family: 'Ribes Regular';
-  font-size: 5em;
+  font-size: 5vw; /* Usa vw per la dimensione del font */
   line-height: 0.9;
   margin: 0;
-  padding-top: 2.65%;
+  padding-top: 10%;
   padding-left: 2.65%;
-  display:inline-block;
+  display: inline-block;
+  color: black;
 }
 
 h2 {
   font-family: 'Ribes Regular';
-  font-size: 2em;
+  font-size: 2.5vw; /* Usa vw per la dimensione del font */
   line-height: 0.9;
   margin: 0;
   padding: 2.65%;
+  padding-top: 1.5%;
+}
 
+h3 {
+  font-family: 'Ribes Regular';
+  font-size: 3em; 
+  line-height: 0.9;
+  margin: 0;
+  padding: 2.65%;
+  padding-top: 1.5%;
 }
 
 .text-wrapper {
@@ -61,22 +114,20 @@ h2 {
   width: calc(200%); 
 }
 
-
-
 @keyframes move-rtl {
   0% {
-    transform: translateX(0%);
+      transform: translateX(0%);
   }
   100% {
-    transform: translateX(-50%);
+      transform: translateX(-50%);
   }
 }
 
-p {
+.marquee-text{
   font-family: 'Ribes Regular';
-  font-size: 1.3em;
+  font-size: 1.3rem; /* Usa rem per la dimensione del font */
   white-space: nowrap;
-  margin: 0 0em; 
+  margin: 0; 
 }
 
 .separator {
@@ -94,26 +145,53 @@ img {
 
 @media (max-width: 768px) {
   h1 {
-    font-size: 3em; 
+      font-size: 4em; /* Riduci la dimensione del font per schermi piccoli */
   }
 
-  p {
-    font-size: 1em; 
-  }
+
 
   .marquee {
-    padding: 0.2em; 
+      padding: 0.2em; 
   }
 }
-
-
-
 
 .right-image {
   position: relative;
+  margin: 0; 
+  max-width: 52%;
+  height: auto;
+  float: right;
+  display: block;
+  top: 0; 
+}
+
+.animated-wave {
+  display: block;
+  padding-top: 2em;
+  padding-left: 7em;
   margin: 0;
   max-width: 50%;
-  height: auto;
-float: right;
-display: block;
+  animation: wave-animation 1s infinite;
 }
+
+@keyframes wave-animation {
+  0% {
+      transform: translateY(0);
+  }
+  50% {
+      transform: translateY(-10px);
+  }
+  100% {
+      transform: translateY(0);
+  }
+}
+
+.fiducia-def{
+  padding-top:9em ;
+  font-family: 'Ribes Regular';
+  font-size: 1.3rem; /* Usa rem per la dimensione del font */
+  margin: 0; 
+  padding: 2.65%;
+}
+
+
