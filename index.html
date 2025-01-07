@@ -1,17 +1,57 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>Fiducia interpersonale in Italia</title>
-
     <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
 
+
+        #loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background:rgb(255, 255, 255);
+            transition: opacity 0.75s, visibility 0.75s;
+        }
+
+        #loader--hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+
+        #loader::after {
+            content: "";
+            width: 7px;
+            height: 7px;
+            border: 70px solid;
+            border-top-color: #ffa5e2;
+            border-bottom-color: #ffdb63;
+            border-left-color: black;
+            border-right-color: black;
+            animation: loading 0.75s ease infinite;
+        }
+
+        @keyframes loading {
+            from {
+                transform: rotate(0turn);
+            }
+            to {
+                transform: rotate(1turn);
+            }
+        }
+    </style>
     <script src="libraries/p5.min.js"></script>
     <script src="libraries/p5.sound.min.js"></script>
-  </head>
-  <body>
+</head>
+<body>
+    <div id="loader"></div>
     <h1>FIDUCIA <br> INTERPERSONALE</h1>
 
     <!--MARQUEE-->
@@ -44,14 +84,32 @@
             <span class="separator">•</span>
         </div>
     </div>
-    <!--l'immagine è solo segnaposto, sarà sostituita da quella definitiva-->
     <img class="right-image" src="ASSETS/SEGNAPOSTO01.png" alt="">
-
     
     <h2>Italia 2010-2023</h2> <!-- Spostato qui -->
+
+    <script>
+        let loaderVisible = true;
+        const loaderTime = 2000;
+
+       
+        function hideLoader() {
+            loaderVisible = false;
+            document.querySelector("#loader").style.display = "none";
+            document.querySelector("body").style.visibility = "visible";
+        }
+
+        document.onreadystatechange = function() {
+            if (document.readyState !== "complete") {
+                document.querySelector("body").style.visibility = "hidden";
+                document.querySelector("#loader").style.visibility = "visible";
+            } else {
+                
+                setTimeout(hideLoader, loaderTime);
+            } 
+        };
+    </script>
 
     <script src="sketch.js"></script>
 </body>
 </html>
-
-
