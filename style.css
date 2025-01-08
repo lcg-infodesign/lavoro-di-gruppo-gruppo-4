@@ -6,7 +6,7 @@
 html, body {
   margin: 0;
   padding: 0;
-  overflow-x: hidden;
+  overflow: hidden;
   position: relative;
 }
 
@@ -15,80 +15,77 @@ body {
   background-image: url("ASSETS/background01.jpg");
   background-attachment: fixed;
   background-size: cover;
-  cursor: crosshair;
-  padding-top: 0;
+  padding-top: 0; /* Rimuovi il padding superiore */
 }
 
-.trasparent {
-  background: transparent;
+.trasparent{
+background: transparent;
 }
 
-.home {
+.home{
   background: white;
-  font-weight: bold;
+  margin: 0;
 }
 
-.home:hover {
+.home:hover{
   background-color: #000000;
-  cursor: crosshair;
   color: white;
 }
 
-.navbar {
-  overflow: hidden;
-  display: inline;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 1000; 
-  padding-left: 2.65%;
-}
 
-a {
-  font-size: 1.2rem; /* Usa rem per la dimensione del font */
-  color: black;
-  display: inline-block;
-  text-align: center;
-  padding: 1em; /* Usa em per il padding */
-  text-decoration: none;
-  font-family: "Ribes Regular";
-  margin: 0;
-}
+     
+     .navbar {
+      overflow: hidden;
+      display: inline;
+      position: fixed;
+      top: 0;
+      width: 100%;
+      z-index: 1000; 
+      padding-left: 2.65%;
+  }
 
-a:hover {
-  background-color: #ffffff;
-  color: black;
-  cursor: crosshair;
-}
+  .navbar a {
+    font-size: 19px;
+      color: white;
+      display: inline-block;
+      color: black;
+      text-align: center;
+      padding: 14px 16px;
+      text-decoration: none;
+      font-family: "Ribes Regular";
+      margin: 0;
+  }
+
+  a:hover {
+      background-color: #ffffff;
+      color: black;
+      
+  }
 
 h1 {
   font-family: 'Ribes Regular';
-  font-size: 5vw; /* Usa vw per la dimensione del font */
+  font-size: 5em;
   line-height: 0.9;
   margin: 0;
-  padding-top: 10%;
+  padding-top: 12%;
   padding-left: 2.65%;
-  display: inline-block;
-  color: black;
+  display:inline-block;
+  color:black;
 }
 
 h2 {
   font-family: 'Ribes Regular';
-  font-size: 2.5vw; /* Usa vw per la dimensione del font */
+  font-size: 2em;
   line-height: 0.9;
+  
   margin: 0;
   padding: 2.65%;
   padding-top: 1.5%;
+
 }
 
-h3 {
-  font-family: 'Ribes Regular';
-  font-size: 3em; 
-  line-height: 0.9;
-  margin: 0;
-  padding: 2.65%;
-  padding-top: 1.5%;
-}
+
+
 
 .text-wrapper {
   display: flex;
@@ -114,20 +111,22 @@ h3 {
   width: calc(200%); 
 }
 
+
+
 @keyframes move-rtl {
   0% {
-      transform: translateX(0%);
+    transform: translateX(0%);
   }
   100% {
-      transform: translateX(-50%);
+    transform: translateX(-50%);
   }
 }
 
-.marquee-text{
+p {
   font-family: 'Ribes Regular';
-  font-size: 1.3rem; /* Usa rem per la dimensione del font */
+  font-size: 1.3em;
   white-space: nowrap;
-  margin: 0; 
+  margin: 0 0em; 
 }
 
 .separator {
@@ -145,15 +144,20 @@ img {
 
 @media (max-width: 768px) {
   h1 {
-      font-size: 4em; /* Riduci la dimensione del font per schermi piccoli */
+    font-size: 3em; 
   }
 
-
+  p {
+    font-size: 1em; 
+  }
 
   .marquee {
-      padding: 0.2em; 
+    padding: 0.2em; 
   }
 }
+
+
+
 
 .right-image {
   position: relative;
@@ -165,14 +169,17 @@ img {
   top: 0; 
 }
 
+
 .animated-wave {
   display: block;
-  padding-top: 2em;
-  padding-left: 7em;
+ padding-top: 0em;
+  padding-left: 22em;
   margin: 0;
   max-width: 50%;
   animation: wave-animation 1s infinite;
 }
+
+
 
 @keyframes wave-animation {
   0% {
@@ -182,16 +189,34 @@ img {
       transform: translateY(-10px);
   }
   100% {
-      transform: translateY(0);
+      transform: translateX(0);
   }
 }
 
-.fiducia-def{
-  padding-top:9em ;
-  font-family: 'Ribes Regular';
-  font-size: 1.3rem; /* Usa rem per la dimensione del font */
-  margin: 0; 
-  padding: 2.65%;
+
+button{
+  position: absolute;
+  top:53%;
+  left: 41%;
+  transform: translate(-50%,-50%);
+  text-decoration: none;
+  font-size: 1em;
+  font-family: "Ribes Regular";
+  color:black;
+  background-color: transparent;
+  border: 0.3em solid black;
+  font-weight: bold;
+  padding: 1.4em;
+  box-sizing: border-box;
 }
+
+button:hover{
+  color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
+}
+
+
+
+
 
 
