@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Fiducia interpersonale in Italia</title>
-    <link rel="stylesheet" type="text/css" href="style.css">
+    <link rel="stylesheet" type="text/css" href="index.css">
    
 
  
@@ -20,20 +20,45 @@
 
 <body>
 
-<button href="#">GO TO DATAVIZ</button>
+<button class="dataviz" href="#">GO TO DATAVIZ</button>
 
 
     <!-- Navbar -->
-    <div class="navbar">
-      <a class="home" href="#HOME">HOME</a>
-      <a href="#LA FIDUCIA">La fiducia</a>
-      <a href="#IL DATASET">Il dataset</a>
-      <a href="#DATAVIZ">DATAVIZ</a>
-      <a href="#ABOUT">About</a>
-   
-       
-    
-    </div>
+<nav id="navbar"  class="navbar open">
+ <ul>
+    <div class="nav-toggle">
+    <li><a class="home" href="#">HOME</a></li>
+    <li><a href="#">Ti fidi?</a></li>
+    <li><a href="#">Dataset</a></li>
+    <li><a href="#">DATAVIZ</a></li>
+    <li><a href="#">About</a></li>
+</div>
+ </ul>
+ <button id="hamburger-toggle" class="hamburger">
+    <div class="icon-open"><svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="24"
+    height="24"
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+  >
+    <path d="M4 6l16 0" />
+    <path d="M4 12l16 0" />
+    <path d="M4 18l16 0" />
+  </svg>
+</div>
+<div class="icon-close">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" width="24" height="24" stroke-width="2">
+        <path d="M18 6l-12 12"></path>
+        <path d="M6 6l12 12"></path>
+      </svg>
+</div>
+</button>
+</nav>
 
     <h1>FIDUCIA<br>INTERPERSONALE</h1>
 
@@ -79,11 +104,21 @@
 
 </div>
 
-
-
+<!--HAMBURGER-->
+<script>
+const hamburgerToggle = document.querySelector("#hamburger-toggle");
+const navbar = document.querySelector("#navbar");
+hamburgerToggle.addEventListener("click", onHamburgerClick)
+function onHamburgerClick() {
+    if (!navbar.classList.contains("open")){
+navbar.classList.add("open");
+}else{
+    navbar.classList.remove("open");
+}
+}
+</script>
 
 
     <script src="sketch.js"></script>
 </body>
 </html>
-
