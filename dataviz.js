@@ -23,7 +23,7 @@ const coloriFasce = {
 // carico il CSV
 function preload() {
   data = loadTable("fiducia Per.csv", "csv", "header");
-  img = loadImage("background03CREAM.jpg");
+  img = loadImage("ASSETS/background03CREAM.jpg");
 }
 
 function setup() {
