@@ -1,3 +1,12 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+canvas {
+  display: block;
+}
+
 @font-face {
   font-family: "Ribes Regular";
   src: url("ASSETS/Ribes-Regular.woff2") format("woff2");
@@ -53,11 +62,6 @@ body {
   display: inline;
   font-size: 1.4em;
   font-family: "Ribes Regular";
-}
-
-.navbar a.home {
-  background: rgb(255, 255, 255);
-  color: rgb(0, 0, 0);
 }
 
 .navbar a:hover {
