@@ -15,7 +15,7 @@ html, body {
 }
 
 body {
-  background-image: url("ASSETS/background01.jpg");
+  background-image: url("ASSETS/background.jpg");
   background-attachment: fixed;
   background-size: cover;
   padding-top: 0; /* Rimuovi il padding superiore */
@@ -316,4 +316,3 @@ img {
   color: rgb(0, 0, 0);
   background-color: rgb(255, 255, 255);
 }
-
