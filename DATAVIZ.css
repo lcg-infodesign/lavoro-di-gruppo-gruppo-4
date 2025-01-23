@@ -26,129 +26,76 @@ body {
 
 
 
-/*NAVBAR*/
 
-.navbar{
+
+.navbar {
   background: transparent;
   color: black;
   position: relative;
+
 }
 
-.navbar ul{
-  margin: unset;
+.navbar ul {
   list-style: none;
-  padding:unset;
+  display: flex;
+  padding:0;
+}
+
+.navbar{
   display: flex;
 }
 
-
-.navbar .nav-toggle{
-  display:flex
-}
-
-.navbar a{
-  padding: 1em;
-  color:inherit;
+.navbar a {
+  margin: 0;
+  padding: 0.8em;
+  color: black;
   text-decoration: none;
   display: inline;
   font-size: 1.4em;
-  font-family: "Ribes Regular" ;
+  font-family: "Ribes Regular";
 }
 
-.navbar a.home{
+.navbar a.home {
   background: rgb(255, 255, 255);
   color: rgb(0, 0, 0);
 }
 
-.navbar a:hover{
-background: white;
+.navbar a:hover {
+  background: white;
 }
 
-.navbar a.home:hover{
+.navbar a.home:hover {
   background: rgb(0, 0, 0);
   color: rgb(255, 255, 255);
 }
 
-.navbar .hamburger{
-  position: absolute;
-  top: 0;
-  right: 0;
-  border: unset;
-  background: unset;
-  display: none;
-}
 
-.navbar .hamburger svg {
-  stroke:black;
-}
 
-.navbar .hamburger .icon-close{
-  display: none;
-}
 
-@media screen and (max-width: 770px) { 
-  .navbar.open ul{ display: block; }
 
-.navbar.open .nav-toggle{ display: block; }
-
-.navbar.open a { display: block; } .navbar .nav-toggle { display:none; }
-
-.navbar .hamburger{ display: block; }
-
-.navbar.open .hamburger .icon-open{ display: none; }
-  
-}
-
-.navbar.open .hamburger .icon-close {
-  display: block; /* Mostra l'icona close quando il menu è aperto */
-}
-  
 
 
 
 
 h1 {
   font-family: 'Ribes Regular';
-  font-size: 10em;
+  font-size: 5em;
   line-height: 0.9;
   margin: 0;
-  padding-top: 12%;
-  display:block;
+  padding-top: 10%;
+  display:inline-block;
   color:black;
 }
-
-
-@keyframes slideInLeft{
-  from{
-    transform: translateX(-100%);
-  }
-  to
-  {
-transform: translateX(0);
-  }
-}
-
-.heading-1{
-  animation-name:slideInLeft ;
-  animation-duration:1.3s ;
-  animation-timing-function: ease-in ;
-  animation-delay:0s ;
-  animation-iteration-count: 1;
-  animation-direction: normal;
-
-}
-
-
 
 h2 {
   font-family: 'Ribes Regular';
   font-size: 2em;
   line-height: 0.9;
-  
+  margin-bottom: 30%; 
   margin: 0;
- 
   padding-top: 1.5%;
-
+  /* Aggiungi margine inferiore per creare spazio per .dataviz */
+  margin-bottom: 20px; /* Regola questo valore come necessario */
 }
 
 
@@ -159,6 +106,23 @@ h2 {
   justify-content: flex-start;
   background: white;
   overflow: hidden;
+}
+
+.marquee {
+  position: fixed; 
+  bottom: 0; 
+  left: 0; 
+  width: 100%; 
+  background-color: white;
+  padding: 0.5em; 
+  z-index: 1000; 
+  white-space: nowrap; 
+}
+
+.marquee-content {
+  display: flex; 
+  animation: move-rtl 40000ms linear infinite; 
+  width: calc(200%); 
 }
 
 
@@ -177,7 +141,6 @@ p {
   font-size: 1.3em;
   white-space: nowrap;
   margin: 0 0em; 
-  width: 40%;
 }
 
 .separator {
@@ -214,58 +177,144 @@ img {
 
 
 
-.right-image {
-  position: relative;
-  margin: 0; 
-  max-width: 52%;
-  height: auto;
-  float: right;
-  display: block;
-  top: 0; 
-}
-
-
-.animated-wave {
-  display: block;
-
-  padding-left: 22em;
-  margin: 0;
-  max-width: 100%;
-  animation: wave-animation 1s infinite;
-
-}
-
-
-
-@keyframes wave-animation {
-  0% {
-      transform: translateY(0);
-  }
-  50% {
-      transform: translateY(-10px);
-  }
-  100% {
-      transform: translateX(0);
-  }
-}
-
-
-.dataviz{
-  position: absolute;
-  top:53%;
-  left: 35%;
+.dataviz {
+  /* Altre proprietà già presenti */
   text-decoration: none;
-  font-size: 1em;
+  font-size: 1.2em;
   font-family: "Ribes Regular";
-  color:black;
+  color: black;
   background-color: transparent;
   border: 0.3em solid black;
   font-weight: bold;
-  padding: 1.4em;
+  padding: 1.8em;
   box-sizing: border-box;
+  margin-top: 2%; /* Aumenta questo valore per spostarlo più in basso */
+  margin-left: 31.5%; /* Aumenta questo valore per spostarlo verso destra */
 }
 
-.dataviz:hover{
+.dataviz:hover {
   color: rgb(0, 0, 0);
   background-color: rgb(255, 255, 255);
 }
+
+
+
+
+h1 {
+  font-family: 'Ribes Regular';
+  font-size: 5em;
+  line-height: 0.9;
+  margin: 0;
+  padding-top: 10%;
+  display:inline-block;
+  color:black;
+}
+
+h2 {
+  font-family: 'Ribes Regular';
+  font-size: 2em;
+  line-height: 0.9;
+  margin-bottom: 30%; 
+  margin: 0;
+  padding-top: 1.5%;
+  /* Aggiungi margine inferiore per creare spazio per .dataviz */
+  margin-bottom: 20px; /* Regola questo valore come necessario */
+}
+
+
+
+
+.text-wrapper {
+  display: flex;
+  justify-content: flex-start;
+  background: white;
+  overflow: hidden;
+}
+
+.marquee {
+  position: fixed; 
+  bottom: 0; 
+  left: 0; 
+  width: 100%; 
+  background-color: white;
+  padding: 0.5em; 
+  z-index: 1000; 
+  white-space: nowrap; 
+}
+
+.marquee-content {
+  display: flex; 
+  animation: move-rtl 40000ms linear infinite; 
+  width: calc(200%); 
+}
+
+
+
+@keyframes move-rtl {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+p {
+  font-family: 'Ribes Regular';
+  font-size: 1.3em;
+  white-space: nowrap;
+  margin: 0 0em; 
+}
+
+.separator {
+  font-size: 1.88em; 
+  margin: 0 1em; 
+  line-height: 1; 
+  display: flex;
+  align-items: center; 
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+@media (max-width: 770px) {
+  h1 {
+    font-size: 2em; 
+  }
+
+  h2 {
+    font-size: 1.4em; 
+  }
+
+  p {
+    font-size: 1em; 
+  }
+
+  .marquee {
+    padding: 0.2em; 
+  }
+}
+
+
+.dataviz {
+  /* Altre proprietà già presenti */
+  text-decoration: none;
+  font-size: 1.3em;
+  font-family: "Ribes Regular";
+  color: black;
+  background-color: transparent;
+  border: 0.3em solid black;
+  font-weight: bold;
+  padding: 1.7em;
+  box-sizing: border-box;
+  margin-top: 3%; /* Aumenta questo valore per spostarlo più in basso */
+  margin-left: 30.5%; /* Aumenta questo valore per spostarlo verso destra */
+}
+
+.dataviz:hover {
+  color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
+}
+
