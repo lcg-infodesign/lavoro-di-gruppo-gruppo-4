@@ -19,13 +19,11 @@ canvas {
 
 html, body {
   margin: unset;
-  overflow: hidden;
   position: relative;
 }
 
 body {
   background-image: url("ASSETS/background03CREAM.jpg");
-  background-attachment: fixed;
   background-size: cover;
   padding-top: 0;
 }
