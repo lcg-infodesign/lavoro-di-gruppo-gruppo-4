@@ -47,9 +47,12 @@ function setup() {
       let imagePath = getImagePath(sexes[i], ageGroups[j]);
 
       // Personalizzazione dello stile del bottone
-      btn.size(100, 100); // Imposta una dimensione standard per tutti i bottoni
+      let btnX = windowHeight * 0.15;
+      let btnY = windowHeight * 0.15;
+
+      btn.size(btnX, btnY); // Imposta una dimensione standard per tutti i bottoni
       btn.style("background-color", "transparent"); // Sfondo trasparente di base
-      btn.style("border", "1px solid black"); // Aggiunge un bordo
+      btn.style("border", "none");
       btn.style("background-image", `url('${imagePath}')`); // Immagine di sfondo
       btn.style("background-size", "cover"); // Adatta l'immagine al bottone
       btn.style("background-repeat", "no-repeat"); // Non ripetere l'immagine
@@ -116,7 +119,7 @@ function draw() {
 function disegnaAssi() {
   let margineX = 110; // Margine per l'asse X
   let margineY = 50; // Margine per l'asse Y
-  let lunghezzaAsseX = width * 0.65; // L'asse X sarà lungo il 65% della larghezza della finestra
+  let lunghezzaAsseX = width * 0.55; // L'asse X sarà lungo il 65% della larghezza della finestra
   let altezzaAsseY = height * 0.80; // L'asse Y sarà lungo l'85% dell'altezza della finestra
 
   stroke(0);
@@ -151,7 +154,7 @@ function disegnaLinea(dati, fascia) {
   strokeWeight(2);
   noFill();
 
-  let lunghezzaAsseX = width * 0.65;
+  let lunghezzaAsseX = width * 0.55;
   let altezzaAsseY = height * 0.80;
   let margineX = 110;
   let margineY = 50;
@@ -189,21 +192,39 @@ function getImagePath(sex, ageGroup) {
 }
 
 function positionBtn() {
-  let xOffset = windowWidth - 200; // Offset orizzontale iniziale
-  let yOffset = 50; // Offset verticale iniziale
+  let spazioXBottoni = windowWidth * 0.40; // Le colonne occupano il tot% della larghezza dello schermo
+  let margineDestro = windowWidth * 0.05; // Margine destro
+  
+  let numeroColonne = 4; // Numero fisso di colonne
+  let colonnaX = spazioXBottoni / numeroColonne; // Calcolo dello spazio tra le colonne
+  let colonnaY = Math.min(windowHeight * 0.25, 150); // Adatta lo spazio verticale a una percentuale dell'altezza dello schermo (max 120px)
+
+  // Calcola l'altezza totale occupata dalle righe di bottoni
+  let totaleRighe = Math.ceil(buttons.length / numeroColonne);
+  let altezzaTotale = totaleRighe * colonnaY;
+
+  // Calcola l'offset per centrare verticalmente le righe
+  let yOffset = (windowHeight - altezzaTotale) / 2;
 
   for (let i = 0; i < buttons.length; i++) {
     let btn = buttons[i];
-    let colonna = Math.floor(i / ageGroups.length); // Determina la colonna (M o F)
-    let riga = i % ageGroups.length; // Determina la riga (fascia d'età)
+    
+    // Calcola la colonna (0, 1, 2, 3) su cui il bottone sarà posizionato
+    let colonna = i % numeroColonne; // Calcola la colonna
+    // Calcola la riga in cui il bottone si troverà
+    let riga = Math.floor(i / numeroColonne); // Calcola la riga
+    
+    // Calcola la posizione X (da destra, con margine)
+    let x = windowWidth - margineDestro - spazioXBottoni + (colonna + 0.5) * colonnaX; 
+    // Calcola la posizione Y
+    let y = yOffset + riga * colonnaY; 
 
-    // Calcola la posizione del bottone
-    let x = xOffset - colonna * 120; // Sposta ogni colonna a sinistra
-    let y = yOffset + riga * 80; // Sposta ogni riga in basso
-
-    btn.position(x, y); // Posiziona il bottone
+    btn.position(x, y); // Applica la posizione al bottone
   }
 }
+
+
+
 
 function toggleButton(btn) {
   btn.active = !btn.active; // Cambia stato
