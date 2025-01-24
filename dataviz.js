@@ -51,7 +51,7 @@ function setup() {
   // Bottone FEMMINE
   buttonF = createButton('FEMMINE');
   buttonF.position(buttonStartX, buttonStartY);
-  buttonF.style('background-color', '#eeebec');
+  buttonF.style('background-color', 'transparent');
   buttonF.style('border-radius', '10px'); // Angoli stondati
   buttonF.style('padding', '10px 20px'); // Padding
   buttonF.style ("font-family", "Ribes-Regular");
@@ -61,7 +61,7 @@ function setup() {
   // Bottone MASCHI
   buttonM = createButton('MASCHI');
   buttonM.position(buttonStartX, buttonStartY + 50); // Posizionato sotto il primo
-  buttonM.style('background-color', '#eeebec');
+  buttonM.style('background-color', 'transparent');
   buttonM.style('border-radius', '10px'); // Angoli stondati
   buttonM.style('padding', '10px 20px'); // Padding
   buttonM.style ("font-family", "Ribes-Regular");
@@ -71,7 +71,7 @@ function setup() {
   // Bottone MEDIA
   buttonMedia = createButton('MEDIA');
   buttonMedia.position(buttonStartX, buttonStartY + 100); // Posizionato sotto il secondo
-  buttonMedia.style('background-color', '#eeebec');
+  buttonMedia.style('background-color', 'transparent');
   buttonMedia.style('border-radius', '10px'); // Angoli stondati
   buttonMedia.style('padding', '10px 20px'); // Padding
   buttonMedia.style ("font-family", "Ribes-Regular");
@@ -251,20 +251,20 @@ function toggleButton(button) {
   isButtonFOn = false;
   isButtonMOn = false;
   isButtonMediaOn = false;
-  buttonF.style('background-color', '#eeebec');
-  buttonM.style('background-color', '#eeebec');
-  buttonMedia.style('background-color', '#eeebec');
+  buttonF.style('background-color', 'transparent');
+  buttonM.style('background-color', 'transparent');
+  buttonMedia.style('background-color', 'transparent');
 
   // Set new state
   if (button === buttonF) {
     isButtonFOn = true;
-    button.style('background-color', '#ebd7da');
+    button.style('background-color', '#f0e4d4');
   } else if (button === buttonM) {
     isButtonMOn = true;
-    button.style('background-color', '#ebd7da');
+    button.style('background-color', '#f0e4d4');
   } else if (button === buttonMedia) {
     isButtonMediaOn = true;
-    button.style('background-color', '#ebd7da');
+    button.style('background-color', '#f0e4d4');
   }
 
   // Start animation if state changed
