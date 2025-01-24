@@ -37,6 +37,7 @@ function preload() {
   data = loadTable("fiducia Per.csv", "csv", "header");
   img = loadImage("ASSETS/background04_CREAM(schiarito).jpg");
   font = loadFont("ASSETS/Ribes-Regular.otf");
+  document.body.style.overflow = 'hidden';
 }
 
 function setup() {
@@ -158,85 +159,82 @@ function calcolaMedia(datiFemmine, datiMaschi) {
   return media;
 }
 
-//FUNZIONE PER DISEGNARE GLI ASSI
 function disegnaAssi() {
-  let margine = 50;
-  let lunghezzaAsseX = width * 0.65; // L'asse X sarà lungo 3/4 della larghezza della finestra
+  let margineX = 110; // Margine per l'asse X
+  let margineY = 50; // Margine per l'asse Y
+  let lunghezzaAsseX = width * 0.65; // L'asse X sarà lungo il 65% della larghezza della finestra
+  let altezzaAsseY = height * 0.80; // L'asse Y sarà lungo l'85% dell'altezza della finestra
 
   stroke(0);
   strokeWeight(1);
 
   // Linea asse X
-  line(margine, height - margine, margine + lunghezzaAsseX, height - margine); // Cambia qui la lunghezza
+  line(margineY, height - margineX, margineY + lunghezzaAsseX, height - margineX);
 
   // Linea asse Y
-  line(margine, height - margine, margine, margine);
+  line(margineY, height - margineX, margineY, height - margineX - altezzaAsseY);
 
   // Etichette asse X (anni)
   for (let anno = 2010; anno <= 2023; anno++) {
-    let x = map(anno, 2010, 2023, margine, margine + lunghezzaAsseX); // Usa la nuova lunghezza
-    line(x, height - margine - 5, x, height - margine + 5);
+    let x = map(anno, 2010, 2023, margineY, margineY + lunghezzaAsseX);
+    line(x, height - margineX - 5, x, height - margineX + 5);
     textAlign(CENTER);
-    text(anno, x, height - margine + 20);
+    text(anno, x, height - margineX + 20);
   }
 
   // Etichette asse Y (valori: 10, 12, ..., 30)
   for (let valore = 10; valore <= 30; valore += 2) {
-    let y = map(valore, 10, 30, height - 50, 50); // Aggiornato per partire da 10
-    line(45, y, 55, y);
+    let y = map(valore, 10, 30, height - margineX, height - margineX - altezzaAsseY);
+    line(margineY - 5, y, margineY + 5, y);
     textAlign(RIGHT);
-    text(valore, 40, y + 5);
+    text(valore, margineY - 10, y + 5);
   }
 }
 
-
 function disegnaLinea(dati, fascia) {
-  stroke(coloriFasce[fascia]); // Colore linea
-  strokeWeight(2); // Spessore linea
+  stroke(coloriFasce[fascia]);
+  strokeWeight(2);
   noFill();
 
-  let lunghezzaAsseX = width * 0.65; // L'asse X è lungo 3/4 della larghezza della finestra
-  let margine = 50;
+  let lunghezzaAsseX = width * 0.65;
+  let altezzaAsseY = height * 0.80;
+  let margineX = 110;
+  let margineY = 50;
 
-  // Aggiungi punti fittizi agli estremi per far combaciare inizio linee all'asse Y e fine linee al 2023
   let datiEstesi = [...dati];
   if (dati.length > 0) {
     datiEstesi.unshift({
       anno: 2010,
-      valore: dati[0].valore, // Usa il valore del primo dato disponibile
+      valore: dati[0].valore,
     });
     datiEstesi.push({
       anno: 2023,
-      valore: dati[dati.length - 1].valore, // Usa il valore dell'ultimo dato disponibile
+      valore: dati[dati.length - 1].valore,
     });
   }
 
   beginShape();
   for (let punto of datiEstesi) {
-    // Cambia la mappatura per usare la nuova lunghezza dell'asse X
-    let x = map(punto.anno, 2010, 2023, margine, margine + lunghezzaAsseX);
-    let y = map(punto.valore, 10, 30, height - 50, 50); // Aggiornato per partire da 10
+    let x = map(punto.anno, 2010, 2023, margineY, margineY + lunghezzaAsseX);
+    let y = map(punto.valore, 10, 30, height - margineX, height - margineX - altezzaAsseY);
     curveVertex(x, y);
   }
   endShape();
 }
 
-
 function disegnaLineeOrizzontali(dati) {
-  let margine = 50; // Margine per gli assi
-  let primoAnno = 2010; // Primo anno del grafico
+  let margineX = 110;
+  let margineY = 50;
+  let primoAnno = 2010;
+  let altezzaAsseY = height * 0.80;
 
   for (let fascia in dati) {
-    // Trova il valore corrispondente all'anno 2010
     let valore2010 = dati[fascia].find(punto => punto.anno === primoAnno)?.valore || 0;
+    let y = map(valore2010, 10, 30, height - margineX, height - margineX - altezzaAsseY);
 
-    // Calcola la posizione verticale per il valore del 2010
-    let y = map(valore2010, 10, 30, height - margine, margine);
-
-    // Disegna una linea orizzontale verso sinistra, fuori dall'asse Y
-    stroke(coloriFasce[fascia]); // Imposta il colore in base alla fascia
-    strokeWeight(2); // Imposta lo spessore della linea
-    line(0, y, margine, y); // Prolunga la linea verso il bordo sinistro della finestra
+    stroke(coloriFasce[fascia]);
+    strokeWeight(2);
+    line(0, y, margineY, y);
   }
 }
 
@@ -285,7 +283,6 @@ function toggleButton(button) {
   }
 }
 
-
 // Add interpolation function
 function interpolateDati(datiInizio, datiFine, progress) {
   let risultato = [];
@@ -297,4 +294,8 @@ function interpolateDati(datiInizio, datiFine, progress) {
     });
   }
   return risultato;
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight); 
 }
