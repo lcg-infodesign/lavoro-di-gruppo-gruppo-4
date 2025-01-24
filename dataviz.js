@@ -35,14 +35,14 @@ const coloriFasce = {
 // carico il CSV
 function preload() {
   data = loadTable("fiducia Per.csv", "csv", "header");
-  img = loadImage("ASSETS/background02WHITE.jpg");
-  font = loadFont("ASSETS/RockSalt-Regular.ttf");
+  img = loadImage("ASSETS/background04_CREAM(schiarito).jpg");
+  font = loadFont("ASSETS/Ribes-Regular.otf");
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   textFont(font);
-  textSize(8);
+  textSize(12);
 
   // Calcolare la posizione iniziale a destra della finestra
   let buttonStartX = windowWidth - (windowWidth / 5); // Posizione a destra
@@ -54,8 +54,8 @@ function setup() {
   buttonF.style('background-color', '#eeebec');
   buttonF.style('border-radius', '10px'); // Angoli stondati
   buttonF.style('padding', '10px 20px'); // Padding
-  buttonF.style ("font-family", "RockSalt-Regular");
-  buttonF.style ("font-size", "10px");
+  buttonF.style ("font-family", "Ribes-Regular");
+  buttonF.style ("font-size", "13px");
   buttonF.mousePressed(() => toggleButton(buttonF)); // Associa la funzione toggleButton
 
   // Bottone MASCHI
@@ -64,8 +64,8 @@ function setup() {
   buttonM.style('background-color', '#eeebec');
   buttonM.style('border-radius', '10px'); // Angoli stondati
   buttonM.style('padding', '10px 20px'); // Padding
-  buttonM.style ("font-family", "RockSalt-Regular");
-  buttonM.style ("font-size", "10px");
+  buttonM.style ("font-family", "Ribes-Regular");
+  buttonM.style ("font-size", "13px");
   buttonM.mousePressed(() => toggleButton(buttonM)); // Associa la funzione toggleButton
 
   // Bottone MEDIA
@@ -74,8 +74,8 @@ function setup() {
   buttonMedia.style('background-color', '#eeebec');
   buttonMedia.style('border-radius', '10px'); // Angoli stondati
   buttonMedia.style('padding', '10px 20px'); // Padding
-  buttonMedia.style ("font-family", "RockSalt-Regular");
-  buttonMedia.style ("font-size", "10px");
+  buttonMedia.style ("font-family", "Ribes-Regular");
+  buttonMedia.style ("font-size", "13px");
   buttonMedia.mousePressed(() => toggleButton(buttonMedia)); // Associa la funzione toggleButton
 
   // Elaborazione dati
