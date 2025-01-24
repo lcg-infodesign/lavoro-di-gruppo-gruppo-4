@@ -22,14 +22,14 @@ let isButtonMediaOn = false; // Stato del bottone MEDIA
 
 // Mappa dei colori per le fasce d'età
 const coloriFasce = {
-  "14-17": "#e7d299",
-  "18-24": "#f7b801",
-  "25-34": "#f18701",
-  "35-44": "#e54887",
-  "45-54": "#fe07c0",
-  "55-64": "#8e0f9c",
-  "65-74": "#3a0ca4",
-  ">75": "#32a9b5"
+  "14-17": "#32a9b5",
+  "18-24": "#3a0ca4",
+  "25-34": "#8e0f9c",
+  "35-44": "#fe07c0",
+  "45-54": "#e54887",
+  "55-64": "#f18701",
+  "65-74": "#f7b801",
+  ">75": "#e7d299"
 };
 
 // carico il CSV
