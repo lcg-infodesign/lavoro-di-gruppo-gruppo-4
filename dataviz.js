@@ -45,39 +45,22 @@ function setup() {
   textFont(font);
   textSize(12);
 
-  // Calcolare la posizione iniziale a destra della finestra
-  let buttonStartX = windowWidth - (windowWidth / 5); // Posizione a destra
-  let buttonStartY = windowHeight - (windowHeight / 1.5) ; // Posizione iniziale in alto, sarà incrementata per i bottoni successivi
-
   // Bottone FEMMINE
   buttonF = createButton('FEMMINE');
-  buttonF.position(buttonStartX, buttonStartY);
-  buttonF.style('background-color', 'transparent');
-  buttonF.style('border-radius', '10px'); // Angoli stondati
-  buttonF.style('padding', '10px 20px'); // Padding
-  buttonF.style ("font-family", "Ribes-Regular");
-  buttonF.style ("font-size", "13px");
+  styleButton(buttonF);
   buttonF.mousePressed(() => toggleButton(buttonF)); // Associa la funzione toggleButton
 
   // Bottone MASCHI
   buttonM = createButton('MASCHI');
-  buttonM.position(buttonStartX, buttonStartY + 50); // Posizionato sotto il primo
-  buttonM.style('background-color', 'transparent');
-  buttonM.style('border-radius', '10px'); // Angoli stondati
-  buttonM.style('padding', '10px 20px'); // Padding
-  buttonM.style ("font-family", "Ribes-Regular");
-  buttonM.style ("font-size", "13px");
+  styleButton(buttonM);
   buttonM.mousePressed(() => toggleButton(buttonM)); // Associa la funzione toggleButton
 
   // Bottone MEDIA
   buttonMedia = createButton('MEDIA');
-  buttonMedia.position(buttonStartX, buttonStartY + 100); // Posizionato sotto il secondo
-  buttonMedia.style('background-color', 'transparent');
-  buttonMedia.style('border-radius', '10px'); // Angoli stondati
-  buttonMedia.style('padding', '10px 20px'); // Padding
-  buttonMedia.style ("font-family", "Ribes-Regular");
-  buttonMedia.style ("font-size", "13px");
+  styleButton(buttonMedia);
   buttonMedia.mousePressed(() => toggleButton(buttonMedia)); // Associa la funzione toggleButton
+
+  positionButton();
 
   // Elaborazione dati
   let fasciaEta = [...new Set(data.getColumn("fascia"))];
@@ -238,6 +221,23 @@ function disegnaLineeOrizzontali(dati) {
   }
 }
 
+function styleButton(button) {
+  button.style('background-color', 'transparent');
+  button.style('border-radius', '10px');
+  button.style('padding', '10px 20px');
+  button.style('font-family', 'Ribes-Regular');
+  button.style('font-size', '13px');
+}
+
+function positionButton(){
+  // Calcolare la posizione iniziale a destra della finestra
+  let buttonStartX = windowWidth - (windowWidth / 5); // Posizione a destra
+  let buttonStartY = windowHeight - (windowHeight / 1.5) ; // Posizione iniziale in alto, sarà incrementata per i bottoni successivi
+  buttonF.position(buttonStartX, buttonStartY);
+  buttonM.position(buttonStartX, buttonStartY + 50); // 50px sotto il primo
+  buttonMedia.position(buttonStartX, buttonStartY + 100); // 100px sotto il primo
+}
+
 function toggleButton(button) {
   if (isAnimating) return;
 
@@ -298,4 +298,5 @@ function interpolateDati(datiInizio, datiFine, progress) {
 
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight); 
+  positionButton();
 }
