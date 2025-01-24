@@ -62,6 +62,17 @@ function setup() {
 
   positionButton();
 
+  nextButton = createButton("");
+  nextButton.size(50, 50);
+  nextButton.style("background-color", "transparent");
+  nextButton.style("border", "none");
+  nextButton.style("background-image", "url('ASSETS/freccina destra.png')"); // Percorso corretto dell'icona caricata
+  nextButton.style("background-size", "contain");
+  nextButton.style("background-repeat", "no-repeat");
+  nextButton.style("cursor", "pointer");
+  positionNextButton();
+
+
   // Elaborazione dati
   let fasciaEta = [...new Set(data.getColumn("fascia"))];
 
@@ -227,6 +238,7 @@ function styleButton(button) {
   button.style('padding', '10px 20px');
   button.style('font-family', 'Ribes-Regular');
   button.style('font-size', '13px');
+  button.style("cursor", "pointer");
 }
 
 function positionButton(){
@@ -236,6 +248,10 @@ function positionButton(){
   buttonF.position(buttonStartX, buttonStartY);
   buttonM.position(buttonStartX, buttonStartY + 50); // 50px sotto il primo
   buttonMedia.position(buttonStartX, buttonStartY + 100); // 100px sotto il primo
+}
+
+function positionNextButton(){
+  nextButton.position(width - 60, height - 60);
 }
 
 function toggleButton(button) {
@@ -299,4 +315,5 @@ function interpolateDati(datiInizio, datiFine, progress) {
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight); 
   positionButton();
+  positionNextButton();
 }
