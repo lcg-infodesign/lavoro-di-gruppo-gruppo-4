@@ -71,6 +71,7 @@ function setup() {
   nextButton.style("background-repeat", "no-repeat");
   nextButton.style("cursor", "pointer");
   positionNextButton();
+  nextButton.mousePressed(() => window.location.href = "confronto.html");
 
 
   // Elaborazione dati
