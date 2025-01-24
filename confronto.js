@@ -47,8 +47,8 @@ function setup() {
       let imagePath = getImagePath(sexes[i], ageGroups[j]);
 
       // Personalizzazione dello stile del bottone
-      let btnX = windowHeight * 0.15;
-      let btnY = windowHeight * 0.15;
+      let btnX = windowWidth * 0.08;
+      let btnY = windowWidth * 0.08;
 
       btn.size(btnX, btnY); // Imposta una dimensione standard per tutti i bottoni
       btn.style("background-color", "transparent"); // Sfondo trasparente di base
@@ -197,7 +197,7 @@ function positionBtn() {
   
   let numeroColonne = 4; // Numero fisso di colonne
   let colonnaX = spazioXBottoni / numeroColonne; // Calcolo dello spazio tra le colonne
-  let colonnaY = Math.min(windowHeight * 0.25, 150); // Adatta lo spazio verticale a una percentuale dell'altezza dello schermo (max 120px)
+  let colonnaY = Math.min(windowHeight * 0.20, 150); // Adatta lo spazio verticale a una percentuale dell'altezza dello schermo (max 120px)
 
   // Calcola l'altezza totale occupata dalle righe di bottoni
   let totaleRighe = Math.ceil(buttons.length / numeroColonne);
