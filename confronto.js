@@ -11,14 +11,14 @@ let sexes = ["M", "F"];
 
 // Mappa dei colori per le fasce d'età
 const coloriFasce = {
-  "14-17": "#e7d299",
-  "18-24": "#f7b801",
-  "25-34": "#f18701",
-  "35-44": "#e54887",
-  "45-54": "#fe07c0",
-  "55-64": "#8e0f9c",
-  "65-74": "#3a0ca4",
-  ">75": "#32a9b5"
+  "14-17": "#32a9b5",
+  "18-24": "#3a0ca4",
+  "25-34": "#8e0f9c",
+  "35-44": "#fe07c0",
+  "45-54": "#e54887",
+  "55-64": "#f18701",
+  "65-74": "#f7b801",
+  ">75": "#e7d299"
 };
 
 // carico il CSV
@@ -35,13 +35,9 @@ function setup() {
   textSize(12);
   
   // BOTTONI
-  let xOffset = windowWidth - 200; // Offset orizzontale iniziale
-  let yOffset = 50; // Offset verticale iniziale
-
   for (let i = 0; i < sexes.length; i++) { // Ciclo sui sessi
     for (let j = 0; j < ageGroups.length; j++) { // Ciclo sulle fasce d'età
       let btn = createButton(`${sexes[i]} ${ageGroups[j]}`); // Etichetta del bottone
-      btn.position(xOffset, yOffset + j * 80); // Posizionamento
       btn.mousePressed(() => toggleButton(btn)); // Evento click
       btn.active = false; // Stato del bottone
       btn.sesso = sexes[i]; // Associa il sesso
@@ -64,9 +60,11 @@ function setup() {
 
       buttons.push(btn); // Salva il bottone nell'array
     }
-    xOffset += 100; // Sposta la colonna a destra
   }
 
+  positionBtn();
+
+  //FRECCIA
   prevButton = createButton("");
   prevButton.size(50, 50);
   prevButton.style("background-color", "transparent");
@@ -190,6 +188,23 @@ function getImagePath(sex, ageGroup) {
   return `facce/${sex}_${ageGroup}.jpg`;
 }
 
+function positionBtn() {
+  let xOffset = windowWidth - 200; // Offset orizzontale iniziale
+  let yOffset = 50; // Offset verticale iniziale
+
+  for (let i = 0; i < buttons.length; i++) {
+    let btn = buttons[i];
+    let colonna = Math.floor(i / ageGroups.length); // Determina la colonna (M o F)
+    let riga = i % ageGroups.length; // Determina la riga (fascia d'età)
+
+    // Calcola la posizione del bottone
+    let x = xOffset - colonna * 120; // Sposta ogni colonna a sinistra
+    let y = yOffset + riga * 80; // Sposta ogni riga in basso
+
+    btn.position(x, y); // Posiziona il bottone
+  }
+}
+
 function toggleButton(btn) {
   btn.active = !btn.active; // Cambia stato
   btn.style("background-color", btn.active ? "green" : "white"); // Cambia colore
@@ -197,4 +212,10 @@ function toggleButton(btn) {
 
 function positionPrevButton(){
   prevButton.position(width - 60, height - 60);
+}
+
+function windowResized() {
+  resizeCanvas(windowWidth, windowHeight); 
+  positionBtn();
+  positionPrevButton();
 }
