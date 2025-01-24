@@ -3,13 +3,12 @@
   src: url("ASSETS/Ribes-Regular.woff2") format("woff2");
 }
 
-*{
+* {
   box-sizing: border-box;
- 
 }
 
 html, body {
-  margin: unset;
+  margin: 0;
   overflow: hidden;
   position: relative;
 }
@@ -18,39 +17,71 @@ body {
   background-image: url("ASSETS/background.jpg");
   background-attachment: fixed;
   background-size: cover;
-  padding-top: 0; /* Rimuovi il padding superiore */
-  margin-left: 2.65%;
-  margin-right: 2.65%;
+  padding: 0; /* Rimuovi il padding superiore */
+  margin: 0 2.65%;
 }
 
+.dataviz {
+  text-decoration: none;
+  font-size: 1.5em; 
+  font-family: "Ribes Regular";
+  color: black;
+  background-color: transparent;
+  border: 0.3em solid black;
+  font-weight: bold;
+  padding: 1em;
+  margin-top: 6%;
+  margin-right: 45%; 
+  
+  
+}
 
+.dataviz:hover {
+  color: rgb(0, 0, 0);
+  background-color: rgb(255, 255, 255);
+}
 
+.header-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1%;
+}
 
+.text-container {
+  flex-direction: column;
+}
+
+img {
+  max-width: 40%;
+  height: auto;
+  margin-left: 0; /* Rimuovi margine fissi */
+}
+
+.responsive-img {
+  width: 100%;
+  height: auto;
+  margin-top: 2em;
+}
 
 .navbar {
   background: transparent;
   color: black;
-  position: relative;
-
+  
+  flex-wrap: wrap; /* Permette il wrap degli elementi */
 }
 
 .navbar ul {
   list-style: none;
   display: flex;
-  padding:0;
-}
-
-.navbar{
-  display: flex;
+  padding: 0;
 }
 
 .navbar a {
-  margin: 0;
   padding: 0.8em;
   color: black;
   text-decoration: none;
-  display: inline;
-  font-size: 1.4em;
+  font-size: 1.4em; 
   font-family: "Ribes Regular";
 }
 
@@ -68,37 +99,21 @@ body {
   color: rgb(255, 255, 255);
 }
 
-
-
-
-
-
-
-
-
 h1 {
   font-family: 'Ribes Regular';
   font-size: 5em;
   line-height: 0.9;
   margin: 0;
-  padding-top: 10%;
-  display:inline-block;
-  color:black;
+  padding-top:0;
+  color: black;
 }
 
 h2 {
   font-family: 'Ribes Regular';
   font-size: 2em;
-  line-height: 0.9;
-  margin-bottom: 30%; 
-  margin: 0;
-  padding-top: 1.5%;
-  /* Aggiungi margine inferiore per creare spazio per .dataviz */
-  margin-bottom: 20px; /* Regola questo valore come necessario */
+  
+  margin-top: 1%;
 }
-
-
-
 
 .text-wrapper {
   display: flex;
@@ -108,30 +123,28 @@ h2 {
 }
 
 .marquee {
-  position: fixed; 
-  bottom: 0; 
-  left: 0; 
-  width: 100%; 
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
   background-color: white;
-  padding: 0.5em; 
-  z-index: 1000; 
-  white-space: nowrap; 
+  padding: 0.5em;
+  z-index: 1000;
+  white-space: nowrap;
 }
 
 .marquee-content {
-  display: flex; 
-  animation: move-rtl 40000ms linear infinite; 
-  width: calc(200%); 
+  display: flex;
+  animation: move-rtl 40000ms linear infinite;
+  width: calc(200%);
 }
-
-
 
 @keyframes move-rtl {
   0% {
-    transform: translateX(0%);
+      transform: translateX(0%);
   }
   100% {
-    transform: translateX(-50%);
+      transform: translateX(-50%);
   }
 }
 
@@ -139,180 +152,48 @@ p {
   font-family: 'Ribes Regular';
   font-size: 1.3em;
   white-space: nowrap;
-  margin: 0 0em; 
+  margin: 0;
 }
 
 .separator {
-  font-size: 1.88em; 
-  margin: 0 1em; 
-  line-height: 1; 
+  font-size: 1.88em;
+  margin: 0 1em;
+  line-height: 1;
   display: flex;
-  align-items: center; 
-}
-
-img {
-  max-width: 100%;
-  height: auto;
+  align-items: center;
 }
 
 @media (max-width: 770px) {
+  .header-container {
+      flex-direction: column;
+      align-items: center;
+  }
+
+  .text-container {
+      text-align: center;
+  }
+
   h1 {
-    font-size: 2em; 
+      font-size: 3em; /* Ridotto per schermi piccoli */
   }
 
   h2 {
-    font-size: 1.4em; 
+      font-size: 1.5em; /* Ridotto per schermi piccoli */
   }
 
+  .dataviz {
+      font-size: 1.2em; /* Ridotto per schermi piccoli */
+      width: 90%; /* Larghezza percentuale */
+      margin-left: 5%; /* Centra l'elemento */
+      margin-right: 5%; /* Centra l'elemento */
+  }
+
+
   p {
-    font-size: 1em; 
+      font-size: 1em; /* Ridotto per schermi piccoli */
   }
 
   .marquee {
-    padding: 0.2em; 
+      padding: 0.2em;
   }
-}
-
-
-
-
-.dataviz {
-  /* Altre proprietà già presenti */
-  text-decoration: none;
-  font-size: 1.2em;
-  font-family: "Ribes Regular";
-  color: black;
-  background-color: transparent;
-  border: 0.3em solid black;
-  font-weight: bold;
-  padding: 1.8em;
-  box-sizing: border-box;
-  margin-top: 2%; /* Aumenta questo valore per spostarlo più in basso */
-  margin-left: 31.5%; /* Aumenta questo valore per spostarlo verso destra */
-}
-
-.dataviz:hover {
-  color: rgb(0, 0, 0);
-  background-color: rgb(255, 255, 255);
-}
-
-
-
-
-h1 {
-  font-family: 'Ribes Regular';
-  font-size: 5em;
-  line-height: 0.9;
-  margin: 0;
-  padding-top: 10%;
-  display:inline-block;
-  color:black;
-}
-
-h2 {
-  font-family: 'Ribes Regular';
-  font-size: 2em;
-  line-height: 0.9;
-  margin-bottom: 30%; 
-  margin: 0;
-  padding-top: 1.5%;
-  /* Aggiungi margine inferiore per creare spazio per .dataviz */
-  margin-bottom: 20px; /* Regola questo valore come necessario */
-}
-
-
-
-
-.text-wrapper {
-  display: flex;
-  justify-content: flex-start;
-  background: white;
-  overflow: hidden;
-}
-
-.marquee {
-  position: fixed; 
-  bottom: 0; 
-  left: 0; 
-  width: 100%; 
-  background-color: white;
-  padding: 0.5em; 
-  z-index: 1000; 
-  white-space: nowrap; 
-}
-
-.marquee-content {
-  display: flex; 
-  animation: move-rtl 40000ms linear infinite; 
-  width: calc(200%); 
-}
-
-
-
-@keyframes move-rtl {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-50%);
-  }
-}
-
-p {
-  font-family: 'Ribes Regular';
-  font-size: 1.3em;
-  white-space: nowrap;
-  margin: 0 0em; 
-}
-
-.separator {
-  font-size: 1.88em; 
-  margin: 0 1em; 
-  line-height: 1; 
-  display: flex;
-  align-items: center; 
-}
-
-img {
-  max-width: 100%;
-  height: auto;
-}
-
-@media (max-width: 770px) {
-  h1 {
-    font-size: 2em; 
-  }
-
-  h2 {
-    font-size: 1.4em; 
-  }
-
-  p {
-    font-size: 1em; 
-  }
-
-  .marquee {
-    padding: 0.2em; 
-  }
-}
-
-
-.dataviz {
-  /* Altre proprietà già presenti */
-  text-decoration: none;
-  font-size: 1.3em;
-  font-family: "Ribes Regular";
-  color: black;
-  background-color: transparent;
-  border: 0.3em solid black;
-  font-weight: bold;
-  padding: 1.7em;
-  box-sizing: border-box;
-  margin-top: 3%; /* Aumenta questo valore per spostarlo più in basso */
-  margin-left: 30.5%; /* Aumenta questo valore per spostarlo verso destra */
-}
-
-.dataviz:hover {
-  color: rgb(0, 0, 0);
-  background-color: rgb(255, 255, 255);
 }
