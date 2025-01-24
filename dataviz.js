@@ -16,9 +16,9 @@ let buttonMedia;
 let isButtonFOn = false; // Stato del bottone FEMMINE
 let isButtonMOn = false; // Stato del bottone MASCHI
 let isButtonMediaOn = false; // Stato del bottone MEDIA
-let buttonWidth = 120;
-let buttonHeight = 150;
-let buttonSpacing = 20;
+//let buttonWidth = 120;
+//let buttonHeight = 150;
+//let buttonSpacing = 20;
 
 // Mappa dei colori per le fasce d'età
 const coloriFasce = {
@@ -35,32 +35,47 @@ const coloriFasce = {
 // carico il CSV
 function preload() {
   data = loadTable("fiducia Per.csv", "csv", "header");
-  img = loadImage("ASSETS/background03CREAM.jpg");
+  img = loadImage("ASSETS/background02WHITE.jpg");
+  font = loadFont("ASSETS/RockSalt-Regular.ttf");
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  textFont(font);
+  textSize(8);
 
   // Calcolare la posizione iniziale a destra della finestra
-  let buttonStartX = width - buttonWidth - 160; // Posizione a destra
-  let buttonStartY = windowHeight / 3; // Posizione iniziale in alto, sarà incrementata per i bottoni successivi
+  let buttonStartX = windowWidth - (windowWidth / 5); // Posizione a destra
+  let buttonStartY = windowHeight - (windowHeight / 1.5) ; // Posizione iniziale in alto, sarà incrementata per i bottoni successivi
 
   // Bottone FEMMINE
   buttonF = createButton('FEMMINE');
   buttonF.position(buttonStartX, buttonStartY);
-  buttonF.style('background-color', 'gray');
+  buttonF.style('background-color', '#eeebec');
+  buttonF.style('border-radius', '10px'); // Angoli stondati
+  buttonF.style('padding', '10px 20px'); // Padding
+  buttonF.style ("font-family", "RockSalt-Regular");
+  buttonF.style ("font-size", "10px");
   buttonF.mousePressed(() => toggleButton(buttonF)); // Associa la funzione toggleButton
 
   // Bottone MASCHI
   buttonM = createButton('MASCHI');
-  buttonM.position(buttonStartX, buttonStartY + buttonHeight + buttonSpacing); // Posizionato sotto il primo
-  buttonM.style('background-color', 'gray');
+  buttonM.position(buttonStartX, buttonStartY + 50); // Posizionato sotto il primo
+  buttonM.style('background-color', '#eeebec');
+  buttonM.style('border-radius', '10px'); // Angoli stondati
+  buttonM.style('padding', '10px 20px'); // Padding
+  buttonM.style ("font-family", "RockSalt-Regular");
+  buttonM.style ("font-size", "10px");
   buttonM.mousePressed(() => toggleButton(buttonM)); // Associa la funzione toggleButton
 
   // Bottone MEDIA
   buttonMedia = createButton('MEDIA');
-  buttonMedia.position(buttonStartX, buttonStartY + 2 * (buttonHeight + buttonSpacing)); // Posizionato sotto il secondo
-  buttonMedia.style('background-color', 'gray');
+  buttonMedia.position(buttonStartX, buttonStartY + 100); // Posizionato sotto il secondo
+  buttonMedia.style('background-color', '#eeebec');
+  buttonMedia.style('border-radius', '10px'); // Angoli stondati
+  buttonMedia.style('padding', '10px 20px'); // Padding
+  buttonMedia.style ("font-family", "RockSalt-Regular");
+  buttonMedia.style ("font-size", "10px");
   buttonMedia.mousePressed(() => toggleButton(buttonMedia)); // Associa la funzione toggleButton
 
   // Elaborazione dati
@@ -236,20 +251,20 @@ function toggleButton(button) {
   isButtonFOn = false;
   isButtonMOn = false;
   isButtonMediaOn = false;
-  buttonF.style('background-color', 'gray');
-  buttonM.style('background-color', 'gray');
-  buttonMedia.style('background-color', 'gray');
+  buttonF.style('background-color', '#eeebec');
+  buttonM.style('background-color', '#eeebec');
+  buttonMedia.style('background-color', '#eeebec');
 
   // Set new state
   if (button === buttonF) {
     isButtonFOn = true;
-    button.style('background-color', 'red');
+    button.style('background-color', '#ebd7da');
   } else if (button === buttonM) {
     isButtonMOn = true;
-    button.style('background-color', 'blue');
+    button.style('background-color', '#ebd7da');
   } else if (button === buttonMedia) {
     isButtonMediaOn = true;
-    button.style('background-color', 'green');
+    button.style('background-color', '#ebd7da');
   }
 
   // Start animation if state changed

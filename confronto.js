@@ -2,6 +2,7 @@ let data;
 let datiFemmine = {};
 let datiMaschi = {};
 let img;
+let font;
 
 let buttons = []; // array per contenere i bottoni --> da riempire
 let ageGroups = ["14-17", "18-24", "25-34", "35-44", "45-54", "55-64", "65-74", ">75"];
@@ -22,11 +23,14 @@ const coloriFasce = {
 // carico il CSV
 function preload() {
   data = loadTable("fiducia Per.csv", "csv", "header");
-  img = loadImage("ASSETS/background03CREAM.jpg");
+  img = loadImage("ASSETS/background02WHITE.jpg");
+  font = loadFont("ASSETS/RockSalt-Regular.ttf");
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
+  textFont(font);
+  textSize(8);
 
   // BOTTONI
   let xOffset = windowWidth - 200; // Offset orizzontale iniziale
@@ -35,11 +39,13 @@ function setup() {
   for (let i = 0; i < sexes.length; i++) { // Ciclo sui sessi
     for (let j = 0; j < ageGroups.length; j++) { // Ciclo sulle fasce d'età
       let btn = createButton(`${sexes[i]} ${ageGroups[j]}`); // Etichetta del bottone
-      btn.position(xOffset, yOffset + j * 30); // Posizionamento
+      btn.position(xOffset, yOffset + j * 50); // Posizionamento
       btn.mousePressed(() => toggleButton(btn)); // Evento click
       btn.active = false; // Stato del bottone
       btn.sesso = sexes[i]; // Associa il sesso
       btn.fascia = ageGroups[j]; // Associa la fascia d'età
+      btn.style ("font-family", "RockSalt-Regular");
+      btn.style ("font-size", "10px");
       buttons.push(btn); // Salva il bottone nell'array
     }
     xOffset += 100; // Sposta la colonna a destra
