@@ -8,16 +8,17 @@ let buttons = []; // array per contenere i bottoni --> da riempire
 let ageGroups = ["14-17", "18-24", "25-34", "35-44", "45-54", "55-64", "65-74", ">75"];
 let sexes = ["M", "F"]; 
 
+
 // Mappa dei colori per le fasce d'età
 const coloriFasce = {
-  "14-17": "#32a9b5",
-  "18-24": "#3a0ca4",
-  "25-34": "#8e0f9c",
-  "35-44": "#fe07c0",
-  "45-54": "#e54887",
-  "55-64": "#f18701",
-  "65-74": "#f7b801",
-  ">75": "#e7d299"
+  "14-17": "#e7d299",
+  "18-24": "#f7b801",
+  "25-34": "#f18701",
+  "35-44": "#e54887",
+  "45-54": "#fe07c0",
+  "55-64": "#8e0f9c",
+  "65-74": "#3a0ca4",
+  ">75": "#32a9b5"
 };
 
 // carico il CSV
@@ -25,31 +26,58 @@ function preload() {
   data = loadTable("fiducia Per.csv", "csv", "header");
   img = loadImage("ASSETS/background04_CREAM(schiarito).jpg");
   font = loadFont("ASSETS/Ribes-Regular.otf");
+  document.body.style.overflow = 'hidden';
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   textFont(font);
   textSize(12);
-
+  
   // BOTTONI
   let xOffset = windowWidth - 200; // Offset orizzontale iniziale
-  let yOffset = 150; // Offset verticale iniziale
+  let yOffset = 50; // Offset verticale iniziale
 
   for (let i = 0; i < sexes.length; i++) { // Ciclo sui sessi
     for (let j = 0; j < ageGroups.length; j++) { // Ciclo sulle fasce d'età
       let btn = createButton(`${sexes[i]} ${ageGroups[j]}`); // Etichetta del bottone
-      btn.position(xOffset, yOffset + j * 50); // Posizionamento
+      btn.position(xOffset, yOffset + j * 80); // Posizionamento
       btn.mousePressed(() => toggleButton(btn)); // Evento click
       btn.active = false; // Stato del bottone
       btn.sesso = sexes[i]; // Associa il sesso
       btn.fascia = ageGroups[j]; // Associa la fascia d'età
-      btn.style ("font-family", "Ribes-Regular");
-      btn.style ("font-size", "10px");
+      
+      // Ottieni il percorso dell'immagine
+      let imagePath = getImagePath(sexes[i], ageGroups[j]);
+
+      // Personalizzazione dello stile del bottone
+      btn.size(100, 100); // Imposta una dimensione standard per tutti i bottoni
+      btn.style("background-color", "transparent"); // Sfondo trasparente di base
+      btn.style("border", "1px solid black"); // Aggiunge un bordo
+      btn.style("background-image", `url('${imagePath}')`); // Immagine di sfondo
+      btn.style("background-size", "cover"); // Adatta l'immagine al bottone
+      btn.style("background-repeat", "no-repeat"); // Non ripetere l'immagine
+      btn.style("background-position", "center"); // Centra l'immagine
+      btn.style('font-family', 'Ribes-Regular');
+      btn.style('color', 'white');
+      btn.style('cursor', 'pointer');
+
       buttons.push(btn); // Salva il bottone nell'array
     }
     xOffset += 100; // Sposta la colonna a destra
   }
+
+  prevButton = createButton("");
+  prevButton.size(50, 50);
+  prevButton.style("background-color", "transparent");
+  prevButton.style("border", "none");
+  prevButton.style("background-image", "url('ASSETS/freccina.png')"); // Percorso corretto dell'icona caricata
+  prevButton.style("background-size", "contain");
+  prevButton.style("background-repeat", "no-repeat");
+  prevButton.style("cursor", "pointer");
+  positionPrevButton();
+  prevButton.mousePressed(() => window.location.href = "DATAVIZ.html");
+
 
   // Elaborazione dati
   let fasciaEta = [...new Set(data.getColumn("fascia"))];
@@ -86,95 +114,87 @@ function draw() {
   }
 }
 
-// Funzione per calcolare la media dei dati
-function calcolaMedia(datiFemmine, datiMaschi) {
-  let media = [];
-  let lunghezza = Math.min(datiFemmine.length, datiMaschi.length);
-  for (let i = 0; i < lunghezza; i++) {
-    let anno = datiFemmine[i].anno; // Anni corrispondenti
-    let valoreMedio = (datiFemmine[i].valore + datiMaschi[i].valore) / 2;
-    media.push({ anno, valore: valoreMedio });
-  }
-  return media;
-}
-
 //FUN<IONE PER DISEGNARE GLI ASSI
 function disegnaAssi() {
-  let margine = 50;
+  let margineX = 110; // Margine per l'asse X
+  let margineY = 50; // Margine per l'asse Y
+  let lunghezzaAsseX = width * 0.65; // L'asse X sarà lungo il 65% della larghezza della finestra
+  let altezzaAsseY = height * 0.80; // L'asse Y sarà lungo l'85% dell'altezza della finestra
 
   stroke(0);
   strokeWeight(1);
 
   // Linea asse X
-  line(margine, height - margine, width - margine, height - margine);
+  line(margineY, height - margineX, margineY + lunghezzaAsseX, height - margineX);
 
   // Linea asse Y
-  line(margine, height - margine, margine, margine);
+  line(margineY, height - margineX, margineY, height - margineX - altezzaAsseY);
 
   // Etichette asse X (anni)
   for (let anno = 2010; anno <= 2023; anno++) {
-    let x = map(anno, 2010, 2023, 50, width - 50);
-    line(x, height - margine - 5, x, height - margine + 5);
+    let x = map(anno, 2010, 2023, margineY, margineY + lunghezzaAsseX);
+    line(x, height - margineX - 5, x, height - margineX + 5);
     textAlign(CENTER);
-    text(anno, x, height - margine + 20);
+    text(anno, x, height - margineX + 20);
   }
 
   // Etichette asse Y (valori: 10, 12, ..., 30)
   for (let valore = 10; valore <= 30; valore += 2) {
-    let y = map(valore, 10, 30, height - 50, 50); // Aggiornato per partire da 10
-    line(45, y, 55, y);
+    let y = map(valore, 10, 30, height - margineX, height - margineX - altezzaAsseY);
+    line(margineY - 5, y, margineY + 5, y);
     textAlign(RIGHT);
-    text(valore, 40, y + 5);
+    text(valore, margineY - 10, y + 5);
   }
 }
 
 //FUNZIONE PER DISEGNARE IL GRAFICO
 function disegnaLinea(dati, fascia) {
-  stroke(coloriFasce[fascia]); // Colore linea
-  strokeWeight(2); // Spessore linea
+  stroke(coloriFasce[fascia]);
+  strokeWeight(2);
   noFill();
 
-  // Aggiungi punti fittizi agli estremi per far combaciare inizio linee all'asse Y e fine linee al 2023
+  let lunghezzaAsseX = width * 0.65;
+  let altezzaAsseY = height * 0.80;
+  let margineX = 110;
+  let margineY = 50;
+
   let datiEstesi = [...dati];
   if (dati.length > 0) {
     datiEstesi.unshift({
       anno: 2010,
-      valore: dati[0].valore, // Usa il valore del primo dato disponibile
+      valore: dati[0].valore,
     });
     datiEstesi.push({
       anno: 2023,
-      valore: dati[dati.length - 1].valore, // Usa il valore dell'ultimo dato disponibile
+      valore: dati[dati.length - 1].valore,
     });
   }
 
   beginShape();
   for (let punto of datiEstesi) {
-    let x = map(punto.anno, 2010, 2023, 50, width - 50);
-    let y = map(punto.valore, 10, 30, height - 50, 50); // Aggiornato per partire da 10
+    let x = map(punto.anno, 2010, 2023, margineY, margineY + lunghezzaAsseX);
+    let y = map(punto.valore, 10, 30, height - margineX, height - margineX - altezzaAsseY);
     curveVertex(x, y);
   }
   endShape();
 }
 
-function disegnaLineeOrizzontali(dati) {
-  let margine = 50; // Margine per gli assi
-  let primoAnno = 2010; // Primo anno del grafico
 
-  for (let fascia in dati) {
-    // Trova il valore corrispondente all'anno 2010
-    let valore2010 = dati[fascia].find(punto => punto.anno === primoAnno)?.valore || 0;
-
-    // Calcola la posizione verticale per il valore del 2010
-    let y = map(valore2010, 10, 30, height - margine, margine);
-
-    // Disegna una linea orizzontale verso sinistra, fuori dall'asse Y
-    stroke(coloriFasce[fascia]); // Imposta il colore in base alla fascia
-    strokeWeight(2); // Imposta lo spessore della linea
-    line(0, y, margine, y); // Prolunga la linea verso il bordo sinistro della finestra
+// Funzione per generare il percorso dell'immagine
+function getImagePath(sex, ageGroup) {
+  // Gestisci l'eccezione per ">75"
+  if (ageGroup === ">75") {
+    return `facce/${sex}_75.jpg`; // Usa "75" al posto di ">75"
   }
+  // Gestisci i casi standard
+  return `facce/${sex}_${ageGroup}.jpg`;
 }
 
 function toggleButton(btn) {
   btn.active = !btn.active; // Cambia stato
   btn.style("background-color", btn.active ? "green" : "white"); // Cambia colore
+}
+
+function positionPrevButton(){
+  prevButton.position(width - 60, height - 60);
 }
