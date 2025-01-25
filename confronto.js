@@ -152,7 +152,6 @@ function disegnaLinea(dati, fascia) {
   endShape();
 }
 
-
 // Funzione per generare il percorso dell'immagine
 function getImagePath(sex, ageGroup) {
   // Gestisci l'eccezione per ">75"
@@ -163,65 +162,33 @@ function getImagePath(sex, ageGroup) {
   return `facce/${sex}_${ageGroup}.jpg`;
 }
 
-function positionBtn() {
-  let spazioXBottoni = windowWidth * 0.40; // Le colonne occupano il tot% della larghezza dello schermo
-  let margineDestro = windowWidth * 0.05; // Margine destro
+//CREAZIONE DEI BOTTONI
+function creazioneBottoniFacce() { //--> creo un ciclo nel ciclo
+  for (let i = 0; i < sexes.length; i++) { // ciclo sui sessi
+    for (let j = 0; j < ageGroups.length; j++) { // ciclo sulle fasce d'età
+      let btn = createButton(`${sexes[i]} ${ageGroups[j]}`); //con etichetta
+      btn.active = false; // stato del bottone (NON attivo di default)
+      btn.sesso = sexes[i]; // ci associo il sesso
+      btn.fascia = ageGroups[j]; // ci associo la fascia d'età
   
-  let numeroColonne = 4; // Numero fisso di colonne
-  let colonnaX = spazioXBottoni / numeroColonne; // Calcolo dello spazio tra le colonne
-  let colonnaY = Math.min(windowHeight * 0.20, 150); // Adatta lo spazio verticale a una percentuale dell'altezza dello schermo (max 120px)
-
-  // Calcola l'altezza totale occupata dalle righe di bottoni
-  let totaleRighe = Math.ceil(buttons.length / numeroColonne);
-  let altezzaTotale = totaleRighe * colonnaY;
-
-  // Calcola l'offset per centrare verticalmente le righe
-  let yOffset = (windowHeight - altezzaTotale) / 2;
-
-  for (let i = 0; i < buttons.length; i++) {
-    let btn = buttons[i];
-    
-    // Calcola la colonna (0, 1, 2, 3) su cui il bottone sarà posizionato
-    let colonna = i % numeroColonne; // Calcola la colonna
-    // Calcola la riga in cui il bottone si troverà
-    let riga = Math.floor(i / numeroColonne); // Calcola la riga
-    
-    // Calcola la posizione X (da destra, con margine)
-    let x = windowWidth - margineDestro - spazioXBottoni + (colonna + 0.5) * colonnaX; 
-    // Calcola la posizione Y
-    let y = yOffset + riga * colonnaY; 
-
-    btn.position(x, y); // Applica la posizione al bottone
-  }
-}
-
-
-function creazioneBottoniFacce() {
-  for (let i = 0; i < sexes.length; i++) { // Ciclo sui sessi
-    for (let j = 0; j < ageGroups.length; j++) { // Ciclo sulle fasce d'età
-      let btn = createButton(`${sexes[i]} ${ageGroups[j]}`); // Etichetta del bottone
-      btn.active = false; // Stato del bottone (non attivo di default)
-      btn.sesso = sexes[i]; // Associa il sesso
-      btn.fascia = ageGroups[j]; // Associa la fascia d'età
-  
-      // Ottieni il percorso dell'immagine
+      // ottieni il percorso dell'immagine
       let imagePath = getImagePath(sexes[i], ageGroups[j]);
   
       // Personalizzazione dello stile del bottone
       let btnX = windowWidth * 0.08;
       let btnY = windowWidth * 0.08;
   
-      btn.size(btnX, btnY); // Imposta una dimensione standard per tutti i bottoni
-      btn.style("background-color", "transparent"); // Sfondo trasparente di base
+      btn.size(btnX, btnY); 
+      btn.style("background-color", "transparent");
       btn.style("border", "none");
-      btn.style("background-image", `url('${imagePath}')`); // Immagine di sfondo
-      btn.style("background-size", "cover"); // Adatta l'immagine al bottone
-      btn.style("background-repeat", "no-repeat"); // Non ripetere l'immagine
-      btn.style("background-position", "center"); // Centra l'immagine
+      btn.style("background-image", `url('${imagePath}')`); // !!! inserisco un'immagine come sfondo dle bottone
+      btn.style("background-size", "cover"); // adatta l'immagine al bottone
+      btn.style("background-repeat", "no-repeat"); // non ripetere l'immagine
+      btn.style("background-position", "center"); // centra l'immagine
       btn.style('font-family', 'Ribes-Regular');
       btn.style('color', 'white');
       btn.style('cursor', 'pointer');
-      btn.style('opacity', '0.5'); // Imposta l'opacità iniziale al 50% (opaco)
+      btn.style('opacity', '0.5'); // imposta l'opacità iniziale al 50% (opaco)
   
       // Centrare l'etichetta in basso
       btn.style("display", "flex"); // Usa Flexbox per controllare il layout interno
@@ -234,19 +201,46 @@ function creazioneBottoniFacce() {
   
       // Evento click sul bottone
       btn.mousePressed(() => {
-        // Cambia lo stato attivo del bottone
-        btn.active = !btn.active;
+        btn.active = !btn.active; // cambia lo stato attivo del bottone
   
-        // Aggiorna lo stile in base allo stato
+        // aggiorna lo stile in base allo stato
         if (btn.active) {
-          btn.style("opacity", "1"); // Bottone completamente visibile
+          btn.style("opacity", "1"); // bottone completamente visibile
         } else {
-          btn.style("opacity", "0.5"); // Bottone torna opaco
+          btn.style("opacity", "0.5"); // bottone torna opaco
         }
       });
   
-      buttons.push(btn); // Salva il bottone nell'array
+      buttons.push(btn); // --> lo salvo (il bottone) nell'array
     }
+  }
+}
+
+
+//POSIZIONAMENTO DEI BOTTONI
+function positionBtn() {
+  let spazioXBottoni = windowWidth * 0.40; // le colonne occupano il tot% della larghezza dello schermo
+  let margineDestro = windowWidth * 0.05; //margine dx
+  
+  let numeroColonne = 4; // numero fisso di colonne
+  let colonnaX = spazioXBottoni / numeroColonne; //spazio tra le colonne
+  let colonnaY = Math.min(windowHeight * 0.20, 150); //adatta lo spazio verticale a una percentuale dell'altezza dello schermo, con un max
+
+  let totaleRighe = Math.ceil(buttons.length / numeroColonne);
+  let altezzaTotale = totaleRighe * colonnaY; //altezza totale occupata dalle righe di bottoni
+
+  let yOffset = (windowHeight - altezzaTotale) / 2; //offset per centrare verticalmente le righe
+
+  for (let i = 0; i < buttons.length; i++) {
+    let btn = buttons[i];
+    
+    let colonna = i % numeroColonne; // colonna del bottone
+    let riga = Math.floor(i / numeroColonne); //riga del bottone
+    
+    let x = windowWidth - margineDestro - spazioXBottoni + (colonna + 0.5) * colonnaX; //posizione x da destra
+    let y = yOffset + riga * colonnaY; //posizione y
+
+    btn.position(x, y); // Applica la posizione al bottone
   }
 }
 
@@ -255,10 +249,12 @@ function creazioneBottoniFacce() {
   //btn.style("background-color", btn.active ? "green" : "white"); // Cambia colore
 //}
 
+//POSIZIONE FRECCIA PRE
 function positionPrevButton(){
   prevButton.position(width - 60, height - 60);
 }
 
+//RIDIMENSIONAMENTO FINESTRA
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight); 
   positionBtn();
