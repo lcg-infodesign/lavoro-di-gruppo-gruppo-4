@@ -35,57 +35,7 @@ function setup() {
   textSize(12);
   
 // BOTTONI
-for (let i = 0; i < sexes.length; i++) { // Ciclo sui sessi
-  for (let j = 0; j < ageGroups.length; j++) { // Ciclo sulle fasce d'età
-    let btn = createButton(`${sexes[i]} ${ageGroups[j]}`); // Etichetta del bottone
-    btn.active = false; // Stato del bottone (non attivo di default)
-    btn.sesso = sexes[i]; // Associa il sesso
-    btn.fascia = ageGroups[j]; // Associa la fascia d'età
-
-    // Ottieni il percorso dell'immagine
-    let imagePath = getImagePath(sexes[i], ageGroups[j]);
-
-    // Personalizzazione dello stile del bottone
-    let btnX = windowWidth * 0.08;
-    let btnY = windowWidth * 0.08;
-
-    btn.size(btnX, btnY); // Imposta una dimensione standard per tutti i bottoni
-    btn.style("background-color", "transparent"); // Sfondo trasparente di base
-    btn.style("border", "none");
-    btn.style("background-image", `url('${imagePath}')`); // Immagine di sfondo
-    btn.style("background-size", "cover"); // Adatta l'immagine al bottone
-    btn.style("background-repeat", "no-repeat"); // Non ripetere l'immagine
-    btn.style("background-position", "center"); // Centra l'immagine
-    btn.style('font-family', 'Ribes-Regular');
-    btn.style('color', 'white');
-    btn.style('cursor', 'pointer');
-    btn.style('opacity', '0.5'); // Imposta l'opacità iniziale al 50% (opaco)
-
-    // Centrare l'etichetta in basso
-    btn.style("display", "flex"); // Usa Flexbox per controllare il layout interno
-    btn.style("flex-direction", "column"); // Colonna: immagine sopra, testo sotto
-    btn.style("justify-content", "flex-end"); // Sposta il contenuto in basso
-    btn.style("align-items", "flex-end"); // Allinea al bordo destro
-    btn.style("text-align", "right"); // Allinea il testo a destra
-    btn.style("padding-right", "5px"); // Sposta il testo leggermente verso sinistra dal bordo
-    btn.style("padding-bottom", "3px"); // Sposta il testo leggermente verso l'alto dal bordo inferiore
-
-    // Evento click sul bottone
-    btn.mousePressed(() => {
-      // Cambia lo stato attivo del bottone
-      btn.active = !btn.active;
-
-      // Aggiorna lo stile in base allo stato
-      if (btn.active) {
-        btn.style("opacity", "1"); // Bottone completamente visibile
-      } else {
-        btn.style("opacity", "0.5"); // Bottone torna opaco
-      }
-    });
-
-    buttons.push(btn); // Salva il bottone nell'array
-  }
-}
+  creazioneBottoniFacce();
 
   positionBtn();
 
@@ -246,7 +196,59 @@ function positionBtn() {
 }
 
 
-
+function creazioneBottoniFacce() {
+  for (let i = 0; i < sexes.length; i++) { // Ciclo sui sessi
+    for (let j = 0; j < ageGroups.length; j++) { // Ciclo sulle fasce d'età
+      let btn = createButton(`${sexes[i]} ${ageGroups[j]}`); // Etichetta del bottone
+      btn.active = false; // Stato del bottone (non attivo di default)
+      btn.sesso = sexes[i]; // Associa il sesso
+      btn.fascia = ageGroups[j]; // Associa la fascia d'età
+  
+      // Ottieni il percorso dell'immagine
+      let imagePath = getImagePath(sexes[i], ageGroups[j]);
+  
+      // Personalizzazione dello stile del bottone
+      let btnX = windowWidth * 0.08;
+      let btnY = windowWidth * 0.08;
+  
+      btn.size(btnX, btnY); // Imposta una dimensione standard per tutti i bottoni
+      btn.style("background-color", "transparent"); // Sfondo trasparente di base
+      btn.style("border", "none");
+      btn.style("background-image", `url('${imagePath}')`); // Immagine di sfondo
+      btn.style("background-size", "cover"); // Adatta l'immagine al bottone
+      btn.style("background-repeat", "no-repeat"); // Non ripetere l'immagine
+      btn.style("background-position", "center"); // Centra l'immagine
+      btn.style('font-family', 'Ribes-Regular');
+      btn.style('color', 'white');
+      btn.style('cursor', 'pointer');
+      btn.style('opacity', '0.5'); // Imposta l'opacità iniziale al 50% (opaco)
+  
+      // Centrare l'etichetta in basso
+      btn.style("display", "flex"); // Usa Flexbox per controllare il layout interno
+      btn.style("flex-direction", "column"); // Colonna: immagine sopra, testo sotto
+      btn.style("justify-content", "flex-end"); // Sposta il contenuto in basso
+      btn.style("align-items", "flex-end"); // Allinea al bordo destro
+      btn.style("text-align", "right"); // Allinea il testo a destra
+      btn.style("padding-right", "5px"); // Sposta il testo leggermente verso sinistra dal bordo
+      btn.style("padding-bottom", "3px"); // Sposta il testo leggermente verso l'alto dal bordo inferiore
+  
+      // Evento click sul bottone
+      btn.mousePressed(() => {
+        // Cambia lo stato attivo del bottone
+        btn.active = !btn.active;
+  
+        // Aggiorna lo stile in base allo stato
+        if (btn.active) {
+          btn.style("opacity", "1"); // Bottone completamente visibile
+        } else {
+          btn.style("opacity", "0.5"); // Bottone torna opaco
+        }
+      });
+  
+      buttons.push(btn); // Salva il bottone nell'array
+    }
+  }
+}
 
 //function toggleButton(btn) {
   //btn.active = !btn.active; // Cambia stato
