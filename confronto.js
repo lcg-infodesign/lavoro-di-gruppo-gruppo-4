@@ -216,6 +216,10 @@ function creazioneBottoniFacce() { //--> creo un ciclo nel ciclo
   }
 }
 
+//STILE DEI BOTTONI 
+function stileBtn(btn) {
+  
+}
 
 //POSIZIONAMENTO DEI BOTTONI
 function positionBtn() {

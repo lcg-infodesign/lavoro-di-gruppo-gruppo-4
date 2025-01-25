@@ -17,6 +17,11 @@ let isButtonFOn = false; // Stato del bottone FEMMINE
 let isButtonMOn = false; // Stato del bottone MASCHI
 let isButtonMediaOn = false; // Stato del bottone MEDIA
 
+const ageGroups = ["14-17", "18-24", "25-34", "35-44", "45-54", "55-64", "65-74", ">75"];
+let bottoniFasce = [];
+
+let fasciaSelezionata = null; // Variabile per tenere traccia della fascia selezionata
+
 // Mappa dei colori per le fasce d'età
 const coloriFasce = {
   "14-17": "#32a9b5",
@@ -58,7 +63,11 @@ function setup() {
   buttonMedia.mousePressed(() => toggleButton(buttonMedia)); // Associa la funzione toggleButton
 
   positionButton();
+  
+  //bottoni legenda 
+  creazioneBottoniFasce();
 
+  // freccia 
   nextButton = createButton("");
   nextButton.size(50, 50);
   nextButton.style("background-color", "transparent");
@@ -185,8 +194,14 @@ function disegnaAssi() {
 
 //FUNZIONE PER DISEGANRE LINEE DEL GRAFICO
 function disegnaLinea(dati, fascia) {
+  // Controlla se la fascia corrente è selezionata
+  if (fascia === fasciaSelezionata) {
+    strokeWeight(8); // Spessore aumentato
+  } else {
+    strokeWeight(2); // Spessore normale
+  }
+
   stroke(coloriFasce[fascia]);
-  strokeWeight(2);
   noFill();
 
   let lunghezzaAsseX = width * 0.65;
@@ -214,6 +229,7 @@ function disegnaLinea(dati, fascia) {
   }
   endShape();
 }
+
 
 //FUNZIONE PER DISEGNARE LINEE ORIZZONTALI CHE ENTRANO
 function disegnaLineeOrizzontali(dati) {
@@ -316,10 +332,71 @@ function interpolateDati(datiInizio, datiFine, progress) {
   return risultato;
 }
 
+// BOTTONI FASCE D'ETÀ
+function creazioneBottoniFasce() {
+  for (let i = 0; i < ageGroups.length; i++) {
+    let fascia = ageGroups[i]; // Ottieni la fascia corrispondente
+    let btn = createButton(`${fascia}`);
+    styleButton(btn);
+
+    // Assegna il colore corrispondente alla fascia
+    btn.style('background-color', coloriFasce[fascia]);
+    btn.style('color', '#ffffff'); // Colore testo per garantire visibilità
+    btn.style('border', 'none');
+    btn.style('opacity', '0.5');
+
+    btn.active = false;
+    btn.fascia = fascia; // Memorizza la fascia per riferimento futuro
+    btn.mousePressed(() => toggleBottoniFasce(btn));
+    bottoniFasce.push(btn);
+  }
+
+  positionBottoniFasce();
+}
+
+//POSIZIONE BOTTNI FASCE
+function positionBottoniFasce() {
+  let startX = windowWidth * 0.75; // Colonna destra
+  let startY = windowHeight * 0.55; // Inizio verticale
+  let spacingY = Math.max(windowHeight * 0.05, 30); // Spaziatura verticale minima
+  let columnSpacingX = Math.max(windowWidth * 0.1, 50); // Spaziatura tra colonne
+
+  for (let i = 0; i < bottoniFasce.length; i++) {
+    let btn = bottoniFasce[i];
+    let col = i % 2; // Alternanza tra colonna 0 e colonna 1
+    let row = Math.floor(i / 2); // Determina la riga in base al numero del bottone
+
+    let posX = startX + col * columnSpacingX; // Posizione orizzontale in base alla colonna
+    let posY = startY + row * spacingY; // Posizione verticale in base alla riga
+
+    btn.position(posX, posY);
+  }
+}
+
+//CAMBIO STATO BOTTONI FASCE --> 1! 
+function toggleBottoniFasce(btn) {
+  // Se il bottone è già attivo, lo disattiviamo
+  if (btn.active) {
+    btn.active = false;
+    btn.style("opacity", "0.5"); // Bottone opaco
+    fasciaSelezionata = null; // Nessuna fascia selezionata
+  } else {
+    // Disattiva tutti gli altri bottoni
+    for (let otherBtn of bottoniFasce) {
+      otherBtn.active = false;
+      otherBtn.style("opacity", "0.5");
+    }
+    // Attiva il bottone corrente
+    btn.active = true;
+    btn.style("opacity", "1"); // Bottone completamente visibile
+    fasciaSelezionata = btn.fascia; // Memorizza la fascia selezionata
+  }
+}
 
 //GESTIONE RIDIMENSIONAMENTO DELLO SCHERMO
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight); 
   positionButton();
+  positionBottoniFasce();
   positionNextButton();
 }
