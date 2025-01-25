@@ -80,20 +80,26 @@ function draw() {
 }
 
 function mouseWheel(event) {
-  if (!autoScroll) {
-    if (event.delta > 0) {
-      progress += scrollSpeed;
-      tangleOffset -= scrollSpeed;
-    } else if (tangleOffset < 0) {
-      progress -= scrollSpeed;
-      tangleOffset += scrollSpeed;
+    if (!autoScroll) {
+      if (event.delta > 0) {
+        progress += scrollSpeed;
+        tangleOffset -= scrollSpeed;
+      } else if (tangleOffset < 0) {
+        progress -= scrollSpeed;
+        tangleOffset += scrollSpeed;
+      }
+  
+      progress = constrain(progress, 0, maxLunghezza);
+      tangleOffset = constrain(tangleOffset, -maxLunghezza, 0);
+  
+      // Verifica se sei arrivato all'ultimo possibile scroll
+      if (tangleOffset <= -maxLunghezza) {
+        cambiaPagina(); // Passa alla nuova pagina
+      }
+  
+      redraw();
     }
-
-    progress = constrain(progress, 0, maxLunghezza);
-    tangleOffset = constrain(tangleOffset, -maxLunghezza, 0);
-    redraw();
   }
-}
 
 function toggleAutoScroll() {
   autoScroll = !autoScroll;
@@ -107,19 +113,21 @@ function toggleAutoScroll() {
 }
 
 function autoScrollBehavior() {
-  if (autoScroll) {
-    progress += autoScrollSpeed;
-    tangleOffset -= autoScrollSpeed;
-
-    progress = constrain(progress, 0, maxLunghezza);
-    tangleOffset = constrain(tangleOffset, -maxLunghezza, 0);
-
-    if (progress >= maxLunghezza || tangleOffset <= -maxLunghezza) {
-      autoScroll = false;
-      scrollButton.style("opacity", "1");
-      noLoop();
+    if (autoScroll) {
+      progress += autoScrollSpeed;
+      tangleOffset -= autoScrollSpeed;
+  
+      progress = constrain(progress, 0, maxLunghezza);
+      tangleOffset = constrain(tangleOffset, -maxLunghezza, 0);
+  
+      if (progress >= maxLunghezza || tangleOffset <= -maxLunghezza) {
+        autoScroll = false;
+        scrollButton.style("opacity", "1");
+        noLoop();
+  
+        cambiaPagina(); // Passa alla nuova pagina
+      }
     }
-  }
 }
 
 function drawGomitolo() {
@@ -241,4 +249,8 @@ function windowResized() {
   centro = createVector(width / 2, height / 3);
   gomitoloPosizioneIniziale = centro.y;
   scrollButton.position(width - 60, height - 60);
+}
+
+function cambiaPagina() {
+    window.location.href = "DATAVIZ.html"; // Cambia con l'URL della tua seconda pagina
 }
