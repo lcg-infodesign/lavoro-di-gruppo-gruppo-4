@@ -16,9 +16,6 @@ let buttonMedia;
 let isButtonFOn = false; // Stato del bottone FEMMINE
 let isButtonMOn = false; // Stato del bottone MASCHI
 let isButtonMediaOn = false; // Stato del bottone MEDIA
-//let buttonWidth = 120;
-//let buttonHeight = 150;
-//let buttonSpacing = 20;
 
 // Mappa dei colori per le fasce d'età
 const coloriFasce = {
@@ -186,6 +183,7 @@ function disegnaAssi() {
   }
 }
 
+//FUNZIONE PER DISEGANRE LINEE DEL GRAFICO
 function disegnaLinea(dati, fascia) {
   stroke(coloriFasce[fascia]);
   strokeWeight(2);
@@ -217,6 +215,7 @@ function disegnaLinea(dati, fascia) {
   endShape();
 }
 
+//FUNZIONE PER DISEGNARE LINEE ORIZZONTALI CHE ENTRANO
 function disegnaLineeOrizzontali(dati) {
   let margineX = 110;
   let margineY = 50;
@@ -233,6 +232,7 @@ function disegnaLineeOrizzontali(dati) {
   }
 }
 
+//STILE DEI BOTTONI M/F
 function styleButton(button) {
   button.style('background-color', 'transparent');
   button.style('border-radius', '10px');
@@ -242,6 +242,7 @@ function styleButton(button) {
   button.style("cursor", "pointer");
 }
 
+//POSIZIONE DEI BOTTONI M/F
 function positionButton(){
   // Calcolare la posizione iniziale a destra della finestra
   let buttonStartX = windowWidth - (windowWidth / 5); // Posizione a destra
@@ -251,10 +252,12 @@ function positionButton(){
   buttonMedia.position(buttonStartX, buttonStartY + 100); // 100px sotto il primo
 }
 
+//POSIZIONE FRECCIA
 function positionNextButton(){
   nextButton.position(width - 60, height - 60);
 }
 
+//CAMBIO STATO BOTTONE PREMUTO
 function toggleButton(button) {
   if (isAnimating) return;
 
@@ -300,7 +303,7 @@ function toggleButton(button) {
   }
 }
 
-// Add interpolation function
+// FUNZIONE DI INTERPOLAZIONE
 function interpolateDati(datiInizio, datiFine, progress) {
   let risultato = [];
   for (let i = 0; i < datiInizio.length; i++) {
@@ -313,6 +316,8 @@ function interpolateDati(datiInizio, datiFine, progress) {
   return risultato;
 }
 
+
+//GESTIONE RIDIMENSIONAMENTO DELLO SCHERMO
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight); 
   positionButton();
