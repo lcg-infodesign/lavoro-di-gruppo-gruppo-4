@@ -34,36 +34,57 @@ function setup() {
   textFont(font);
   textSize(12);
   
-  // BOTTONI
-  for (let i = 0; i < sexes.length; i++) { // Ciclo sui sessi
-    for (let j = 0; j < ageGroups.length; j++) { // Ciclo sulle fasce d'età
-      let btn = createButton(`${sexes[i]} ${ageGroups[j]}`); // Etichetta del bottone
-      btn.mousePressed(() => toggleButton(btn)); // Evento click
-      btn.active = false; // Stato del bottone
-      btn.sesso = sexes[i]; // Associa il sesso
-      btn.fascia = ageGroups[j]; // Associa la fascia d'età
-      
-      // Ottieni il percorso dell'immagine
-      let imagePath = getImagePath(sexes[i], ageGroups[j]);
+// BOTTONI
+for (let i = 0; i < sexes.length; i++) { // Ciclo sui sessi
+  for (let j = 0; j < ageGroups.length; j++) { // Ciclo sulle fasce d'età
+    let btn = createButton(`${sexes[i]} ${ageGroups[j]}`); // Etichetta del bottone
+    btn.active = false; // Stato del bottone (non attivo di default)
+    btn.sesso = sexes[i]; // Associa il sesso
+    btn.fascia = ageGroups[j]; // Associa la fascia d'età
 
-      // Personalizzazione dello stile del bottone
-      let btnX = windowWidth * 0.08;
-      let btnY = windowWidth * 0.08;
+    // Ottieni il percorso dell'immagine
+    let imagePath = getImagePath(sexes[i], ageGroups[j]);
 
-      btn.size(btnX, btnY); // Imposta una dimensione standard per tutti i bottoni
-      btn.style("background-color", "transparent"); // Sfondo trasparente di base
-      btn.style("border", "none");
-      btn.style("background-image", `url('${imagePath}')`); // Immagine di sfondo
-      btn.style("background-size", "cover"); // Adatta l'immagine al bottone
-      btn.style("background-repeat", "no-repeat"); // Non ripetere l'immagine
-      btn.style("background-position", "center"); // Centra l'immagine
-      btn.style('font-family', 'Ribes-Regular');
-      btn.style('color', 'white');
-      btn.style('cursor', 'pointer');
+    // Personalizzazione dello stile del bottone
+    let btnX = windowWidth * 0.08;
+    let btnY = windowWidth * 0.08;
 
-      buttons.push(btn); // Salva il bottone nell'array
-    }
+    btn.size(btnX, btnY); // Imposta una dimensione standard per tutti i bottoni
+    btn.style("background-color", "transparent"); // Sfondo trasparente di base
+    btn.style("border", "none");
+    btn.style("background-image", `url('${imagePath}')`); // Immagine di sfondo
+    btn.style("background-size", "cover"); // Adatta l'immagine al bottone
+    btn.style("background-repeat", "no-repeat"); // Non ripetere l'immagine
+    btn.style("background-position", "center"); // Centra l'immagine
+    btn.style('font-family', 'Ribes-Regular');
+    btn.style('color', 'white');
+    btn.style('cursor', 'pointer');
+
+    // Centrare l'etichetta in basso
+    btn.style("display", "flex"); // Usa Flexbox per controllare il layout interno
+    btn.style("flex-direction", "column"); // Colonna: immagine sopra, testo sotto
+    btn.style("justify-content", "flex-end"); // Sposta il contenuto in basso
+    btn.style("align-items", "flex-end"); // Allinea al bordo destro
+    btn.style("text-align", "right"); // Allinea il testo a destra
+    btn.style("padding-right", "5px"); // Sposta il testo leggermente verso sinistra dal bordo
+    btn.style("padding-bottom", "3px"); // Sposta il testo leggermente verso l'alto dal bordo inferiore
+
+    // Evento click sul bottone
+    btn.mousePressed(() => {
+      // Cambia lo stato attivo del bottone
+      btn.active = !btn.active;
+
+      // Aggiorna lo stile in base allo stato
+      if (btn.active) {
+        btn.style("border", "5px solid black"); // Mostra il bordo nero
+      } else {
+        btn.style("border", "none"); // Rimuovi il bordo
+      }
+    });
+
+    buttons.push(btn); // Salva il bottone nell'array
   }
+}
 
   positionBtn();
 
@@ -226,10 +247,10 @@ function positionBtn() {
 
 
 
-function toggleButton(btn) {
-  btn.active = !btn.active; // Cambia stato
-  btn.style("background-color", btn.active ? "green" : "white"); // Cambia colore
-}
+//function toggleButton(btn) {
+  //btn.active = !btn.active; // Cambia stato
+  //btn.style("background-color", btn.active ? "green" : "white"); // Cambia colore
+//}
 
 function positionPrevButton(){
   prevButton.position(width - 60, height - 60);
