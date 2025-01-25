@@ -59,6 +59,7 @@ for (let i = 0; i < sexes.length; i++) { // Ciclo sui sessi
     btn.style('font-family', 'Ribes-Regular');
     btn.style('color', 'white');
     btn.style('cursor', 'pointer');
+    btn.style('opacity', '0.5'); // Imposta l'opacità iniziale al 50% (opaco)
 
     // Centrare l'etichetta in basso
     btn.style("display", "flex"); // Usa Flexbox per controllare il layout interno
@@ -76,9 +77,9 @@ for (let i = 0; i < sexes.length; i++) { // Ciclo sui sessi
 
       // Aggiorna lo stile in base allo stato
       if (btn.active) {
-        btn.style("border", "5px solid black"); // Mostra il bordo nero
+        btn.style("opacity", "1"); // Bottone completamente visibile
       } else {
-        btn.style("border", "none"); // Rimuovi il bordo
+        btn.style("opacity", "0.5"); // Bottone torna opaco
       }
     });
 
