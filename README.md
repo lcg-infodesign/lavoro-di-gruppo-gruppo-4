@@ -1,49 +1,38 @@
-LA FIDUCIA INTERPERSONALE IN ITALIA (2010-2023) 
+FONTE E ANALISI DEI DATI
 
- 
-
- 
-
- 
+L'indagine campionaria "Aspetti della vita quotidiana", realizzata dall'ISTAT, fa parte delle Indagini Multiscopo sulle famiglie. La ricerca raccoglie molte informazioni sulla vita quotidiana degli individui e delle famiglie ma, in questo progetto, abbiamo analizzato i dati raccolti tra il 2010 e il 2023 per studiare la fiducia interpersonale.
+La domanda analizzata era: "Ti fidi degli altri?", con due possibili risposte: "Tutti sono degni di fiducia" e "Bisogna stare molto attenti". 
 
 
- 
+STRUTTURA DELLA PAGINA WEB
 
-CONCEPT 
-
- 
-Il tema invisibile scelto è quello della fiducia interpersonale in Italia tra il 2010 e il 2023.  
-La rappresentazione grafica si basa sulla metafora di quello che noi chiamiamo “filo della fiducia”, ovvero quell’insieme di legami e di connessioni tra le persone che rappresenta il sentimento della fiducia. 
-Un insieme di fili colorati, inizialmente aggrovigliati in una sorta di gomitolo, vanno a formare il grafico che rappresenta l’andamento della fiducia nell’arco temporale scelto, evidenziando le differenze tra fasce d’età e tra uomini e donne.  
-La nostra visualizzazione fa uso dell’aspetto illustrativo per evidenziare l’”umanità” del tema e per agevolare la lettura del grafico. Ogni fascia d’età è identificata da un colore, sia nel grafico vero e proprio che nelle illustrazioni, e ogni categoria di persona (fascia d’età + genere) è rappresentata da un volto. 
-
- 
-
- 
-
-ORGANIZZAZIONE DEI DATI 
+La pagina web realizzata per il progetto mira a rappresentare visivamente il tema complesso della fiducia. Infatti, dalla pagina home, l'utente accede a una rappresentazione simbolica: un gomitolo di fili colorati che si srotola, che rappresenta il tentativo di comprendere l’intricata natura della fiducia interpersonale. I fili del gomitolo si trasformano nelle linee del grafico, ciascuna di un colore diverso per rappresentare le diverse fasce di età. Il grafico si concentra esclusivamente sui dati relativi alle persone che hanno risposto positivamente alla domanda posta dall’indagine, ovvero "Tutti sono degni di fiducia".
+In particolare, sull’asse delle x del grafico sono rappresentati gli anni presi in considerazione (dal 2010 al 2023), mentre sull’asse delle y si trova la percentuale di fiducia, che, nonostante alcune variazioni, non supera mai il 30%. Questo evidenzia livelli generalmente bassi di fiducia interpersonale.
 
 
-Il nostro dataset deriva direttamente dal dataset Istat sul tema della fiducia interpersonale in Italia. I dati che lo costituiscono sono stati raccolti annualmente tramite indagine campionaria, al fine di rilevare le informazioni fondamentali sulla vita quotidiana degli individui e delle famiglie italiane.  
-Il dataset originale era molto ampio, forniva sia i valori reali che quelli percentuali e comprendeva dati suddivisi per diverse categorie: età e genere, titolo di studio, condizione professionale, regione e tipo di comune di provenienza. 
-Ai fini del nostro progetto, abbiamo deciso di circoscrivere e di condensare i dati originali, e specificatamente: 
+ASPETTI PRESI IN ANALISI
 
-  selezione di un arco temporale più ridotto, dal 2010 al 2023 
-  
-  utilizzo dei soli dati percentuali 
-  
-  dati relativi solo ad età e genere, senza considerare le altre categorie 
-  
-  fasce d’età “accorpate”, per evitare un’eccessiva frammentazione. Le fasce d’età risultanti nel nostro progetto sono quindi le seguenti: 14-17, 18-24, 25-34, 35-44, 45-54, 55-64, 65-74, >75 
+Gli aspetti presi in considerazione per la ricerca sono stati:
+- Differenza per fascia di età: è stata esaminata la fiducia nelle diverse fasce di età (14-17 anni, 18-24 anni, 25-34 anni, 35-44 anni, 45-54 anni, 55-64 anni, 65-74 anni, over 75 anni) per comprendere come i livelli di fiducia variano con l’avanzare degli anni.
+- Differenza uomini-donne: è stata studiata la differenza nei livelli di fiducia tra uomini e donne, al fine di esplorare le dinamiche di genere e il modo in cui influenzano la fiducia negli altri.
+- Variazione negli anni: è stata analizzata l'evoluzione della fiducia tra il 2010 e il 2023. La scelta del grafico a linee ha permesso di tracciare l’andamento nel tempo, collegando i punti dati per evidenziare chiaramente l’aumento o la diminuzione della fiducia lungo un periodo temporale.
 
- 
 
- 
+STRUTTURA DEL GRAFICO PRINCIPALE
 
- 
+Dal grafico è possibile selezionare tre opzioni:
+- Visualizzare la percentuale di fiducia solo per i maschi.
+- Visualizzare la percentuale di fiducia solo per le femmine.
+- Visualizzare una media tra i due generi.
+
+
+GRAFICO PER IL CONFRONTO LIBERO  
+
+Un'ulteriore sezione del sito permette all’utente di confrontare i livelli di fiducia tra fasce di età specifiche, sia maschili che femminili. Interagendo con i volti di uomini e donne di diverse età, l'utente può scegliere quali linee del grafico visualizzare, ottenendo una rappresentazione personalizzata e dinamica dei dati. Questo approccio consente di esplorare liberamente i dati, focalizzandosi sugli aspetti di maggiore interesse.
+
+
 TEAM 
 
- 
 Silvia: sviluppo della sezione di visualizzazione dei dati 
 
 Alessandro: sviluppo della sezione di visualizzazione dei dati 
