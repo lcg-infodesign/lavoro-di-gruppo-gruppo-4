@@ -1,26 +1,26 @@
-// Add at the top with other let declarations
+let data;
+let datiFemmine = {};
+let datiMaschi = {};
+let img;
+
 let isAnimating = false;
 let animationProgress = 0;
 let animationStartTime = 0;
 let animationDuration = 1000; // 1 second transition
 let previousState = null;
 let targetState = null;
-let data;
-let datiFemmine = {};
-let datiMaschi = {};
-let img;
 
 let buttonF;
 let buttonM;
 let buttonMedia;
-let isButtonFOn = false; // Stato del bottone FEMMINE
-let isButtonMOn = false; // Stato del bottone MASCHI
-let isButtonMediaOn = false; // Stato del bottone MEDIA
+let isButtonFOn = false; // stato del bottone FEMMINE
+let isButtonMOn = false; // stato del bottone MASCHI
+let isButtonMediaOn = true; // stato del bottone MEDIA
 
 const ageGroups = ["14-17", "18-24", "25-34", "35-44", "45-54", "55-64", "65-74", ">75"];
 let bottoniFasce = [];
 
-let fasciaSelezionata = null; // Variabile per tenere traccia della fascia selezionata
+let fasciaSelezionata = null; // variabile per tenere traccia della fascia selezionata con i btnFasce
 
 // Mappa dei colori per le fasce d'età
 const coloriFasce = {
@@ -34,13 +34,14 @@ const coloriFasce = {
   ">75": "#e7d299"
 };
 
-// carico il CSV
+
 function preload() {
   data = loadTable("fiducia Per.csv", "csv", "header");
   img = loadImage("ASSETS/background04_CREAM(schiarito).jpg");
   font = loadFont("ASSETS/Ribes-Regular.otf");
   document.body.style.overflow = 'hidden';
 }
+
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
@@ -50,24 +51,24 @@ function setup() {
   // Bottone FEMMINE
   buttonF = createButton('FEMMINE');
   styleButton(buttonF);
-  buttonF.mousePressed(() => toggleButton(buttonF)); // Associa la funzione toggleButton
+  buttonF.mousePressed(() => toggleButton(buttonF)); // associa la funzione toggleButton
 
   // Bottone MASCHI
   buttonM = createButton('MASCHI');
   styleButton(buttonM);
-  buttonM.mousePressed(() => toggleButton(buttonM)); // Associa la funzione toggleButton
+  buttonM.mousePressed(() => toggleButton(buttonM));
 
   // Bottone MEDIA
   buttonMedia = createButton('MEDIA');
   styleButton(buttonMedia);
-  buttonMedia.mousePressed(() => toggleButton(buttonMedia)); // Associa la funzione toggleButton
+  buttonMedia.mousePressed(() => toggleButton(buttonMedia)); 
 
   positionButton();
   
-  //bottoni legenda 
+  // Bottoni legenda 
   creazioneBottoniFasce();
 
-  // freccia 
+  // Bottone freccia 
   nextButton = createButton("");
   nextButton.size(50, 50);
   nextButton.style("background-color", "transparent");
@@ -105,6 +106,7 @@ function setup() {
 function draw() {
   background(img);
   disegnaAssi();
+  drawCard(); 
 
   if (isAnimating) {
     animationProgress = (millis() - animationStartTime) / animationDuration;
@@ -196,7 +198,7 @@ function disegnaAssi() {
 function disegnaLinea(dati, fascia) {
   // Controlla se la fascia corrente è selezionata
   if (fascia === fasciaSelezionata) {
-    strokeWeight(8); // Spessore aumentato
+    strokeWeight(5); // Spessore aumentato
   } else {
     strokeWeight(2); // Spessore normale
   }
@@ -248,6 +250,94 @@ function disegnaLineeOrizzontali(dati) {
   }
 }
 
+//CARTA D'INDENTITà
+function drawCard() {
+  let rectX = windowWidth * 0.70;
+  let rectY = windowHeight * 0.05;
+  let rectW = windowWidth * 0.25;
+  let rectH = windowHeight * 0.20;
+  
+  let fillColor = coloriFasce[fasciaSelezionata] || "#ffffff"; 
+  let sessoSelezionato = isButtonFOn ? "Femmina" : isButtonMOn ? "Maschio" : "Tutti";
+  let valoreMedio = fasciaSelezionata ? calcolaMediaFasciaSesso(fasciaSelezionata, sessoSelezionato) : 0;
+  let annoMassimo = fasciaSelezionata ? calcolaAnnoMassimo(fasciaSelezionata) : 0;
+  let annoMinimo = fasciaSelezionata ? calcolaAnnoMinimo(fasciaSelezionata) : 0;
+
+  // Rettangolo
+  fill(250, 250, 250, 220);
+  stroke(fillColor); // Bordo nero
+  strokeWeight(3);
+  rect(rectX, rectY, rectW, rectH);
+
+  // Testo
+  fill(0); // Colore del testo
+  noStroke();
+  textSize(16);
+  textAlign(LEFT, TOP);
+
+  let fasciaText = fasciaSelezionata ? `Fascia Età: ${fasciaSelezionata}` : "Fascia Età: Nessuna selezione";
+  let tipoText = "Tipo: ";
+  if (isButtonFOn) tipoText += "Femmina";
+  else if (isButtonMOn) tipoText += "Maschio";
+  else if (isButtonMediaOn) tipoText += "Tutti";
+  else tipoText += "Nessuno selezionato";
+
+  // Disegna il testo nel rettangolo
+  text(tipoText, rectX + 10, rectY + 10);
+  text(fasciaText, rectX + 10, rectY + 40);
+  text(`Valore Medio: ${valoreMedio.toFixed(2)}`, rectX + 10, rectY + 70);
+  text(`Anno Massimo: ${annoMassimo}`, rectX + 10, rectY + 100);
+  text(`Anno Minimo: ${annoMinimo}`, rectX + 10, rectY + 130);
+
+}
+
+// Funzione per calcolare la media dei valori
+function calcolaMediaFasciaSesso(fascia, sesso) {
+  let datiSelezionati = sesso === "F" ? datiFemmine[fascia] : datiMaschi[fascia];
+  let somma = 0;
+  let count = 0;
+
+  for (let i = 0; i < datiSelezionati.length; i++) {
+    somma += datiSelezionati[i].valore;
+    count++;
+  }
+
+  return count > 0 ? somma / count : 0;  // Restituisci la media, o 0 se non ci sono dati
+}
+
+//funzione per calcolare l'anno con il valore massimo in una determinata fascia 
+function calcolaAnnoMassimo(fascia) {
+  let datiSelezionati = datiFemmine[fascia];
+  let valoreMassimo = 0;
+  let annoMassimo = 0;
+
+  for (let i = 0; i < datiSelezionati.length; i++) {
+    if (datiSelezionati[i].valore > valoreMassimo) {
+      valoreMassimo = datiSelezionati[i].valore;
+      annoMassimo = datiSelezionati[i].anno;
+    }
+  }
+
+  return annoMassimo;
+}
+
+//funzione per calcolare l'anno con il valore minimo in una determinata fascia
+function calcolaAnnoMinimo(fascia) {
+  let datiSelezionati = datiFemmine[fascia];
+  let valoreMinimo = 100;
+  let annoMinimo = 0;
+
+  for (let i = 0; i < datiSelezionati.length; i++) {
+    if (datiSelezionati[i].valore < valoreMinimo) {
+      valoreMinimo = datiSelezionati[i].valore;
+      annoMinimo = datiSelezionati[i].anno;
+    }
+  }
+
+  return annoMinimo;
+}
+
+
 //STILE DEI BOTTONI M/F
 function styleButton(button) {
   button.style('background-color', 'transparent');
@@ -262,7 +352,7 @@ function styleButton(button) {
 function positionButton(){
   // Calcolare la posizione iniziale a destra della finestra
   let buttonStartX = windowWidth - (windowWidth / 5); // Posizione a destra
-  let buttonStartY = windowHeight - (windowHeight / 1.5) ; // Posizione iniziale in alto, sarà incrementata per i bottoni successivi
+  let buttonStartY = windowHeight * 0.45; // Posizione iniziale in alto, sarà incrementata per i bottoni successivi
   buttonF.position(buttonStartX, buttonStartY);
   buttonM.position(buttonStartX, buttonStartY + 50); // 50px sotto il primo
   buttonMedia.position(buttonStartX, buttonStartY + 100); // 100px sotto il primo
@@ -357,7 +447,7 @@ function creazioneBottoniFasce() {
 //POSIZIONE BOTTNI FASCE
 function positionBottoniFasce() {
   let startX = windowWidth * 0.75; // Colonna destra
-  let startY = windowHeight * 0.55; // Inizio verticale
+  let startY = windowHeight * 0.75; // Inizio verticale
   let spacingY = Math.max(windowHeight * 0.05, 30); // Spaziatura verticale minima
   let columnSpacingX = Math.max(windowWidth * 0.1, 50); // Spaziatura tra colonne
 
