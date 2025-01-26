@@ -164,12 +164,12 @@ function drawGomitolo() {
   randomSeed(seed);
   
   // Prima passata - fili base
-  for (let i = 0; i < numFili; i++) {
-    randomSeed(seed + i * 1000);
-    stroke(colori[i]);
-    strokeWeight(spessoreFilo);
-    drawFilo3D();
-  }
+  //for (let i = 0; i < numFili; i++) {
+  randomSeed(seed + 1 * 1000);
+  stroke(colori[0]);
+  strokeWeight(spessoreFilo);
+  drawFilo3D();
+  //}
   
   // Seconda passata - intrecci
   for (let k = 0; k < 5; k++) { // Increased passes for more interlacing
