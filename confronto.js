@@ -96,6 +96,7 @@ function disegnaAssi() {
 
   stroke(0);
   strokeWeight(1);
+  drawingContext.setLineDash([]); // NON tratteggio gli assi
 
   // Linea asse X
   line(margineY, height - margineX, margineY + lunghezzaAsseX, height - margineX);
@@ -126,9 +127,9 @@ function disegnaLinea(dati, fascia) {
   
   // Imposta lo spessore della linea in base al sesso
   if (dati === datiMaschi[fascia]) {
-    strokeWeight(3.5); // Linee più spesse per i maschi
+    drawingContext.setLineDash([5, 5]); //per differenziare le linee dei M e F -->  inserirsco un pattern per le llinee tratteggiate
   } else {
-    strokeWeight(2); // Linee più sottili per le femmine
+    drawingContext.setLineDash([]);
   }
   
   noFill();
