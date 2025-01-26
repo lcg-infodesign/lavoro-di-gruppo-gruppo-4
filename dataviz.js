@@ -216,9 +216,9 @@ function disegnaAssi() {
 function disegnaLinea(dati, fascia) {
   // Controlla se la fascia corrente è selezionata
   if (fascia === fasciaSelezionata) {
-    strokeWeight(5); // Spessore aumentato
+    strokeWeight(6); // Spessore aumentato
   } else {
-    strokeWeight(2); // Spessore normale
+    strokeWeight(2.5); // Spessore normale
   }
 
   stroke(coloriFasce[fascia]);
@@ -263,7 +263,7 @@ function disegnaLineeOrizzontali(dati) {
     let y = map(valore2010, 10, 30, height - margineX, height - margineX - altezzaAsseY);
 
     stroke(coloriFasce[fascia]);
-    strokeWeight(2);
+    strokeWeight(2.5);
     line(0, y, margineY, y);
   }
 }
@@ -278,8 +278,8 @@ function drawCard() {
   let fillColor = coloriFasce[fasciaSelezionata] || "#ffffff"; 
   let sessoSelezionato = isButtonFOn ? "F" : isButtonMOn ? "M" : "Media";
   let valoreMedio = fasciaSelezionata ? calcolaMediaFasciaSesso(fasciaSelezionata, sessoSelezionato) : 0;
-  let annoMassimo = fasciaSelezionata ? calcolaAnnoMassimo(fasciaSelezionata, sessoSelezionato) : 0;
-  let annoMinimo = fasciaSelezionata ? calcolaAnnoMinimo(fasciaSelezionata, sessoSelezionato) : 0;
+  let annoMassimo = fasciaSelezionata ? calcolaAnnoMassimo(fasciaSelezionata, sessoSelezionato) : "-";
+  let annoMinimo = fasciaSelezionata ? calcolaAnnoMinimo(fasciaSelezionata, sessoSelezionato) : "-";
 
 
   // Rettangolo
@@ -291,30 +291,33 @@ function drawCard() {
   // Testo
   fill(0); // Colore del testo
   noStroke();
-  textSize(16);
+  textSize(24);
   textAlign(LEFT, TOP);
 
-  let fasciaText = fasciaSelezionata ? `Fascia Età: ${fasciaSelezionata}` : "Fascia Età: Nessuna selezione";
-  let tipoText = "Tipo: ";
+  let fasciaText = fasciaSelezionata ? `${fasciaSelezionata}` : "- - -";
+  let tipoText = "";
   if (isButtonFOn) tipoText += "Femmina";
   else if (isButtonMOn) tipoText += "Maschio";
-  else if (isButtonMediaOn) tipoText += "Tutti";
+  else if (isButtonMediaOn) tipoText += "Femmine e Maschi";
   else tipoText += "Nessuno selezionato";
 
-  // Disegna il testo nel rettangolo
+  // Disegna il testo nel rettangolo  
   text(tipoText, rectX + 10, rectY + 10);
-  text(fasciaText, rectX + 10, rectY + 40);
-  text(`Valore Medio: ${valoreMedio.toFixed(2)}`, rectX + 10, rectY + 70);
-  text(`Anno Massimo: ${annoMassimo}`, rectX + 10, rectY + 100);
-  text(`Anno Minimo: ${annoMinimo}`, rectX + 10, rectY + 130);
+  textSize(24);
+  text(fasciaText, rectX + 10, rectY + 50);
+  
+  textSize(16);
+
+  text(`Valore Medio: ${valoreMedio.toFixed(2)}`, rectX + 10, rectY + 130);
+  text(`Fiducia massima nell'anno ${annoMassimo}`, rectX + 10, rectY + 160);
+  text(`Fiducia minima nell'anno ${annoMinimo}`, rectX + 10, rectY + 190);
   
 
   // Immagine faccia
   if (fasciaSelezionata) {
-    let imgX = windowWidth * 0.88;
-    let imgY = windowWidth * 0.04;
-    let imgSize = windowWidth * 0.1;
-    let imgSizeMedia = imgSize * 0.9;
+    let imgX = rectX * 1.24;
+    let imgY =rectY * 1.3;
+    let imgSize = imgX * 0.1;
     let imgIndex = ageGroups.indexOf(fasciaSelezionata);
 
     if (isButtonFOn) {
@@ -322,8 +325,8 @@ function drawCard() {
     } else if (isButtonMOn) {
       image(imagesMaschi[imgIndex], imgX, imgY, imgSize, imgSize);
     } else if (isButtonMediaOn) {
-      image(imagesFemmine[imgIndex], imgX - (windowWidth * 0.05), imgY, imgSize, imgSize);
-      image(imagesMaschi[imgIndex], imgX + (windowWidth * 0.05), imgY, imgSize, imgSize);
+      image(imagesFemmine[imgIndex], imgX - (rectX * 0.08), imgY, imgSize, imgSize);
+      image(imagesMaschi[imgIndex], imgX, imgY, imgSize, imgSize);
     } else {
       // nessuna selezione
       text("Nessuna selezione", rectX + 10, rectY + 160);
@@ -489,6 +492,7 @@ function creazioneBottoniFasce() {
     let fascia = ageGroups[i]; // Ottieni la fascia corrispondente
     let btn = createButton(`${fascia}`);
     styleButton(btn);
+    btn.size(windowWidth*0.05, windowHeight*0.05)
 
     // Assegna il colore corrispondente alla fascia
     btn.style('background-color', coloriFasce[fascia]);
@@ -507,20 +511,15 @@ function creazioneBottoniFasce() {
 
 //POSIZIONE BOTTNI FASCE
 function positionBottoniFasce() {
-  let startX = windowWidth * 0.75; // Colonna destra
-  let startY = windowHeight * 0.75; // Inizio verticale
-  let spacingY = Math.max(windowHeight * 0.05, 30); // Spaziatura verticale minima
-  let columnSpacingX = Math.max(windowWidth * 0.1, 50); // Spaziatura tra colonne
+  let startX = windowWidth * 0.16; // Posizione orizzontale iniziale
+  let startY = windowHeight * 0.1; // Altezza fissa per tutti i bottoni
+  let spacingX = windowWidth * 0.06; // Spaziatura orizzontale tra i bottoni
 
   for (let i = 0; i < bottoniFasce.length; i++) {
-    let btn = bottoniFasce[i];
-    let col = i % 2; // Alternanza tra colonna 0 e colonna 1
-    let row = Math.floor(i / 2); // Determina la riga in base al numero del bottone
+    let posX = startX + i * spacingX; // Calcola la posizione orizzontale per ogni bottone
+    let posY = startY; // Posizione verticale fissa
 
-    let posX = startX + col * columnSpacingX; // Posizione orizzontale in base alla colonna
-    let posY = startY + row * spacingY; // Posizione verticale in base alla riga
-
-    btn.position(posX, posY);
+    bottoniFasce[i].position(posX, posY); // Posiziona il bottone
   }
 }
 
