@@ -25,6 +25,7 @@ let fasciaSelezionata = null; // variabile per tenere traccia della fascia selez
 
 let imagesFemmine = [];
 let imagesMaschi = [];
+let imagesMF
 
 // Mappa dei colori per le fasce d'età
 const coloriFasce = {
@@ -54,7 +55,7 @@ function preload() {
     let fileNameMaschi = `facce/M_${ageFormatted}.jpg`;
     imagesMaschi.push(loadImage(fileNameMaschi)); // Aggiungi l'immagine all'array dei maschi
   }
-
+  imagesMF = loadImage("facce scontornate/MF_75.png");
   document.body.style.overflow = 'hidden';
 }
 
@@ -205,10 +206,10 @@ function disegnaAssi() {
 
   // Etichette asse Y (valori: 10, 12, ..., 30)
   for (let valore = 10; valore <= 30; valore += 2) {
-    let y = map(valore, 10, 30, height - margineX, height - margineX - altezzaAsseY);
+    let y = map(valore, 10, 30, height - margineX, height - margineX - altezzaAsseY );
     line(margineY - 5, y, margineY + 5, y);
     textAlign(RIGHT);
-    text(valore, margineY - 10, y + 5);
+    text(valore, margineY - 12, y - 6);
   }
 }
 
@@ -298,7 +299,7 @@ function drawCard() {
   let tipoText = "";
   if (isButtonFOn) tipoText += "Femmina";
   else if (isButtonMOn) tipoText += "Maschio";
-  else if (isButtonMediaOn) tipoText += "Femmine e Maschi";
+  else if (isButtonMediaOn) tipoText += "F + M";
   else tipoText += "Nessuno selezionato";
 
   // Disegna il testo nel rettangolo  
@@ -325,8 +326,9 @@ function drawCard() {
     } else if (isButtonMOn) {
       image(imagesMaschi[imgIndex], imgX, imgY, imgSize, imgSize);
     } else if (isButtonMediaOn) {
-      image(imagesFemmine[imgIndex], imgX - (rectX * 0.08), imgY, imgSize, imgSize);
-      image(imagesMaschi[imgIndex], imgX, imgY, imgSize, imgSize);
+      //image(imagesFemmine[imgIndex], imgX - (rectX * 0.08), imgY, imgSize, imgSize);
+      //image(imagesMaschi[imgIndex], imgX, imgY, imgSize, imgSize);
+      image(imagesMF, imgX - rectX * 0.06, imgY, imgSize * 1.5, imgSize);
     } else {
       // nessuna selezione
       text("Nessuna selezione", rectX + 10, rectY + 160);
@@ -492,7 +494,7 @@ function creazioneBottoniFasce() {
     let fascia = ageGroups[i]; // Ottieni la fascia corrispondente
     let btn = createButton(`${fascia}`);
     styleButton(btn);
-    btn.size(windowWidth*0.05, windowHeight*0.05)
+    btn.size(80, 40);
 
     // Assegna il colore corrispondente alla fascia
     btn.style('background-color', coloriFasce[fascia]);
