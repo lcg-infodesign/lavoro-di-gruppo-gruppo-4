@@ -156,12 +156,13 @@ h2 {
   padding: 0.5em;
   z-index: 1000;
   white-space: nowrap;
+  overflow: hidden;  /* Nascondi il contenuto che scorre fuori */
 }
 
 .marquee-content {
   display: flex;
-  animation: move-rtl 40000ms linear infinite;
-  width: calc(200%);
+  animation: move-rtl 200000ms linear infinite;  /* Aumentiamo ulteriormente il tempo */
+  width: 300%;  /* Duplicazione maggiore per adattarsi meglio */
 }
 
 @keyframes move-rtl {
@@ -169,7 +170,7 @@ h2 {
       transform: translateX(0%);
   }
   100% {
-      transform: translateX(-50%);
+      transform: translateX(-225%);  /* Sposta il contenuto di tutta la larghezza */
   }
 }
 
@@ -187,6 +188,7 @@ p {
   display: flex;
   align-items: center;
 }
+
 
 @media (max-width: 1200px) {
   #compfacce {
