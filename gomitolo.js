@@ -8,12 +8,17 @@ let progress = 0; // Progresso delle linee con scrolling
 let paths = [];
 let velocitaDiscesa = []; // Array per la velocità di discesa di ogni filo
 let maxLunghezza = 2000; // Lunghezza massima delle linee
-let scrollSpeed = 5; // Velocità dello scrolling manuale
-let autoScrollSpeed = 15; // Velocità dello scroll automatico
+let scrollSpeed = 8; // Velocità dello scrolling manuale
+let autoScrollSpeed = 8; // Velocità dello scroll automatico
 let sfondo; // Variabile per l'immagine di sfondo
 let gomitoloPosizioneIniziale;
 let autoScroll = false; // Flag per gestire lo scroll automatico
 let scrollButton; // Pulsante per attivare/disattivare lo scroll automatico
+let seed;
+let rotationAngle = 0;
+let gomitoloScrollSpeed = 8; // Velocità per il gomitolo
+let filiScrollSpeed = 12;    // Velocità aumentata per i fili
+
 
 function preload() {
   sfondo = loadImage("ASSETS/background04_CREAM(schiarito).jpg"); // Sostituisci con il percorso corretto
@@ -21,8 +26,10 @@ function preload() {
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
-  centro = createVector(width / 2, height / 3);
+  centro = createVector(width / 2, height / 2.5);
   gomitoloPosizioneIniziale = centro.y;
+  seed = random(10000);
+  randomSeed(seed);
   noFill();
   noLoop();
 
@@ -86,26 +93,42 @@ function draw() {
 }
 
 function mouseWheel(event) {
-    if (!autoScroll) {
-      if (event.delta > 0) {
-        progress += scrollSpeed;
-        tangleOffset -= scrollSpeed;
-      } else if (tangleOffset < 0) {
-        progress -= scrollSpeed;
-        tangleOffset += scrollSpeed;
+  if (!autoScroll) {
+    if (event.delta > 0) {
+      // Usa velocità diverse basate sulla posizione
+      if (tangleOffset + centro.y + raggio > 0) {
+        // Quando il gomitolo è ancora visibile
+        progress += gomitoloScrollSpeed;
+        tangleOffset -= gomitoloScrollSpeed;
+        rotationAngle += 0.25;
+      } else {
+        // Quando ci sono solo i fili
+        progress += filiScrollSpeed;
+        tangleOffset -= filiScrollSpeed;
       }
-  
-      progress = constrain(progress, 0, maxLunghezza);
-      tangleOffset = constrain(tangleOffset, -maxLunghezza, 0);
-  
-      // Verifica se sei arrivato all'ultimo possibile scroll
-      if (tangleOffset <= -maxLunghezza) {
-        cambiaPagina(); // Passa alla nuova pagina
+    } else if (tangleOffset < 0) {
+      // Stessa logica per lo scroll verso l'alto
+      if (tangleOffset + centro.y + raggio > 0) {
+        progress -= gomitoloScrollSpeed;
+        tangleOffset += gomitoloScrollSpeed;
+        rotationAngle -= 0.25;
+      } else {
+        progress -= filiScrollSpeed;
+        tangleOffset += filiScrollSpeed;
       }
-  
-      redraw();
     }
+
+    progress = constrain(progress, 0, maxLunghezza);
+    tangleOffset = constrain(tangleOffset, -maxLunghezza, 0);
+
+    // Verifica se sei arrivato all'ultimo possibile scroll
+    if (tangleOffset <= -maxLunghezza) {
+      cambiaPagina(); // Passa alla nuova pagina
+    }
+
+    redraw();
   }
+}
 
 function toggleAutoScroll() {
   autoScroll = !autoScroll;
@@ -119,36 +142,42 @@ function toggleAutoScroll() {
 }
 
 function autoScrollBehavior() {
-    if (autoScroll) {
-      progress += autoScrollSpeed;
-      tangleOffset -= autoScrollSpeed;
-  
-      progress = constrain(progress, 0, maxLunghezza);
-      tangleOffset = constrain(tangleOffset, -maxLunghezza, 0);
-  
-      if (progress >= maxLunghezza || tangleOffset <= -maxLunghezza) {
-        autoScroll = false;
-        scrollButton.style("opacity", "1");
-        noLoop();
-  
-        cambiaPagina(); // Passa alla nuova pagina
-      }
+  if (autoScroll) {
+    progress += autoScrollSpeed;
+    tangleOffset -= autoScrollSpeed;
+    rotationAngle += 0.1 * (autoScrollSpeed/scrollSpeed); // Add rotation proportional to scroll speed
+
+    progress = constrain(progress, 0, maxLunghezza);
+    tangleOffset = constrain(tangleOffset, -maxLunghezza, 0);
+
+    if (progress >= maxLunghezza || tangleOffset <= -maxLunghezza) {
+      autoScroll = false;
+      scrollButton.style("opacity", "1");
+      noLoop();
+
+      cambiaPagina();
     }
+  }
 }
 
 function drawGomitolo() {
+  randomSeed(seed);
+  
+  // Prima passata - fili base
   for (let i = 0; i < numFili; i++) {
+    randomSeed(seed + i * 1000);
     stroke(colori[i]);
     strokeWeight(spessoreFilo);
     drawFilo3D();
   }
-
-  for (let k = 0; k < 50; k++) {
-    let ordineCasuale = ([...Array(numFili).keys()]);
-    for (let i of ordineCasuale) {
+  
+  // Seconda passata - intrecci
+  for (let k = 0; k < 5; k++) { // Increased passes for more interlacing
+    for (let i = 0; i < numFili; i++) {
+      randomSeed(seed + i * 1000 + k * 10000);
       stroke(colori[i]);
-      strokeWeight(spessoreFilo);
-      drawIntreccio();
+      strokeWeight(spessoreFilo * 1.2); // Slightly thicker for visibility
+      drawIntreccio3D();
     }
   }
 }
@@ -164,9 +193,13 @@ function drawFilo3D() {
     let y3D = raggio * sin(phi) * sin(theta);
     let z3D = raggio * cos(phi);
 
-    let prospettiva = 0.8 + z3D / (2 * raggio);
+    // Applica rotazione
+    let y3D_rotated = y3D * cos(-rotationAngle) - z3D * sin(-rotationAngle);
+    let z3D_rotated = y3D * sin(-rotationAngle) + z3D * cos(-rotationAngle);
+
+    let prospettiva = 0.8 + z3D_rotated / (2 * raggio);
     let x2D = centro.x + x3D * prospettiva;
-    let y2D = centro.y - y3D * prospettiva;
+    let y2D = centro.y - y3D_rotated * prospettiva;
 
     x2D += random(-2, 2);
     y2D += random(-2, 2);
@@ -181,21 +214,30 @@ function drawFilo3D() {
   endShape();
 }
 
-function drawIntreccio() {
+function drawIntreccio3D() {
   let punti = [];
-  for (let i = 0; i < 4; i++) {
+  // Generate fewer points for shorter curves
+  for (let i = 0; i < 20; i++) { // Reduced from 200 to 20 points
     let u = random(-1, 1);
     let theta = random(TWO_PI);
     let phi = acos(u);
 
-    let x3D = raggio * sin(phi) * cos(theta);
-    let y3D = raggio * sin(phi) * sin(theta);
-    let z3D = raggio * cos(phi);
+    // Reduce radius slightly for interlacing effect
+    let raggioIntreccio = raggio * 0.9;
+    
+    let x3D = raggioIntreccio * sin(phi) * cos(theta);
+    let y3D = raggioIntreccio * sin(phi) * sin(theta);
+    let z3D = raggioIntreccio * cos(phi);
 
-    let prospettiva = 0.8 + z3D / (2 * raggio);
+    // Apply same rotation as drawFilo3D
+    let y3D_rotated = y3D * cos(-rotationAngle) - z3D * sin(-rotationAngle);
+    let z3D_rotated = y3D * sin(-rotationAngle) + z3D * cos(-rotationAngle);
+
+    let prospettiva = 0.8 + z3D_rotated / (2 * raggio);
     let x2D = centro.x + x3D * prospettiva;
-    let y2D = centro.y - y3D * prospettiva;
+    let y2D = centro.y - y3D_rotated * prospettiva;
 
+    // Larger random displacement for more chaotic look
     x2D += random(-5, 5);
     y2D += random(-5, 5);
 
