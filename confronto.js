@@ -51,6 +51,19 @@ function setup() {
   positionPrevButton();
   prevButton.mousePressed(() => window.location.href = "DATAVIZ.html");
 
+  // bottone RESET
+  resetButton = createButton("Reset");
+  resetButton.size(50, 50);
+  resetButton.position(windowWidth-60, 30);
+  resetButton.style("background-color", "white"); 
+  resetButton.style("border-radius", "50%");
+  resetButton.mousePressed(() => //si spengono tutti i bottoni attivi 
+    buttons.forEach(btn => {
+      btn.active = false;
+      btn.style("opacity", "0.5");
+      btn.style("border", "none");
+    })
+  );
 
   // Elaborazione dati
   let fasciaEta = [...new Set(data.getColumn("fascia"))];

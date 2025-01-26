@@ -90,7 +90,7 @@ function setup() {
   positionButton();
   
   // Bottoni legenda 
-  creazioneBottoniFasce();
+  creazioneBottoniFasce(); 
 
   // Bottone freccia 
   nextButton = createButton("");
