@@ -22,9 +22,11 @@ body {
 }
 
 .background-imgs {
-  width: 100%;
+  width: 150%;
   height: 100%;
   position: fixed;
+  right: 0;
+  margin-right: -10%;
 }
 
 .background-imgs img{
@@ -71,7 +73,7 @@ body {
   right: 0;
   right: 3%;   
   margin-top: 15em;
-  max-width: 40%;
+  max-width: 45%;
   height: auto;
   margin-left: 0; /* Rimuovi margine fissi */
 }
@@ -193,13 +195,12 @@ p {
 @media (max-width: 1200px) {
   #compfacce {
   position: fixed;
-  bottom: 18%;
-  right: 4%;       
+  bottom: 15%;
+  right: 10%;       
   max-width: 40%;
   height: auto;           
   }
 }
-
 
 @media (max-width: 770px) {
   .header-container {
@@ -237,7 +238,7 @@ p {
 
   #compfacce {
     position: fixed;             
-    bottom: 15%;                 
+    bottom: 10%;                 
     left: 50%;                   
     transform: translateX(-50%); 
     width: 100%;                 
