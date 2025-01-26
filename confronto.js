@@ -77,6 +77,7 @@ function setup() {
 function draw() {
   background(img); // Sfondo
   disegnaAssi(); // Disegna gli assi
+  lineeLegenda();
 
   // Disegna le linee per i bottoni attivi
   for (let btn of buttons) {
@@ -85,6 +86,7 @@ function draw() {
       disegnaLinea(dati, btn.fascia);
     }
   }
+  
 }
 
 //FUN<IONE PER DISEGNARE GLI ASSI
@@ -124,12 +126,13 @@ function disegnaAssi() {
 //FUNZIONE PER DISEGNARE IL GRAFICO
 function disegnaLinea(dati, fascia) {
   stroke(coloriFasce[fascia]);
-  
+  strokeWeight(2);
+
   // Imposta lo spessore della linea in base al sesso
   if (dati === datiMaschi[fascia]) {
-    drawingContext.setLineDash([5, 5]); //per differenziare le linee dei M e F -->  inserirsco un pattern per le llinee tratteggiate
+    drawingContext.setLineDash([]); //per differenziare le linee dei M e F -->  inserirsco un pattern per le llinee tratteggiate
   } else {
-    drawingContext.setLineDash([]);
+    drawingContext.setLineDash([10,5]);
   }
   
   noFill();
@@ -169,6 +172,24 @@ function getImagePath(sex, ageGroup) {
   }
   // Gestisci i casi standard
   return `facce/${sex}_${ageGroup}.jpg`;
+}
+
+
+//LINEE LEGENDA
+function lineeLegenda() {
+  let x = width * 0.69; // Posizione X delle linee
+  let y = height * 0.83; // Posizione Y delle linee
+  let h = width * 0.05;
+  let spazio = 30; // Spazio tra le linee
+  let a = 50;
+  
+  line(x, y, x + h, y); // Linea per i maschi
+  text("Maschi", x + h + a, y + 5); // Etichetta per i maschi
+  drawingContext.setLineDash([8,5]);
+  line(x + spazio * 2 + h + a, y, x + spazio * 2 + h*2 + a, y); // Linea per le femmine
+  drawingContext.setLineDash([]);
+  text("Femmine", x + spazio * 2 + h*2 + a*2 + 5, y + 5); // Etichetta per le femmine
+  
 }
 
 //CREAZIONE DEI BOTTONI
