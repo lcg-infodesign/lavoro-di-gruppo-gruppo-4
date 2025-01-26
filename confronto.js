@@ -236,8 +236,10 @@ function creazioneBottoniFacce() { //--> creo un ciclo nel ciclo
         // aggiorna lo stile in base allo stato
         if (btn.active) {
           btn.style("opacity", "1"); // bottone completamente visibile
+          btn.style("border", "4px solid black"); // bordo bianco
         } else {
           btn.style("opacity", "0.5"); // bottone torna opaco
+          btn.style("border", "none");
         }
       });
   
