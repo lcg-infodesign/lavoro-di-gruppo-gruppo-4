@@ -47,7 +47,7 @@ function preload() {
     for (let age of ageGroups) {
       // Modifica del nome della fascia d'età
       let ageFormatted = age.replace(">", "").trim();  // Rimuove il ">" da ">75" e altre fasce d'età
-      let fileName = `FACCE/${gender}_${ageFormatted}.jpg`;
+      let fileName = `facce/${gender}_${ageFormatted}.jpg`;
       images.push(loadImage(fileName)); // Aggiungi l'immagine all'array
     }
   }
