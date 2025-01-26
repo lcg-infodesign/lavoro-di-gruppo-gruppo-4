@@ -77,6 +77,7 @@ function setup() {
   // Bottone MEDIA
   buttonMedia = createButton('MEDIA');
   styleButton(buttonMedia);
+  buttonMedia.style('background-color', '#f0e4d4');
   buttonMedia.mousePressed(() => toggleButton(buttonMedia)); 
 
   positionButton();
@@ -269,10 +270,10 @@ function disegnaLineeOrizzontali(dati) {
 
 //CARTA D'INDENTITà 
 function drawCard() {
-  let rectX = windowWidth * 0.70;
+  let rectX = windowWidth * 0.72;
   let rectY = windowHeight * 0.05;
-  let rectW = windowWidth * 0.25;
-  let rectH = windowHeight * 0.20;
+  let rectW = windowWidth * 0.27;
+  let rectH = windowHeight * 0.27;
   
   let fillColor = coloriFasce[fasciaSelezionata] || "#ffffff"; 
   let sessoSelezionato = isButtonFOn ? "F" : isButtonMOn ? "M" : "Media";
@@ -307,6 +308,27 @@ function drawCard() {
   text(`Anno Massimo: ${annoMassimo}`, rectX + 10, rectY + 100);
   text(`Anno Minimo: ${annoMinimo}`, rectX + 10, rectY + 130);
   
+
+  // Immagine faccia
+  if (fasciaSelezionata) {
+    let imgX = windowWidth * 0.88;
+    let imgY = windowWidth * 0.04;
+    let imgSize = windowWidth * 0.1;
+    let imgSizeMedia = imgSize * 0.9;
+    let imgIndex = ageGroups.indexOf(fasciaSelezionata);
+
+    if (isButtonFOn) {
+      image(imagesFemmine[imgIndex], imgX, imgY, imgSize, imgSize);
+    } else if (isButtonMOn) {
+      image(imagesMaschi[imgIndex], imgX, imgY, imgSize, imgSize);
+    } else if (isButtonMediaOn) {
+      image(imagesFemmine[imgIndex], imgX - (windowWidth * 0.05), imgY, imgSize, imgSize);
+      image(imagesMaschi[imgIndex], imgX + (windowWidth * 0.05), imgY, imgSize, imgSize);
+    } else {
+      // nessuna selezione
+      text("Nessuna selezione", rectX + 10, rectY + 160);
+    }
+  }
 }
 
 // Funzione per calcolare la media dei valori
