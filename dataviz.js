@@ -23,7 +23,8 @@ let bottoniFasce = [];
 
 let fasciaSelezionata = null; // variabile per tenere traccia della fascia selezionata con i btnFasce
 
-let images = [];
+let imagesFemmine = [];
+let imagesMaschi = [];
 
 // Mappa dei colori per le fasce d'età
 const coloriFasce = {
@@ -42,15 +43,17 @@ function preload() {
   data = loadTable("fiducia Per.csv", "csv", "header");
   img = loadImage("ASSETS/background04_CREAM(schiarito).jpg");
   font = loadFont("ASSETS/Ribes-Regular.otf");
-  // Ciclo per caricare tutte le immagini
-  //for (let gender of sexes) {
-  //  for (let age of ageGroups) {
-      // Modifica del nome della fascia d'età
-  //    let ageFormatted = age.replace(">", "").trim();  // Rimuove il ">" da ">75" e altre fasce d'età
-  //    let fileName = `facce/${gender}_${ageFormatted}.jpg`;
-  //    images.push(loadImage(fileName)); // Aggiungi l'immagine all'array
-  //  }
-  //}
+  for (let age of ageGroups) {
+    let ageFormatted = age.replace(">", "").trim();  // Rimuove il ">" da ">75" e altre fasce d'età
+
+    // Carica le immagini per le femmine
+    let fileNameFemmine = `facce/F_${ageFormatted}.jpg`;
+    imagesFemmine.push(loadImage(fileNameFemmine)); // Aggiungi l'immagine all'array delle femmine
+
+    // Carica le immagini per i maschi
+    let fileNameMaschi = `facce/M_${ageFormatted}.jpg`;
+    imagesMaschi.push(loadImage(fileNameMaschi)); // Aggiungi l'immagine all'array dei maschi
+  }
 
   document.body.style.overflow = 'hidden';
 }
