@@ -18,6 +18,7 @@ let isButtonMOn = false; // stato del bottone MASCHI
 let isButtonMediaOn = true; // stato del bottone MEDIA
 
 const ageGroups = ["14-17", "18-24", "25-34", "35-44", "45-54", "55-64", "65-74", ">75"];
+const sexes = ["F", "M"];
 let bottoniFasce = [];
 
 let fasciaSelezionata = null; // variabile per tenere traccia della fascia selezionata con i btnFasce
@@ -271,10 +272,11 @@ function drawCard() {
   let rectH = windowHeight * 0.20;
   
   let fillColor = coloriFasce[fasciaSelezionata] || "#ffffff"; 
-  let sessoSelezionato = isButtonFOn ? "Femmina" : isButtonMOn ? "Maschio" : "Tutti";
+  let sessoSelezionato = isButtonFOn ? "F" : isButtonMOn ? "M" : "Media";
   let valoreMedio = fasciaSelezionata ? calcolaMediaFasciaSesso(fasciaSelezionata, sessoSelezionato) : 0;
-  let annoMassimo = fasciaSelezionata ? calcolaAnnoMassimo(fasciaSelezionata) : 0;
-  let annoMinimo = fasciaSelezionata ? calcolaAnnoMinimo(fasciaSelezionata) : 0;
+  let annoMassimo = fasciaSelezionata ? calcolaAnnoMassimo(fasciaSelezionata, sessoSelezionato) : 0;
+  let annoMinimo = fasciaSelezionata ? calcolaAnnoMinimo(fasciaSelezionata, sessoSelezionato) : 0;
+
 
   // Rettangolo
   fill(250, 250, 250, 220);
@@ -318,9 +320,18 @@ function calcolaMediaFasciaSesso(fascia, sesso) {
   return count > 0 ? somma / count : 0;  // Restituisci la media, o 0 se non ci sono dati
 }
 
-//funzione per calcolare l'anno con il valore massimo in una determinata fascia 
-function calcolaAnnoMassimo(fascia) {
-  let datiSelezionati = datiFemmine[fascia];
+function calcolaAnnoMassimo(fascia, sesso) {
+  let datiSelezionati;
+
+  if (sesso === "F") {
+    datiSelezionati = datiFemmine[fascia];
+  } else if (sesso === "M") {
+    datiSelezionati = datiMaschi[fascia];
+  } else if (sesso === "Media") {
+    let datiMedi = calcolaMedia(datiFemmine[fascia], datiMaschi[fascia]);
+    datiSelezionati = datiMedi;
+  }
+
   let valoreMassimo = 0;
   let annoMassimo = 0;
 
@@ -334,10 +345,20 @@ function calcolaAnnoMassimo(fascia) {
   return annoMassimo;
 }
 
-//funzione per calcolare l'anno con il valore minimo in una determinata fascia
-function calcolaAnnoMinimo(fascia) {
-  let datiSelezionati = datiFemmine[fascia];
-  let valoreMinimo = 100;
+
+function calcolaAnnoMinimo(fascia, sesso) {
+  let datiSelezionati;
+
+  if (sesso === "F") {
+    datiSelezionati = datiFemmine[fascia];
+  } else if (sesso === "M") {
+    datiSelezionati = datiMaschi[fascia];
+  } else if (sesso === "Media") {
+    let datiMedi = calcolaMedia(datiFemmine[fascia], datiMaschi[fascia]);
+    datiSelezionati = datiMedi;
+  }
+
+  let valoreMinimo = Number.MAX_VALUE;
   let annoMinimo = 0;
 
   for (let i = 0; i < datiSelezionati.length; i++) {
@@ -349,6 +370,8 @@ function calcolaAnnoMinimo(fascia) {
 
   return annoMinimo;
 }
+
+
 
 
 //STILE DEI BOTTONI M/F
