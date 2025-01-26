@@ -22,6 +22,8 @@ let bottoniFasce = [];
 
 let fasciaSelezionata = null; // variabile per tenere traccia della fascia selezionata con i btnFasce
 
+let images = [];
+
 // Mappa dei colori per le fasce d'età
 const coloriFasce = {
   "14-17": "#32a9b5",
@@ -39,6 +41,16 @@ function preload() {
   data = loadTable("fiducia Per.csv", "csv", "header");
   img = loadImage("ASSETS/background04_CREAM(schiarito).jpg");
   font = loadFont("ASSETS/Ribes-Regular.otf");
+  // Ciclo per caricare tutte le immagini
+  for (let gender of sexes) {
+    for (let age of ageGroups) {
+      // Modifica del nome della fascia d'età
+      let ageFormatted = age.replace(">", "").trim();  // Rimuove il ">" da ">75" e altre fasce d'età
+      let fileName = `FACCE/${gender}_${ageFormatted}.jpg`;
+      images.push(loadImage(fileName)); // Aggiungi l'immagine all'array
+    }
+  }
+
   document.body.style.overflow = 'hidden';
 }
 
@@ -250,7 +262,7 @@ function disegnaLineeOrizzontali(dati) {
   }
 }
 
-//CARTA D'INDENTITà
+//CARTA D'INDENTITà 
 function drawCard() {
   let rectX = windowWidth * 0.70;
   let rectY = windowHeight * 0.05;
@@ -288,7 +300,7 @@ function drawCard() {
   text(`Valore Medio: ${valoreMedio.toFixed(2)}`, rectX + 10, rectY + 70);
   text(`Anno Massimo: ${annoMassimo}`, rectX + 10, rectY + 100);
   text(`Anno Minimo: ${annoMinimo}`, rectX + 10, rectY + 130);
-
+  
 }
 
 // Funzione per calcolare la media dei valori
