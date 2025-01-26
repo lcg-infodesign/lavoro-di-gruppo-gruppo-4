@@ -137,7 +137,6 @@ function disegnaLinea(dati, fascia) {
   
   noFill();
 
-
   let lunghezzaAsseX = width * 0.55;
   let altezzaAsseY = height * 0.80;
   let margineX = 110;
