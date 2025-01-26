@@ -123,8 +123,16 @@ function disegnaAssi() {
 //FUNZIONE PER DISEGNARE IL GRAFICO
 function disegnaLinea(dati, fascia) {
   stroke(coloriFasce[fascia]);
-  strokeWeight(2);
+  
+  // Imposta lo spessore della linea in base al sesso
+  if (dati === datiMaschi[fascia]) {
+    strokeWeight(3.5); // Linee più spesse per i maschi
+  } else {
+    strokeWeight(2); // Linee più sottili per le femmine
+  }
+  
   noFill();
+
 
   let lunghezzaAsseX = width * 0.55;
   let altezzaAsseY = height * 0.80;
