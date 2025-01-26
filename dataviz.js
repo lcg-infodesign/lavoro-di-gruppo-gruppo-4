@@ -184,7 +184,7 @@ function disegnaAssi() {
   let margineX = 110; // Margine per l'asse X
   let margineY = 50; // Margine per l'asse Y
   let lunghezzaAsseX = width * 0.65; // L'asse X sarà lungo il 65% della larghezza della finestra
-  let altezzaAsseY = height * 0.80; // L'asse Y sarà lungo l'85% dell'altezza della finestra
+  let altezzaAsseY = height * 0.78; // L'asse Y sarà lungo l'85% dell'altezza della finestra
 
   stroke(0);
   strokeWeight(1);
@@ -226,7 +226,7 @@ function disegnaLinea(dati, fascia) {
   noFill();
 
   let lunghezzaAsseX = width * 0.65;
-  let altezzaAsseY = height * 0.80;
+  let altezzaAsseY = height * 0.78;
   let margineX = 110;
   let margineY = 50;
 
@@ -257,7 +257,7 @@ function disegnaLineeOrizzontali(dati) {
   let margineX = 110;
   let margineY = 50;
   let primoAnno = 2010;
-  let altezzaAsseY = height * 0.80;
+  let altezzaAsseY = height * 0.78;
 
   for (let fascia in dati) {
     let valore2010 = dati[fascia].find(punto => punto.anno === primoAnno)?.valore || 0;
@@ -274,7 +274,7 @@ function drawCard() {
   let rectX = windowWidth * 0.72;
   let rectY = windowHeight * 0.05;
   let rectW = windowWidth * 0.27;
-  let rectH = windowHeight * 0.27;
+  let rectH = windowHeight * 0.3;
   
   let fillColor = coloriFasce[fasciaSelezionata] || "#ffffff"; 
   let sessoSelezionato = isButtonFOn ? "F" : isButtonMOn ? "M" : "Media";
@@ -303,15 +303,15 @@ function drawCard() {
   else tipoText += "Nessuno selezionato";
 
   // Disegna il testo nel rettangolo  
-  text(tipoText, rectX + 10, rectY + 10);
+  text(tipoText, rectX + 10, rectY*1.1);
   textSize(24);
-  text(fasciaText, rectX + 10, rectY + 50);
+  text(fasciaText, rectX + 10, rectY*1.9);
   
   textSize(16);
 
-  text(`Valore Medio: ${valoreMedio.toFixed(2)}`, rectX + 10, rectY + 130);
-  text(`Fiducia massima nell'anno ${annoMassimo}`, rectX + 10, rectY + 160);
-  text(`Fiducia minima nell'anno ${annoMinimo}`, rectX + 10, rectY + 190);
+  text(`Valore Medio: ${valoreMedio.toFixed(2)}`, rectX + 10, rectH*0.80);
+  text(`Fiducia massima nell'anno ${annoMassimo}`, rectX + 10, rectH*0.90);
+  text(`Fiducia minima nell'anno ${annoMinimo}`, rectX + 10, rectH);
   
 
   // Immagine faccia
@@ -418,7 +418,7 @@ function styleButton(button) {
 function positionButton(){
   // Calcolare la posizione iniziale a destra della finestra
   let buttonStartX = windowWidth - (windowWidth / 5); // Posizione a destra
-  let buttonStartY = windowHeight * 0.45; // Posizione iniziale in alto, sarà incrementata per i bottoni successivi
+  let buttonStartY = windowHeight * 0.55; // Posizione iniziale in alto, sarà incrementata per i bottoni successivi
   buttonF.position(buttonStartX, buttonStartY);
   buttonM.position(buttonStartX, buttonStartY + 50); // 50px sotto il primo
   buttonMedia.position(buttonStartX, buttonStartY + 100); // 100px sotto il primo
@@ -494,7 +494,6 @@ function creazioneBottoniFasce() {
     let fascia = ageGroups[i]; // Ottieni la fascia corrispondente
     let btn = createButton(`${fascia}`);
     styleButton(btn);
-    btn.size(80, 40);
 
     // Assegna il colore corrispondente alla fascia
     btn.style('background-color', coloriFasce[fascia]);
