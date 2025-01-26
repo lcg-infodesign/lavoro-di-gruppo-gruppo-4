@@ -22,6 +22,7 @@ let filiScrollSpeed = 12;    // Velocità aumentata per i fili
 
 function preload() {
   sfondo = loadImage("ASSETS/background04_CREAM(schiarito).jpg"); // Sostituisci con il percorso corretto
+  font = loadFont("ASSETS/RockSalt-Regular.ttf"); // Sostituisci con il percorso corretto
 }
 
 function setup() {
@@ -90,6 +91,14 @@ function draw() {
   }
 
   autoScrollBehavior(); // Gestisci lo scroll automatico
+
+  // Testo didascalie 
+  textFont(font);
+  stroke("black");
+  strokeWeight(1);
+  fill("black");
+  textSize(15);
+  text('La fiducia interpersonale\nè una questione INTRICATA !', windowWidth / 8, windowHeight / 7);
 }
 
 function mouseWheel(event) {
