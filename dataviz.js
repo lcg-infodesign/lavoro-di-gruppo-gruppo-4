@@ -18,9 +18,13 @@ let isButtonMOn = false; // stato del bottone MASCHI
 let isButtonMediaOn = true; // stato del bottone MEDIA
 
 const ageGroups = ["14-17", "18-24", "25-34", "35-44", "45-54", "55-64", "65-74", ">75"];
+const sexes = ["F", "M"];
 let bottoniFasce = [];
 
 let fasciaSelezionata = null; // variabile per tenere traccia della fascia selezionata con i btnFasce
+
+let imagesFemmine = [];
+let imagesMaschi = [];
 
 // Mappa dei colori per le fasce d'età
 const coloriFasce = {
@@ -39,6 +43,18 @@ function preload() {
   data = loadTable("fiducia Per.csv", "csv", "header");
   img = loadImage("ASSETS/background04_CREAM(schiarito).jpg");
   font = loadFont("ASSETS/Ribes-Regular.otf");
+  for (let age of ageGroups) {
+    let ageFormatted = age.replace(">", "").trim();  // Rimuove il ">" da ">75" e altre fasce d'età
+
+    // Carica le immagini per le femmine
+    let fileNameFemmine = `facce/F_${ageFormatted}.jpg`;
+    imagesFemmine.push(loadImage(fileNameFemmine)); // Aggiungi l'immagine all'array delle femmine
+
+    // Carica le immagini per i maschi
+    let fileNameMaschi = `facce/M_${ageFormatted}.jpg`;
+    imagesMaschi.push(loadImage(fileNameMaschi)); // Aggiungi l'immagine all'array dei maschi
+  }
+
   document.body.style.overflow = 'hidden';
 }
 
@@ -251,7 +267,7 @@ function disegnaLineeOrizzontali(dati) {
   }
 }
 
-//CARTA D'INDENTITà
+//CARTA D'INDENTITà 
 function drawCard() {
   let rectX = windowWidth * 0.70;
   let rectY = windowHeight * 0.05;
@@ -259,10 +275,11 @@ function drawCard() {
   let rectH = windowHeight * 0.20;
   
   let fillColor = coloriFasce[fasciaSelezionata] || "#ffffff"; 
-  let sessoSelezionato = isButtonFOn ? "Femmina" : isButtonMOn ? "Maschio" : "Tutti";
+  let sessoSelezionato = isButtonFOn ? "F" : isButtonMOn ? "M" : "Media";
   let valoreMedio = fasciaSelezionata ? calcolaMediaFasciaSesso(fasciaSelezionata, sessoSelezionato) : 0;
-  let annoMassimo = fasciaSelezionata ? calcolaAnnoMassimo(fasciaSelezionata) : 0;
-  let annoMinimo = fasciaSelezionata ? calcolaAnnoMinimo(fasciaSelezionata) : 0;
+  let annoMassimo = fasciaSelezionata ? calcolaAnnoMassimo(fasciaSelezionata, sessoSelezionato) : 0;
+  let annoMinimo = fasciaSelezionata ? calcolaAnnoMinimo(fasciaSelezionata, sessoSelezionato) : 0;
+
 
   // Rettangolo
   fill(250, 250, 250, 220);
@@ -289,7 +306,7 @@ function drawCard() {
   text(`Valore Medio: ${valoreMedio.toFixed(2)}`, rectX + 10, rectY + 70);
   text(`Anno Massimo: ${annoMassimo}`, rectX + 10, rectY + 100);
   text(`Anno Minimo: ${annoMinimo}`, rectX + 10, rectY + 130);
-
+  
 }
 
 // Funzione per calcolare la media dei valori
@@ -306,9 +323,18 @@ function calcolaMediaFasciaSesso(fascia, sesso) {
   return count > 0 ? somma / count : 0;  // Restituisci la media, o 0 se non ci sono dati
 }
 
-//funzione per calcolare l'anno con il valore massimo in una determinata fascia 
-function calcolaAnnoMassimo(fascia) {
-  let datiSelezionati = datiFemmine[fascia];
+function calcolaAnnoMassimo(fascia, sesso) {
+  let datiSelezionati;
+
+  if (sesso === "F") {
+    datiSelezionati = datiFemmine[fascia];
+  } else if (sesso === "M") {
+    datiSelezionati = datiMaschi[fascia];
+  } else if (sesso === "Media") {
+    let datiMedi = calcolaMedia(datiFemmine[fascia], datiMaschi[fascia]);
+    datiSelezionati = datiMedi;
+  }
+
   let valoreMassimo = 0;
   let annoMassimo = 0;
 
@@ -322,10 +348,20 @@ function calcolaAnnoMassimo(fascia) {
   return annoMassimo;
 }
 
-//funzione per calcolare l'anno con il valore minimo in una determinata fascia
-function calcolaAnnoMinimo(fascia) {
-  let datiSelezionati = datiFemmine[fascia];
-  let valoreMinimo = 100;
+
+function calcolaAnnoMinimo(fascia, sesso) {
+  let datiSelezionati;
+
+  if (sesso === "F") {
+    datiSelezionati = datiFemmine[fascia];
+  } else if (sesso === "M") {
+    datiSelezionati = datiMaschi[fascia];
+  } else if (sesso === "Media") {
+    let datiMedi = calcolaMedia(datiFemmine[fascia], datiMaschi[fascia]);
+    datiSelezionati = datiMedi;
+  }
+
+  let valoreMinimo = Number.MAX_VALUE;
   let annoMinimo = 0;
 
   for (let i = 0; i < datiSelezionati.length; i++) {
@@ -337,6 +373,8 @@ function calcolaAnnoMinimo(fascia) {
 
   return annoMinimo;
 }
+
+
 
 
 //STILE DEI BOTTONI M/F

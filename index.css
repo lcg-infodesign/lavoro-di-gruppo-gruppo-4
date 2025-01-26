@@ -66,16 +66,14 @@ body {
   flex-direction: column;
 }
 
-img {
+#compfacce {
+  position: fixed;
+  right: 0;
+  right: 3%;   
+  margin-top: 15em;
   max-width: 40%;
   height: auto;
   margin-left: 0; /* Rimuovi margine fissi */
-}
-
-.responsive-img {
-  width: 100%;
-  height: auto;
-  margin-top: 2em;
 }
 
 .navbar {
@@ -190,37 +188,59 @@ p {
   align-items: center;
 }
 
+@media (max-width: 1200px) {
+  #compfacce {
+  position: fixed;
+  bottom: 18%;
+  right: 4%;       
+  max-width: 40%;
+  height: auto;           
+  }
+}
+
+
 @media (max-width: 770px) {
   .header-container {
-      flex-direction: column;
-      align-items: center;
+    flex-direction: column;
+    align-items: center;
   }
 
   .text-container {
-      text-align: center;
+    text-align: center;
   }
 
   h1 {
-      font-size: 3em; /* Ridotto per schermi piccoli */
+    font-size: 3em; /* Ridotto per schermi piccoli */
   }
 
   h2 {
-      font-size: 1.5em; /* Ridotto per schermi piccoli */
+    font-size: 1.5em; /* Ridotto per schermi piccoli */
   }
 
   .dataviz {
-      font-size: 1.2em; /* Ridotto per schermi piccoli */
-      width: 90%; /* Larghezza percentuale */
-      margin-left: 5%; /* Centra l'elemento */
-      margin-right: 5%; /* Centra l'elemento */
+    font-size: 1.2em; /* Ridotto per schermi piccoli */
+    width: 90%; /* Larghezza percentuale */
+    margin-left: 5%; /* Centra l'elemento */
+    margin-right: 5%; /* Centra l'elemento */
   }
 
 
   p {
-      font-size: 1em; /* Ridotto per schermi piccoli */
+    font-size: 1em; /* Ridotto per schermi piccoli */
   }
 
   .marquee {
-      padding: 0.2em;
+    padding: 0.2em;
+  }
+
+  #compfacce {
+    position: fixed;             
+    bottom: 15%;                 
+    left: 50%;                   
+    transform: translateX(-50%); 
+    width: 100%;                 
+    height: auto;                
+    margin-top: 0;               
   }
 }
+
