@@ -14,7 +14,7 @@ html, body {
 }
 
 body {
-  background-image: url("ASSETS/background01.jpg");
+  background-image: url("ASSETS/PINKbackground_light.jpg");
   background-attachment: fixed;
   background-size: cover;
   padding: 0; /* Rimuovi il padding superiore */
@@ -72,7 +72,7 @@ body {
   position: fixed;
   right: 0;
   right: 3%;   
-  margin-top: 15em;
+  margin-top: 10em;
   max-width: 45%;
   height: auto;
   margin-left: 0; /* Rimuovi margine fissi */
