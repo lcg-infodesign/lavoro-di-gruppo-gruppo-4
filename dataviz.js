@@ -43,14 +43,14 @@ function preload() {
   img = loadImage("ASSETS/background04_CREAM(schiarito).jpg");
   font = loadFont("ASSETS/Ribes-Regular.otf");
   // Ciclo per caricare tutte le immagini
-  for (let gender of sexes) {
-    for (let age of ageGroups) {
+  //for (let gender of sexes) {
+  //  for (let age of ageGroups) {
       // Modifica del nome della fascia d'età
-      let ageFormatted = age.replace(">", "").trim();  // Rimuove il ">" da ">75" e altre fasce d'età
-      let fileName = `facce/${gender}_${ageFormatted}.jpg`;
-      images.push(loadImage(fileName)); // Aggiungi l'immagine all'array
-    }
-  }
+  //    let ageFormatted = age.replace(">", "").trim();  // Rimuove il ">" da ">75" e altre fasce d'età
+  //    let fileName = `facce/${gender}_${ageFormatted}.jpg`;
+  //    images.push(loadImage(fileName)); // Aggiungi l'immagine all'array
+  //  }
+  //}
 
   document.body.style.overflow = 'hidden';
 }
