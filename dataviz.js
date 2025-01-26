@@ -25,7 +25,8 @@ let fasciaSelezionata = null; // variabile per tenere traccia della fascia selez
 
 let imagesFemmine = [];
 let imagesMaschi = [];
-let imagesMF
+let imagesMF = [];
+let imgBottoneF;
 
 // Mappa dei colori per le fasce d'età
 const coloriFasce = {
@@ -54,8 +55,13 @@ function preload() {
     // Carica le immagini per i maschi
     let fileNameMaschi = `facce/M_${ageFormatted}.jpg`;
     imagesMaschi.push(loadImage(fileNameMaschi)); // Aggiungi l'immagine all'array dei maschi
+    
+    //carica immagini unite per maschi e femmine
+    let fileNameMF = `facce_unite/MF_${ageFormatted}.png`;
+    imagesMF.push(loadImage(fileNameMF)); // Aggiungi l'immagine all'array dei maschi e femmine
   }
-  imagesMF = loadImage("facce scontornate/MF_75.png");
+
+
   document.body.style.overflow = 'hidden';
 }
 
@@ -272,7 +278,7 @@ function disegnaLineeOrizzontali(dati) {
 //CARTA D'INDENTITà 
 function drawCard() {
   let rectX = windowWidth * 0.72;
-  let rectY = windowHeight * 0.05;
+  let rectY = windowHeight * 0.1;
   let rectW = windowWidth * 0.27;
   let rectH = windowHeight * 0.3;
   
@@ -303,15 +309,15 @@ function drawCard() {
   else tipoText += "Nessuno selezionato";
 
   // Disegna il testo nel rettangolo  
-  text(tipoText, rectX + 10, rectY*1.1);
+  text(tipoText, rectX + 10, rectH*0.37);
   textSize(24);
-  text(fasciaText, rectX + 10, rectY*1.9);
+  text(fasciaText, rectX + 10, rectH*0.57);
   
   textSize(16);
 
-  text(`Valore Medio: ${valoreMedio.toFixed(2)}`, rectX + 10, rectH*0.80);
-  text(`Fiducia massima nell'anno ${annoMassimo}`, rectX + 10, rectH*0.90);
-  text(`Fiducia minima nell'anno ${annoMinimo}`, rectX + 10, rectH);
+  text(`Valore Medio: ${valoreMedio.toFixed(2)}`, rectX + 10, rectH);
+  text(`Fiducia massima nell'anno ${annoMassimo}`, rectX + 10, rectH*1.1);
+  text(`Fiducia minima nell'anno ${annoMinimo}`, rectX + 10, rectH*1.2);
   
 
   // Immagine faccia
@@ -328,7 +334,7 @@ function drawCard() {
     } else if (isButtonMediaOn) {
       //image(imagesFemmine[imgIndex], imgX - (rectX * 0.08), imgY, imgSize, imgSize);
       //image(imagesMaschi[imgIndex], imgX, imgY, imgSize, imgSize);
-      image(imagesMF, imgX - rectX * 0.06, imgY, imgSize * 1.5, imgSize);
+      image(imagesMF[imgIndex], imgX - rectX * 0.06, imgY, imgSize * 1.5, imgSize);
     } else {
       // nessuna selezione
       text("Nessuna selezione", rectX + 10, rectY + 160);
@@ -415,13 +421,13 @@ function styleButton(button) {
 }
 
 //POSIZIONE DEI BOTTONI M/F
-function positionButton(){
+function positionButton() {
   // Calcolare la posizione iniziale a destra della finestra
   let buttonStartX = windowWidth - (windowWidth / 5); // Posizione a destra
-  let buttonStartY = windowHeight * 0.55; // Posizione iniziale in alto, sarà incrementata per i bottoni successivi
+  let buttonStartY = windowHeight * 0.60; // Posizione iniziale in alto, sarà incrementata per i bottoni successivi
   buttonF.position(buttonStartX, buttonStartY);
-  buttonM.position(buttonStartX, buttonStartY + 50); // 50px sotto il primo
-  buttonMedia.position(buttonStartX, buttonStartY + 100); // 100px sotto il primo
+  buttonM.position(buttonStartX, buttonStartY + windowHeight*0.1); // 50px sotto il primo
+  buttonMedia.position(buttonStartX, buttonStartY + windowHeight*0.2); // 100px sotto il primo
 }
 
 //POSIZIONE FRECCIA
