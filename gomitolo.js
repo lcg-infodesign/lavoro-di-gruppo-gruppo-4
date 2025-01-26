@@ -38,7 +38,6 @@ function setup() {
 
   // Crea il pulsante per lo scroll automatico
   scrollButton = createButton("");
-  scrollButton.position(width - 60, height - 60);
   scrollButton.size(50, 50);
   scrollButton.style("background-color", "transparent");
   scrollButton.style("border", "none");
@@ -47,7 +46,14 @@ function setup() {
   scrollButton.style("background-repeat", "no-repeat");
   scrollButton.style("background-position", "center");
   scrollButton.style("cursor", "pointer");
+
+  // Imposta il bottone con uno stile fixed
+  scrollButton.style("position", "fixed");
+  scrollButton.style("right", "20px"); // Distanza dal lato destro della finestra
+  scrollButton.style("bottom", "20px"); // Distanza dal fondo della finestra
+
   scrollButton.mousePressed(toggleAutoScroll);
+
 }
 
 function draw() {

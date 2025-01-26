@@ -182,6 +182,7 @@ function disegnaAssi() {
     let x = map(anno, 2010, 2023, margineY, margineY + lunghezzaAsseX);
     line(x, height - margineX - 5, x, height - margineX + 5);
     textAlign(CENTER);
+    textSize(12);
     text(anno, x, height - margineX + 20);
   }
 
