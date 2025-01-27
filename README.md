@@ -33,16 +33,16 @@ Un'ulteriore sezione del sito permette all’utente di confrontare i livelli di 
 
 TEAM 
 
-Silvia: sviluppo della sezione di visualizzazione dei dati 
+Silvia Andreoletti: Ideazione della struttura iniziale e realizzazione della struttura finale del sito, sviluppo della sezione di visualizzazione dei dati (grafici con contributo gomitolo) 
 
-Alessandro: sviluppo della sezione di visualizzazione dei dati 
+Alessandro Castelli: Ideazione della struttura iniziale e realizzazione della struttura finale del sito, sviluppo della sezione di visualizzazione dei dati (gomitolo con contributo grafici) 
 
-Ilaria: illustrazioni, sviluppo dell’impianto generale del sito e della sua grafica, realizzazione e organizzazione del materiale degli assets 
+Ilaria Magni: Illustrazioni, sviluppo dell’impianto generale iniziale del sito (html e css), realizzazione del materiale degli assets
 
-Andrea: sviluppo della sezione di visualizzazione dei dati 
+Andrea Romani: Sistemazione immagine di sfondo Home
 
-Michela: sviluppo della sezione di visualizzazione dei dati 
+Michela Salerno: Ideazione della struttura iniziale e realizzazione della struttura finale del sito, sviluppo della sezione di visualizzazione dei dati (gomitolo con contributo grafici) 
 
-Alessia: elaborazione e organizzazione del dataset, sviluppo della sezione di visualizzazione dei dati 
+Alessia Tagliaferri: Elaborazione e organizzazione del dataset, ideazione della struttura iniziale e realizzazione della struttura finale del sito, sviluppo della sezione di visualizzazione dei dati (grafici con contributo gomitolo) 
 
-Siyue: sviluppo della sezione di visualizzazione dei dati 
+Siyue Wang: Ideazione e realizzazione dello swipe di cambio pagina 
