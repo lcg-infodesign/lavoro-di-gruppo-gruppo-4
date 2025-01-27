@@ -101,7 +101,7 @@ function setup() {
 
   // Bottone FRECCIA
   nextButton = createButton("");
-  nextButton.size(50, 50);
+  nextButton.size(windowWidth*0.05, windowHeight*0.05);
   nextButton.style("background-color", "transparent");
   nextButton.style("border", "none");
   nextButton.style("background-image", "url('ASSETS/freccina destra.png')");
@@ -502,7 +502,7 @@ function toggleButton(button) {
 
 //posizione FRECCIA
 function positionNextButton(){
-  nextButton.position(width - 60, height - 60);
+  nextButton.position(width*0.96, height*0.93);
 }
 
 // BOTTONI FASCE D'ETÀ
