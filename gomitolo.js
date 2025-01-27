@@ -212,7 +212,7 @@ function autoScrollBehavior() {
   }
 }
 
-// Gomitolo
+// Disegna i fili di "sfondo"
 function drawGomitolo() {  
   randomSeed(seed);
   stroke(colori[0]);
@@ -225,10 +225,10 @@ function drawGomitolo() {
   //   drawFilo3D();
   // }
   
-  // Disegna i fili intrecciati
-  for (let k = 0; k < 5; k++) { 
-    for (let i = 0; i < numFili; i++) { 
-      randomSeed(seed + i * 1000 + k * 10000); // Cambia il seed per ogni filo
+  // Disegna i fili in primo piano per creare l'effetto di intreccio
+  for (let k = 0; k < 5; k++) { // 4 iterazioni per aumentare l'intensità dell'effetto
+    for (let i = 0; i < numFili; i++) { // per ogni iterazione disegno i fili
+      randomSeed(seed + i * 1000 + k * 10000); // Cambia il seed per ogni filo, il seed è un numero che fissa la sequenza di numeri casuali
       stroke(colori[i]);
       strokeWeight(spessoreFilo); 
       drawIntreccio3D();
@@ -361,6 +361,6 @@ function windowResized() {
 }
 
 function cambiaPagina() {
-    window.location.href = "grafico.html";
+    window.location.href = "grafico.html"; //Cambia pagina al termine dello scroll
 }
 
