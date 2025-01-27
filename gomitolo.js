@@ -19,6 +19,33 @@ let rotationAngle = 0;
 let gomitoloScrollSpeed = 8; // Velocità per il gomitolo
 let filiScrollSpeed = 12;    // Velocità aumentata per i fili
 
+let textData = [
+  {
+    content: "La fiducia interpersonale\nè una questione INTRICATA !",
+    x: 0.2, // Posizione orizzontale come percentuale 
+    y: 0.1, // Posizione verticale come percentuale 
+    size: 18, 
+  },
+  {
+    content: "Per renderla più comprensibile\nabbiamo provato a sciogliere alcuni nodi .",
+    x: 0.60,
+    y: 0.8,
+    size: 18,
+  },
+  {
+    content: "Ogni filo rappresenta diversi\ngruppi di età .",
+    x: 0.1,
+    y: 1.4,
+    size: 18,
+  },
+  {
+    content: "Ogni colore racconta una storia di fiducia\nin base alla generazione\na cui appartieni .",
+    x: 0.6,
+    y: 2,
+    size: 18,
+  },
+];
+
 // Funzione per caricare i font e l'immagine di sfondo
 function preload() {
   sfondo = loadImage("ASSETS/background04_CREAM(schiarito).jpg"); // Sostituisci con il percorso corretto
@@ -92,19 +119,18 @@ function draw() {
 
   autoScrollBehavior(); // Gestisci lo scroll automatico
 
-  // Disegna il testo che si muove insieme al canvas
+  // Disegna il testo
   textFont(font);
   stroke("black");
   strokeWeight(1);
   fill("black");
-  textSize(15);
 
-  // Aggiorna la posizione del testo in base allo scrolling
-  let textY = windowHeight / 7 + tangleOffset; // Testo che si sposta con tangleOffset
-  text('La fiducia interpersonale\nè una questione INTRICATA !', windowWidth / 5, textY);
-  text('Per renderla più comprensibile\nabbiamo provato a sciogliere alcuni nodi .', 1000, textY + 500);
-  text('Ogni filo rappresenta diversi\ngruppi di età .', windowWidth / 6, textY + 900);
-  text('Ogni colore racconta una storia di fiducia\nin base alla generazione\na cui appartieni .', 900, textY + 1200);
+  textData.forEach((textItem) => {
+    textSize(textItem.size);
+    let textX = textItem.x * windowWidth; // Posizione orizzontale basata sulla larghezza della finestra
+    let textY = textItem.y * windowHeight + tangleOffset; // Posizione verticale basata sull'altezza della finestra e sullo scroll
+    text(textItem.content, textX, textY);
+  });
 }
 
 function mouseWheel(event) {
