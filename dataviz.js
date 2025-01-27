@@ -307,10 +307,20 @@ function drawCard() {
   let rectH = windowHeight * 0.35;
   
   let fillColor = coloriFasce[fasciaSelezionata] || "#ffffff"; 
-  let sessoSelezionato = isButtonFOn ? "F" : isButtonMOn ? "M" : "Media";
-  let valoreMedio = fasciaSelezionata ? calcolaMediaFasciaSesso(fasciaSelezionata, sessoSelezionato) : 0;
-  let annoMassimo = fasciaSelezionata ? calcolaAnnoMassimo(fasciaSelezionata, sessoSelezionato) : "-";
-  let annoMinimo = fasciaSelezionata ? calcolaAnnoMinimo(fasciaSelezionata, sessoSelezionato) : "-";
+  let sessoSelezionato = isButtonFOn ? "F" : isButtonMOn ? "M" : isButtonMediaOn ? "Media" : "Nessuno";
+
+  // Calcoli per il valore medio
+  let valoreMedioMedia = calcolaMediaSesso(sessoSelezionato);
+  let valoreMedio = fasciaSelezionata ? calcolaMediaFasciaSesso(fasciaSelezionata, sessoSelezionato) : valoreMedioMedia;
+
+  // Calcoli per gli anni massimo e minimo
+  let annoMassimo = fasciaSelezionata
+    ? calcolaAnnoMassimo(fasciaSelezionata, sessoSelezionato)
+    : calcolaAnnoMassimoSesso(sessoSelezionato);
+  let annoMinimo = fasciaSelezionata
+    ? calcolaAnnoMinimo(fasciaSelezionata, sessoSelezionato)
+    : calcolaAnnoMinimoSesso(sessoSelezionato);
+
 
 
   // Rettangolo card
@@ -361,24 +371,69 @@ function drawCard() {
       image(imagesMF[imgIndex], imgX - rectX * 0.07, imgY, imgSize * 1.5, imgSize);
     } else {
       // nessuna selezione
-      text("Nessuna selezione", rectX + 10, rectY + 160);
     }
   }
 }
 
 // calcolare la media dei valori per una fascia d'età e un sesso specifici
 function calcolaMediaFasciaSesso(fascia, sesso) {
-  let datiSelezionati = sesso === "F" ? datiFemmine[fascia] : datiMaschi[fascia];
+  let datiSelezionati;
+
+  // Seleziona i dati in base al sesso
+  if (sesso === "F") {
+    datiSelezionati = datiFemmine[fascia];
+  } else if (sesso === "M") {
+    datiSelezionati = datiMaschi[fascia];
+  } else if (sesso === "Media") {
+    datiSelezionati = calcolaMedia(datiFemmine[fascia], datiMaschi[fascia]);
+  }
+
+  // Se non ci sono dati, ritorna 0
+  if (!datiSelezionati || datiSelezionati.length === 0) {
+    return 0;
+  }
+
+  // Calcola la media
+  let somma = 0;
+  for (let i = 0; i < datiSelezionati.length; i++) {
+    somma += datiSelezionati[i].valore;
+  }
+
+  return somma / datiSelezionati.length; // Restituisce la media
+}
+
+// Calcola la media dei valori per tutte le fasce d'età e un sesso specifico
+function calcolaMediaSesso(sesso) {
+  let datiSelezionati;
+
+  // Seleziona i dati in base al sesso
+  if (sesso === "F") {
+    datiSelezionati = datiFemmine;
+  } else if (sesso === "M") {
+    datiSelezionati = datiMaschi;
+  } else if (sesso === "Media") {
+    // Combina i dati maschili e femminili calcolando la media
+    datiSelezionati = {};
+    for (let fascia in datiFemmine) {
+      datiSelezionati[fascia] = calcolaMedia(datiFemmine[fascia], datiMaschi[fascia]);
+    }
+  }
+
+  // Converte l'oggetto in un array e appiattisce i dati
+  let tuttiIDati = Object.values(datiSelezionati).flat();
+
+  // Calcola la media complessiva
   let somma = 0;
   let count = 0;
 
-  for (let i = 0; i < datiSelezionati.length; i++) {
-    somma += datiSelezionati[i].valore;
+  for (let dato of tuttiIDati) {
+    somma += dato.valore;
     count++;
   }
 
-  return count > 0 ? somma / count : 0;  // Restituisci la media, o 0 se non ci sono dati
+  return count > 0 ? somma / count : 0; // Media o 0 se non ci sono dati
 }
+
 
 // calcolare l'anno con il valore massimo per una fascia d'età e un sesso specifici
 function calcolaAnnoMassimo(fascia, sesso) {
@@ -406,6 +461,41 @@ function calcolaAnnoMassimo(fascia, sesso) {
   return annoMassimo;
 }
 
+// Calcolare l'anno con il valore massimo di tutte le fasce d'età per un sesso specifico
+function calcolaAnnoMassimoSesso(sesso) {
+  let datiSelezionati;
+
+  // Seleziona i dati in base al sesso
+  if (sesso === "F") {
+    datiSelezionati = datiFemmine;
+  } else if (sesso === "M") {
+    datiSelezionati = datiMaschi;
+  } else if (sesso === "Media") {
+    // Combina i dati maschili e femminili calcolando la media
+    datiSelezionati = {};
+    for (let fascia in datiFemmine) {
+      datiSelezionati[fascia] = calcolaMedia(datiFemmine[fascia], datiMaschi[fascia]);
+    }
+  }
+
+  // Appiattisco i dati per poter fare il calcolo
+  let tuttiIDati = Object.values(datiSelezionati).flat();
+
+  let valoreMassimo = 0;
+  let annoMassimo = 0;
+
+  // Cerca l'anno con il valore massimo
+  for (let dato of tuttiIDati) {
+    if (dato.valore > valoreMassimo) {
+      valoreMassimo = dato.valore;
+      annoMassimo = dato.anno;
+    }
+  }
+
+  return annoMassimo;
+}
+
+
 // calcolare l'anno con il valore minimo per una fascia d'età e un sesso specifici
 function calcolaAnnoMinimo(fascia, sesso) {
   let datiSelezionati;
@@ -431,6 +521,41 @@ function calcolaAnnoMinimo(fascia, sesso) {
 
   return annoMinimo;
 }
+
+// Calcolare l'anno con il valore minimo di tutte le fasce d'età per un sesso specifico
+function calcolaAnnoMinimoSesso(sesso) {
+  let datiSelezionati;
+
+  // Seleziona i dati in base al sesso
+  if (sesso === "F") {
+    datiSelezionati = datiFemmine;
+  } else if (sesso === "M") {
+    datiSelezionati = datiMaschi;
+  } else if (sesso === "Media") {
+    // Combina i dati maschili e femminili calcolando la media
+    datiSelezionati = {};
+    for (let fascia in datiFemmine) {
+      datiSelezionati[fascia] = calcolaMedia(datiFemmine[fascia], datiMaschi[fascia]);
+    }
+  }
+
+  // Appiattisco i dati per poter fare il calcolo
+  let tuttiIDati = Object.values(datiSelezionati).flat();
+
+  let valoreMinimo = Number.MAX_VALUE;
+  let annoMinimo = 0;
+
+  // Cerca l'anno con il valore minimo
+  for (let dato of tuttiIDati) {
+    if (dato.valore < valoreMinimo) {
+      valoreMinimo = dato.valore;
+      annoMinimo = dato.anno;
+    }
+  }
+
+  return annoMinimo;
+}
+
 
 //-------------------------------------- FUNZIONI PER BOTTONI --------------------------------------//
 
