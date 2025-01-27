@@ -564,14 +564,14 @@ function toggleBottoniFasce(btn) {
 //testi
 function testi(){
   textFont(font);
-  text("% di fiducia", width *0.01, height * 0.03);
+  text("% di fiducia", width *0.01, height * 0.01);
 
   textFont(fontScritte);
   textSize(14);
   push();
   rotate(-PI/15);
 
-  text("eh sì,\nci fidiamo poco", width * 0.035, height * 0.1);
+  text("eh sì,\nci fidiamo poco", width * 0.035, height * 0.05);
   pop();
 
   text("Seleziona una fascia d'età\ne un genere per scoprire\nl'andamento della fiducia", width * 0.78, 0);

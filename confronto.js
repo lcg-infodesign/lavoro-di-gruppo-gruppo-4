@@ -302,7 +302,7 @@ function positionBtn() {
 }
 
 function positionResetButton() {
-  resetButton.position(windowWidth-60, windowHeight*0.02);
+  resetButton.position(windowWidth-60, windowHeight*0.03);
 }
 //function toggleButton(btn) {
   //btn.active = !btn.active; // Cambia stato
