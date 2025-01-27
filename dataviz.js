@@ -558,12 +558,23 @@ function styleButton(button) {
 
 // posizione BOTTONI M/F
 function positionButton() {
-  // Calcolare la posizione iniziale a destra della finestra
-  let buttonStartX = windowWidth - (windowWidth / 5.5); // Posizione a destra
-  let buttonStartY = windowHeight * 0.28; // Posizione iniziale in alto, sarà incrementata per i bottoni successivi
-  buttonF.position(buttonStartX, buttonStartY);
-  buttonM.position(buttonStartX, buttonStartY + windowHeight*0.07); 
-  buttonMedia.position(buttonStartX, buttonStartY + windowHeight*0.14); 
+  // Calculate positions
+  let buttonStartX = windowWidth - (windowWidth / 5.5); // Right position
+  let buttonStartY = windowHeight * 0.28;   // Initial Y position
+  
+  // Get button widths
+  let buttonFWidth = buttonF.elt.offsetWidth;
+  let buttonMWidth = buttonM.elt.offsetWidth;
+  let buttonMediaWidth = buttonMedia.elt.offsetWidth;
+  
+  // Find widest button
+  let maxWidth = Math.max(buttonFWidth, buttonMWidth, buttonMediaWidth);
+  
+  // Center align each button
+  let centerX = buttonStartX + (maxWidth / 2);
+  buttonF.position(centerX - (buttonFWidth / 2), buttonStartY);
+  buttonM.position(centerX - (buttonMWidth / 2), buttonStartY + windowHeight*0.07);
+  buttonMedia.position(centerX - (buttonMediaWidth / 2), buttonStartY + windowHeight*0.14);
 }
 
 // cambio stato BOTTONI M/F
