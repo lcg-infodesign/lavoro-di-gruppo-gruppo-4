@@ -350,3 +350,4 @@ function windowResized() {
 function cambiaPagina() {
     window.location.href = "DATAVIZ.html"; // Cambia con l'URL della tua seconda pagina
 }
+

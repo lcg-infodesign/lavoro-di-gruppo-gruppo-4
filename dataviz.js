@@ -1,8 +1,8 @@
 let data;
-let datiFemmine = {};
-let datiMaschi = {};
-let img;
+let datiFemmine = {}; //creao un oggetto per le femmine
+let datiMaschi = {};  ////creo un oggeto pere i maschi --> l'oggetto mi aiuta a raggruppare e oragnizzare i dati  
 
+//variabili per l'animazione
 let isAnimating = false;
 let animationProgress = 0;
 let animationStartTime = 0;
@@ -10,6 +10,7 @@ let animationDuration = 1000; // 1 second transition
 let previousState = null;
 let targetState = null;
 
+//variabili per i bottoni
 let buttonF;
 let buttonM;
 let buttonMedia;
@@ -23,16 +24,19 @@ let bottoniFasce = [];
 
 let fasciaSelezionata = null; // variabile per tenere traccia della fascia selezionata con i btnFasce
 
+//variabili per le immagini delle facce
+let img;
 let imagesFemmine = [];
 let imagesMaschi = [];
 let imagesMF = [];
 let imgBottoneF;
 
+//variabili per i font
 let font;
 let fontScritte;
 
 // Mappa dei colori per le fasce d'età
-const coloriFasce = {
+const coloriFasce = { //uso const perché mi permette di rappresenta un set di associazioni fisso che non viene riassegnato
   "14-17": "#32a9b5",
   "18-24": "#3a0ca4",
   "25-34": "#8e0f9c",
@@ -50,21 +54,20 @@ function preload() {
   font = loadFont("ASSETS/Ribes-Regular.otf");
   fontScritte = loadFont("ASSETS/RockSalt-Regular.ttf");
   for (let age of ageGroups) {
-    let ageFormatted = age.replace(">", "").trim();  // Rimuove il ">" da ">75" e altre fasce d'età
-
-    // Carica le immagini per le femmine
-    let fileNameFemmine = `facce/F_${ageFormatted}.jpg`;
-    imagesFemmine.push(loadImage(fileNameFemmine)); // Aggiungi l'immagine all'array delle femmine
-
-    // Carica le immagini per i maschi
-    let fileNameMaschi = `facce/M_${ageFormatted}.jpg`;
-    imagesMaschi.push(loadImage(fileNameMaschi)); // Aggiungi l'immagine all'array dei maschi
+    let ageFormatted = age.replace(">", "").trim();  // rimuove il ">" da ">75" e altre fasce d'età
     
-    //carica immagini unite per maschi e femmine
-    let fileNameMF = `facce_unite/MF_${ageFormatted}.png`;
-    imagesMF.push(loadImage(fileNameMF)); // Aggiungi l'immagine all'array dei maschi e femmine
-  }
+    //immagine F
+    let fileNameFemmine = `facce/F_${ageFormatted}.jpg`;
+    imagesFemmine.push(loadImage(fileNameFemmine)); // push --> mi aggiunge l'immagine all'array imagesFemmine[]
 
+    //immagini M
+    let fileNameMaschi = `facce/M_${ageFormatted}.jpg`;
+    imagesMaschi.push(loadImage(fileNameMaschi)); 
+    
+    //immagini unite M+F
+    let fileNameMF = `facce_unite/MF_${ageFormatted}.png`;
+    imagesMF.push(loadImage(fileNameMF)); 
+  }
 
   document.body.style.overflow = 'hidden';
 }
@@ -78,7 +81,7 @@ function setup() {
   // Bottone FEMMINE
   buttonF = createButton('FEMMINE');
   styleButton(buttonF);
-  buttonF.mousePressed(() => toggleButton(buttonF)); // associa la funzione toggleButton
+  buttonF.mousePressed(() => toggleButton(buttonF)); 
 
   // Bottone MASCHI
   buttonM = createButton('MASCHI');
@@ -93,42 +96,24 @@ function setup() {
 
   positionButton();
   
-  // Bottoni legenda 
+  // Bottoni LEGENDA FASCE D'ETÀ
   creazioneBottoniFasce(); 
 
-  // Bottone freccia 
+  // Bottone FRECCIA
   nextButton = createButton("");
   nextButton.size(50, 50);
   nextButton.style("background-color", "transparent");
   nextButton.style("border", "none");
-  nextButton.style("background-image", "url('ASSETS/freccina destra.png')"); // Percorso corretto dell'icona caricata
+  nextButton.style("background-image", "url('ASSETS/freccina destra.png')");
   nextButton.style("background-size", "contain");
   nextButton.style("background-repeat", "no-repeat");
   nextButton.style("cursor", "pointer");
   positionNextButton();
   nextButton.mousePressed(() => window.location.href = "confronto.html");
 
-
-  // Elaborazione dati
-  let fasciaEta = [...new Set(data.getColumn("fascia"))];
-
-  for (let fascia of fasciaEta) {
-    datiMaschi[fascia] = [];
-    datiFemmine[fascia] = [];
-  }
-
-  for (let i = 0; i < data.getRowCount(); i++) {
-    let fascia = data.getString(i, "fascia");
-    let sesso = data.getString(i, "sesso");
-    let anno = data.getNum(i, "anno");
-    let valore = parseFloat(data.getString(i, "1A").replace(",", "."));
-
-    if (sesso === "M") {
-      datiMaschi[fascia].push({ anno, valore });
-    } else if (sesso === "F") {
-      datiFemmine[fascia].push({ anno, valore });
-    }
-  }
+  // Elaborazione dei dati
+  elaborazioneDati();
+  
 }
 
 function draw() {
@@ -137,7 +122,6 @@ function draw() {
   drawCard();
   testi();
   
-
   if (isAnimating) {
     animationProgress = (millis() - animationStartTime) / animationDuration;
     if (animationProgress >= 1) {
@@ -181,6 +165,33 @@ function draw() {
 
 }
 
+//-------------------------------------- FUNZIONI PER ANALISI DATI DATI --------------------------------------//
+
+// Funzione per elaborare i dati del dataset
+function elaborazioneDati() { 
+  let fasciaEta = [...new Set(data.getColumn("fascia"))];
+
+  //inizializzo 2 oggetti che hanno le fasce d'età come chiavi
+  for (let fascia of fasciaEta) { //--> per ogni fascia contenuta nell'array fasciaeta
+    datiMaschi[fascia] = []; // creo delle prorpietà dell'oggetto datiMaschi per ogni fascia d'età a cui associo degli array vuoti --> sono da riempire con i dati del dataset
+    datiFemmine[fascia] = [];
+  }
+
+  //organizzo i dati per anno e fascia
+  for (let i = 0; i < data.getRowCount(); i++) {
+    let fascia = data.getString(i, "fascia");
+    let sesso = data.getString(i, "sesso");
+    let anno = data.getNum(i, "anno");
+    let valore = parseFloat(data.getString(i, "1A").replace(",", "."));
+  //organizzo i dati ni base al sesso
+    if (sesso === "M") { //se è M --> aggiungo i dati all'oggetto datiMaschi
+      datiMaschi[fascia].push({ anno, valore }); // per ogni [fascia] aggiunge un oggetto con le prorpietà ({anno, valore})
+    } else if (sesso === "F") {
+      datiFemmine[fascia].push({ anno, valore });
+    }
+  }
+}
+
 // Funzione per calcolare la media dei dati
 function calcolaMedia(datiFemmine, datiMaschi) {
   let media = [];
@@ -193,6 +204,9 @@ function calcolaMedia(datiFemmine, datiMaschi) {
   return media;
 }
 
+//-------------------------------------- FUNZIONI PER IL GRAFICO --------------------------------------//
+
+//FUNZIONE PER DISEGNARE GLI ASSI
 function disegnaAssi() {
   let margineX = 110; // Margine per l'asse X
   let margineY = 50; // Margine per l'asse Y
@@ -266,7 +280,6 @@ function disegnaLinea(dati, fascia) {
   endShape();
 }
 
-
 //FUNZIONE PER DISEGNARE LINEE ORIZZONTALI CHE ENTRANO
 function disegnaLineeOrizzontali(dati) {
   let margineX = 110;
@@ -284,6 +297,8 @@ function disegnaLineeOrizzontali(dati) {
   }
 }
 
+//-------------------------------------- FUNZIONI PER LA CARD --------------------------------------//
+
 //CARTA D'INDENTITà 
 function drawCard() {
   let rectX = windowWidth * 0.72;
@@ -298,15 +313,15 @@ function drawCard() {
   let annoMinimo = fasciaSelezionata ? calcolaAnnoMinimo(fasciaSelezionata, sessoSelezionato) : "-";
 
 
-  // Rettangolo
+  // Rettangolo card
   fill(250, 250, 250, 220);
   fill(color(coloriFasce[fasciaSelezionata] + "80"));
-  stroke(fillColor); // Bordo nero
+  stroke(fillColor);
   strokeWeight(3);
   rect(rectX, rectY, rectW, rectH);
 
   // Testo
-  fill(0); // Colore del testo
+  fill(0);
   noStroke();
   textFont(font);
   textSize(32);
@@ -318,10 +333,8 @@ function drawCard() {
   else if (isButtonMOn) tipoText += "Maschio";
   else if (isButtonMediaOn) tipoText += "F + M";
   else tipoText += "Nessuno selezionato";
-
-  // Disegna il testo nel rettangolo  
+ 
   text(tipoText, rectX + 10, rectH*1.30);
-  
   text(fasciaText, rectX + 10, rectH*1.45);
   
   textSize(16);
@@ -353,7 +366,7 @@ function drawCard() {
   }
 }
 
-// Funzione per calcolare la media dei valori
+// calcolare la media dei valori per una fascia d'età e un sesso specifici
 function calcolaMediaFasciaSesso(fascia, sesso) {
   let datiSelezionati = sesso === "F" ? datiFemmine[fascia] : datiMaschi[fascia];
   let somma = 0;
@@ -367,6 +380,7 @@ function calcolaMediaFasciaSesso(fascia, sesso) {
   return count > 0 ? somma / count : 0;  // Restituisci la media, o 0 se non ci sono dati
 }
 
+// calcolare l'anno con il valore massimo per una fascia d'età e un sesso specifici
 function calcolaAnnoMassimo(fascia, sesso) {
   let datiSelezionati;
 
@@ -392,7 +406,7 @@ function calcolaAnnoMassimo(fascia, sesso) {
   return annoMassimo;
 }
 
-
+// calcolare l'anno con il valore minimo per una fascia d'età e un sesso specifici
 function calcolaAnnoMinimo(fascia, sesso) {
   let datiSelezionati;
 
@@ -418,10 +432,9 @@ function calcolaAnnoMinimo(fascia, sesso) {
   return annoMinimo;
 }
 
+//-------------------------------------- FUNZIONI PER BOTTONI --------------------------------------//
 
-
-
-//STILE DEI BOTTONI M/F
+// stile BOTTONI M/F
 function styleButton(button) {
   button.style('background-color', 'transparent');
   button.style('border-radius', '10px');
@@ -431,7 +444,7 @@ function styleButton(button) {
   button.style("cursor", "pointer");
 }
 
-//POSIZIONE DEI BOTTONI M/F
+// posizione BOTTONI M/F
 function positionButton() {
   // Calcolare la posizione iniziale a destra della finestra
   let buttonStartX = windowWidth - (windowWidth / 5.5); // Posizione a destra
@@ -441,12 +454,7 @@ function positionButton() {
   buttonMedia.position(buttonStartX, buttonStartY + windowHeight*0.14); 
 }
 
-//POSIZIONE FRECCIA
-function positionNextButton(){
-  nextButton.position(width - 60, height - 60);
-}
-
-//CAMBIO STATO BOTTONE PREMUTO
+// cambio stato BOTTONI M/F
 function toggleButton(button) {
   if (isAnimating) return;
 
@@ -492,17 +500,9 @@ function toggleButton(button) {
   }
 }
 
-// FUNZIONE DI INTERPOLAZIONE
-function interpolateDati(datiInizio, datiFine, progress) {
-  let risultato = [];
-  for (let i = 0; i < datiInizio.length; i++) {
-    let valoreLerp = lerp(datiInizio[i].valore, datiFine[i].valore, progress);
-    risultato.push({
-      anno: datiInizio[i].anno,
-      valore: valoreLerp
-    });
-  }
-  return risultato;
+//posizione FRECCIA
+function positionNextButton(){
+  nextButton.position(width - 60, height - 60);
 }
 
 // BOTTONI FASCE D'ETÀ
@@ -527,17 +527,16 @@ function creazioneBottoniFasce() {
   positionBottoniFasce();
 }
 
-//POSIZIONE BOTTNI FASCE
+// posizione BOTTONI FASCE
 function positionBottoniFasce() {
-  let startX = windowWidth * 0.16; // Posizione orizzontale iniziale
-  let startY = windowHeight * 0.1; // Altezza fissa per tutti i bottoni
-  let spacingX = windowWidth * 0.06; // Spaziatura orizzontale tra i bottoni
+  let startX = windowWidth * 0.16; 
+  let startY = windowHeight * 0.1; 
+  let spacingX = windowWidth * 0.06; 
 
   for (let i = 0; i < bottoniFasce.length; i++) {
-    let posX = startX + i * spacingX; // Calcola la posizione orizzontale per ogni bottone
-    let posY = startY; // Posizione verticale fissa
-
-    bottoniFasce[i].position(posX, posY); // Posiziona il bottone
+    let posX = startX + i * spacingX; 
+    let posY = startY;
+    bottoniFasce[i].position(posX, posY);
   }
 }
 
@@ -578,6 +577,18 @@ function testi(){
   text("Seleziona una fascia d'età\ne un genere per scoprire\nl'andamento della fiducia", width * 0.78, 0);
 }
 
+// FUNZIONE DI INTERPOLAZIONE
+function interpolateDati(datiInizio, datiFine, progress) {
+  let risultato = [];
+  for (let i = 0; i < datiInizio.length; i++) {
+    let valoreLerp = lerp(datiInizio[i].valore, datiFine[i].valore, progress);
+    risultato.push({
+      anno: datiInizio[i].anno,
+      valore: valoreLerp
+    });
+  }
+  return risultato;
+}
 
 //GESTIONE RIDIMENSIONAMENTO DELLO SCHERMO
 function windowResized() {
@@ -587,7 +598,7 @@ function windowResized() {
   positionNextButton();
 }
 
-//TORNARE AL GOMITOLO
+//cambio pagina --> TORNARE AL GOMITOLO
 // usare l'evento "wheel" di js per tornare al gomitolo
 window.addEventListener("wheel", (event) => {
   //se lo scroll è verso l'alto (=se è negativo)
@@ -596,3 +607,4 @@ window.addEventListener("wheel", (event) => {
     window.location.href = "gomitolo.html";
   }
 });
+
