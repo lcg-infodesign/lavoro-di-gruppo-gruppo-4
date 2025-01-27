@@ -91,7 +91,7 @@ function setup() {
   // Bottone MEDIA
   buttonMedia = createButton('MEDIA');
   styleButton(buttonMedia);
-  buttonMedia.style('background-color', '#f0e4d4');
+  buttonMedia.style('background-color', '#ffffff');
   buttonMedia.mousePressed(() => toggleButton(buttonMedia)); 
 
   positionButton();
@@ -197,7 +197,7 @@ function calcolaMedia(datiFemmine, datiMaschi) {
   let media = [];
   let lunghezza = Math.min(datiFemmine.length, datiMaschi.length);
   for (let i = 0; i < lunghezza; i++) {
-    let anno = datiFemmine[i].anno; // Anni corrispondenti
+    let anno = datiFemmine[i].anno; // anni corrispondenti
     let valoreMedio = (datiFemmine[i].valore + datiMaschi[i].valore) / 2;
     media.push({ anno, valore: valoreMedio });
   }
@@ -208,10 +208,10 @@ function calcolaMedia(datiFemmine, datiMaschi) {
 
 //FUNZIONE PER DISEGNARE GLI ASSI
 function disegnaAssi() {
-  let margineX = 110; // Margine per l'asse X
-  let margineY = 50; // Margine per l'asse Y
-  let lunghezzaAsseX = width * 0.65; // L'asse X sarà lungo il 65% della larghezza della finestra
-  let altezzaAsseY = height * 0.78; // L'asse Y sarà lungo l'85% dell'altezza della finestra
+  let margineX = 110; 
+  let margineY = 50; 
+  let lunghezzaAsseX = width * 0.65;
+  let altezzaAsseY = height * 0.78; 
 
   stroke(0);
   strokeWeight(1);
@@ -220,7 +220,7 @@ function disegnaAssi() {
   // Linea asse X
   line(margineY, height - margineX, margineY + lunghezzaAsseX, height - margineX);
 
-  // Linea asse Y
+  // inea asse Y
   line(margineY, height - margineX, margineY, height - margineX - altezzaAsseY -15);
 
   // Etichette asse X (anni)
@@ -244,11 +244,12 @@ function disegnaAssi() {
 
 //FUNZIONE PER DISEGANRE LINEE DEL GRAFICO
 function disegnaLinea(dati, fascia) {
-  // Controlla se la fascia corrente è selezionata
+
+  // se la fascia corrente è selezionata --> aumento lo spessore della linea
   if (fascia === fasciaSelezionata) {
-    strokeWeight(6); // Spessore aumentato
+    strokeWeight(6);
   } else {
-    strokeWeight(2.5); // Spessore normale
+    strokeWeight(2.5);
   }
 
   stroke(coloriFasce[fascia]);
@@ -259,7 +260,8 @@ function disegnaLinea(dati, fascia) {
   let margineX = 110;
   let margineY = 50;
 
-  let datiEstesi = [...dati];
+  //aggiungo dei dati fittizzi per avere la curva realizzata con curveVertex corretta
+  let datiEstesi = [...dati]; 
   if (dati.length > 0) {
     datiEstesi.unshift({
       anno: 2010,
@@ -369,17 +371,16 @@ function drawCard() {
       //image(imagesFemmine[imgIndex], imgX - (rectX * 0.08), imgY, imgSize, imgSize);
       //image(imagesMaschi[imgIndex], imgX, imgY, imgSize, imgSize);
       image(imagesMF[imgIndex], imgX - rectX * 0.07, imgY, imgSize * 1.5, imgSize);
-    } else {
-      // nessuna selezione
     }
   }
 }
+
+//------------FUNZIONI PER IL CALCOLO DEI DATI PER LA CARD --> fascia d'età e sesso
 
 // calcolare la media dei valori per una fascia d'età e un sesso specifici
 function calcolaMediaFasciaSesso(fascia, sesso) {
   let datiSelezionati;
 
-  // Seleziona i dati in base al sesso
   if (sesso === "F") {
     datiSelezionati = datiFemmine[fascia];
   } else if (sesso === "M") {
@@ -388,52 +389,17 @@ function calcolaMediaFasciaSesso(fascia, sesso) {
     datiSelezionati = calcolaMedia(datiFemmine[fascia], datiMaschi[fascia]);
   }
 
-  // Se non ci sono dati, ritorna 0
   if (!datiSelezionati || datiSelezionati.length === 0) {
     return 0;
   }
 
-  // Calcola la media
   let somma = 0;
   for (let i = 0; i < datiSelezionati.length; i++) {
     somma += datiSelezionati[i].valore;
   }
 
-  return somma / datiSelezionati.length; // Restituisce la media
+  return somma / datiSelezionati.length;
 }
-
-// Calcola la media dei valori per tutte le fasce d'età e un sesso specifico
-function calcolaMediaSesso(sesso) {
-  let datiSelezionati;
-
-  // Seleziona i dati in base al sesso
-  if (sesso === "F") {
-    datiSelezionati = datiFemmine;
-  } else if (sesso === "M") {
-    datiSelezionati = datiMaschi;
-  } else if (sesso === "Media") {
-    // Combina i dati maschili e femminili calcolando la media
-    datiSelezionati = {};
-    for (let fascia in datiFemmine) {
-      datiSelezionati[fascia] = calcolaMedia(datiFemmine[fascia], datiMaschi[fascia]);
-    }
-  }
-
-  // Converte l'oggetto in un array e appiattisce i dati
-  let tuttiIDati = Object.values(datiSelezionati).flat();
-
-  // Calcola la media complessiva
-  let somma = 0;
-  let count = 0;
-
-  for (let dato of tuttiIDati) {
-    somma += dato.valore;
-    count++;
-  }
-
-  return count > 0 ? somma / count : 0; // Media o 0 se non ci sono dati
-}
-
 
 // calcolare l'anno con il valore massimo per una fascia d'età e un sesso specifici
 function calcolaAnnoMassimo(fascia, sesso) {
@@ -461,41 +427,6 @@ function calcolaAnnoMassimo(fascia, sesso) {
   return annoMassimo;
 }
 
-// Calcolare l'anno con il valore massimo di tutte le fasce d'età per un sesso specifico
-function calcolaAnnoMassimoSesso(sesso) {
-  let datiSelezionati;
-
-  // Seleziona i dati in base al sesso
-  if (sesso === "F") {
-    datiSelezionati = datiFemmine;
-  } else if (sesso === "M") {
-    datiSelezionati = datiMaschi;
-  } else if (sesso === "Media") {
-    // Combina i dati maschili e femminili calcolando la media
-    datiSelezionati = {};
-    for (let fascia in datiFemmine) {
-      datiSelezionati[fascia] = calcolaMedia(datiFemmine[fascia], datiMaschi[fascia]);
-    }
-  }
-
-  // Appiattisco i dati per poter fare il calcolo
-  let tuttiIDati = Object.values(datiSelezionati).flat();
-
-  let valoreMassimo = 0;
-  let annoMassimo = 0;
-
-  // Cerca l'anno con il valore massimo
-  for (let dato of tuttiIDati) {
-    if (dato.valore > valoreMassimo) {
-      valoreMassimo = dato.valore;
-      annoMassimo = dato.anno;
-    }
-  }
-
-  return annoMassimo;
-}
-
-
 // calcolare l'anno con il valore minimo per una fascia d'età e un sesso specifici
 function calcolaAnnoMinimo(fascia, sesso) {
   let datiSelezionati;
@@ -522,31 +453,87 @@ function calcolaAnnoMinimo(fascia, sesso) {
   return annoMinimo;
 }
 
-// Calcolare l'anno con il valore minimo di tutte le fasce d'età per un sesso specifico
-function calcolaAnnoMinimoSesso(sesso) {
+//------------FUNZIONI PER IL CALCOLO DEI DATI PER LA CARD --> sesso senza fascia d'età selezionata
+
+// Calcola la media dei valori per tutte le fasce d'età e un sesso specifico
+function calcolaMediaSesso(sesso) {
   let datiSelezionati;
 
-  // Seleziona i dati in base al sesso
   if (sesso === "F") {
     datiSelezionati = datiFemmine;
   } else if (sesso === "M") {
     datiSelezionati = datiMaschi;
   } else if (sesso === "Media") {
-    // Combina i dati maschili e femminili calcolando la media
     datiSelezionati = {};
     for (let fascia in datiFemmine) {
       datiSelezionati[fascia] = calcolaMedia(datiFemmine[fascia], datiMaschi[fascia]);
     }
   }
 
-  // Appiattisco i dati per poter fare il calcolo
-  let tuttiIDati = Object.values(datiSelezionati).flat();
+  let tuttiIDati = Object.values(datiSelezionati).flat(); // converte l'oggetto in un array e appiattisce i dati
+
+  let somma = 0;
+  let count = 0;
+
+  for (let dato of tuttiIDati) {
+    somma += dato.valore;
+    count++;
+  }
+
+  return count > 0 ? somma / count : 0;
+}
+
+// Calcolare l'anno con il valore massimo di tutte le fasce d'età per un sesso specifico
+function calcolaAnnoMassimoSesso(sesso) {
+  let datiSelezionati;
+
+  if (sesso === "F") {
+    datiSelezionati = datiFemmine;
+  } else if (sesso === "M") {
+    datiSelezionati = datiMaschi;
+  } else if (sesso === "Media") {
+    datiSelezionati = {};
+    for (let fascia in datiFemmine) {
+      datiSelezionati[fascia] = calcolaMedia(datiFemmine[fascia], datiMaschi[fascia]);
+    }
+  }
+
+  let tuttiIDati = Object.values(datiSelezionati).flat(); // appiattisco i dati
+
+  let valoreMassimo = 0;
+  let annoMassimo = 0;
+
+  for (let dato of tuttiIDati) { // cerca l'anno
+    if (dato.valore > valoreMassimo) {
+      valoreMassimo = dato.valore;
+      annoMassimo = dato.anno;
+    }
+  }
+
+  return annoMassimo;
+}
+
+// Calcolare l'anno con il valore minimo di tutte le fasce d'età per un sesso specifico
+function calcolaAnnoMinimoSesso(sesso) {
+  let datiSelezionati;
+
+  if (sesso === "F") {
+    datiSelezionati = datiFemmine;
+  } else if (sesso === "M") {
+    datiSelezionati = datiMaschi;
+  } else if (sesso === "Media") {
+    datiSelezionati = {};
+    for (let fascia in datiFemmine) {
+      datiSelezionati[fascia] = calcolaMedia(datiFemmine[fascia], datiMaschi[fascia]);
+    }
+  }
+
+  let tuttiIDati = Object.values(datiSelezionati).flat(); // appiattisco i dati per poter fare il calcolo --> rendo l'array unidimensionale per facilitare i calcoli
 
   let valoreMinimo = Number.MAX_VALUE;
   let annoMinimo = 0;
 
-  // Cerca l'anno con il valore minimo
-  for (let dato of tuttiIDati) {
+  for (let dato of tuttiIDati) { //cerco l'anno
     if (dato.valore < valoreMinimo) {
       valoreMinimo = dato.valore;
       annoMinimo = dato.anno;
@@ -598,13 +585,13 @@ function toggleButton(button) {
   // Set new state
   if (button === buttonF) {
     isButtonFOn = true;
-    button.style('background-color', '#f0e4d4');
+    button.style('background-color', '#ffffff');
   } else if (button === buttonM) {
     isButtonMOn = true;
-    button.style('background-color', '#f0e4d4');
+    button.style('background-color', '#ffffff');
   } else if (button === buttonMedia) {
     isButtonMediaOn = true;
-    button.style('background-color', '#f0e4d4');
+    button.style('background-color', '#ffffff');
   }
 
   // Start animation if state changed
