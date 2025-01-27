@@ -319,7 +319,7 @@ function testi(){
   noStroke();
   textFont(font);
   textSize(16);
-  text("% di fiducia", width *0.07, height * 0.02);
+  text("% di fiducia", width *0.06, height * 0.03);
 }
 
 //RIDIMENSIONAMENTO FINESTRA

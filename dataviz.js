@@ -571,7 +571,7 @@ function testi(){
   push();
   rotate(-PI/15);
 
-  text("eh sì,\nci fidiamo poco", width * 0.035, height * 0.05);
+  text("eh sì,\nci fidiamo poco", width * 0.035, height * 0.07);
   pop();
 
   text("Seleziona una fascia d'età\ne un genere per scoprire\nl'andamento della fiducia", width * 0.78, 0);
