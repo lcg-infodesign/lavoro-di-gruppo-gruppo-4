@@ -55,7 +55,7 @@ function setup() {
   resetButton = createButton("");
   resetButton.size(50, 50);
   resetButton.style("background-color", "transparent");
-  resetButton.style("background-image", "url('ASSETS/freccina reset.png')"); // Percorso corretto dell'icona caricata
+  resetButton.style("background-image", "url(ASSETS/freccina_RESET.png)"); // Percorso corretto dell'icona caricata
   resetButton.style("background-size", "contain");
   resetButton.style("background-repeat", "no-repeat");
   resetButton.style("background-size", "80%");
