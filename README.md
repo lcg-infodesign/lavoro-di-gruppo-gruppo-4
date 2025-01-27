@@ -25,6 +25,7 @@ Dal grafico è possibile selezionare tre opzioni:
 - Visualizzare la percentuale di fiducia solo per i maschi.
 - Visualizzare la percentuale di fiducia solo per le femmine.
 - Visualizzare una media tra i due generi.
+
 Inoltre è possibile selezionare la fascia d'età.
 
 
