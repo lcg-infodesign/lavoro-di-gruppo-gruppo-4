@@ -134,10 +134,10 @@ h2 {
 }
 
 .text-container2 {
-  max-width: 800px;
-  line-height: 1.8;
+  line-height: 1.5;
   word-wrap: break-word;
   overflow-wrap: break-word;
+  font-size: 1.7vh;
 }
 
 .text-container2 p {
@@ -151,6 +151,16 @@ h2 {
   justify-content: flex-start;
   background: white;
   overflow: hidden;
+}
+
+.contenitore-testo {
+  padding-top: 2%;
+}
+
+.chiSiamo {
+  font-size: 1.5vh;
+  line-height: 1.5;
+  text-align: justify;
 }
 
 .marquee {
