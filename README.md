@@ -7,7 +7,7 @@ La domanda analizzata era: "Ti fidi degli altri?", con due possibili risposte: "
 STRUTTURA DELLA PAGINA WEB
 
 La pagina web realizzata per il progetto mira a rappresentare visivamente il tema complesso della fiducia. Infatti, dalla pagina home, l'utente accede a una rappresentazione simbolica: un gomitolo di fili colorati che si srotola, che rappresenta il tentativo di comprendere l’intricata natura della fiducia interpersonale. I fili del gomitolo si trasformano nelle linee del grafico, ciascuna di un colore diverso per rappresentare le diverse fasce di età. Il grafico si concentra esclusivamente sui dati relativi alle persone che hanno risposto positivamente alla domanda posta dall’indagine, ovvero "Tutti sono degni di fiducia".
-In particolare, sull’asse delle x del grafico sono rappresentati gli anni presi in considerazione (dal 2010 al 2023), mentre sull’asse delle y si trova la percentuale di fiducia, che, nonostante alcune variazioni, non supera mai il 30%. Questo evidenzia livelli generalmente bassi di fiducia interpersonale.
+In particolare, sull’asse delle x del grafico sono rappresentati gli anni presi in considerazione (dal 2010 al 2023), mentre sull’asse delle y si trova la percentuale di persone che si fidano su un determinato campione, che, nonostante alcune variazioni, non supera mai il 30%. Questo evidenzia livelli generalmente bassi di fiducia interpersonale.
 
 
 ASPETTI PRESI IN ANALISI

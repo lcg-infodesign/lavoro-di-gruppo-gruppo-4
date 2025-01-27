@@ -21,7 +21,6 @@ const coloriFasce = {
   ">75": "#e7d299"
 };
 
-// carico il CSV
 function preload() {
   data = loadTable("fiducia Per.csv", "csv", "header");
   img = loadImage("ASSETS/background04_CREAM(schiarito).jpg");
@@ -34,45 +33,41 @@ function setup() {
   textFont(font);
   textSize(12);
   
-// BOTTONI
+  // BOTTONI
   creazioneBottoniFacce();
-
   positionBtn();
 
-  //FRECCIA
-  prevButton = createButton("");
-  prevButton.size(windowWidth*0.05, windowHeight*0.05);
-  prevButton.style("background-color", "transparent");
-  prevButton.style("border", "none");
-  prevButton.style("background-image", "url('ASSETS/freccina.png')"); // Percorso corretto dell'icona caricata
-  prevButton.style("background-size", "contain");
-  prevButton.style("background-repeat", "no-repeat");
-  prevButton.style("cursor", "pointer");
-  positionPrevButton();
-  prevButton.mousePressed(() => window.location.href = "DATAVIZ.html");
+  // bottone FRECCIA 
+  bottoneFreccia();
 
   // bottone RESET
-  resetButton = createButton("");
-  resetButton.size(windowWidth*0.02, windowWidth*0.02);
-  resetButton.style("background-color", "transparent");
-  resetButton.style("background-image", "url(ASSETS/freccina_RESET.png)"); // Percorso corretto dell'icona caricata
-  resetButton.style("background-size", "contain");
-  resetButton.style("background-repeat", "no-repeat");
-  resetButton.style("background-size", "80%");
-  resetButton.style("background-position", "center");
-  resetButton.style("cursor", "pointer");
-  resetButton.style("border", "none");
-  resetButton.style("border-radius", "50%");
-  resetButton.mousePressed(() => //si spengono tutti i bottoni attivi 
-    buttons.forEach(btn => {
-      btn.active = false;
-      btn.style("opacity", "0.5");
-      btn.style("border", "none");
-    })
-  );
+  bottoneReset();
   positionResetButton();
 
   // Elaborazione dati
+  elaboraDati();
+}
+
+function draw() {
+  background(img);
+  disegnaAssi();
+  lineeLegenda();
+  testi();
+
+  // Disegna le linee solo per i bottoni attivi
+  for (let btn of buttons) {
+    if (btn.active) {
+      let dati = btn.sesso === "M" ? datiMaschi[btn.fascia] : datiFemmine[btn.fascia];
+      disegnaLinea(dati, btn.fascia);
+    }
+  }
+  
+}
+
+//-------------------------ELABORAZIONE DATI--------------------------------
+
+//funzione per elaborare i dati
+function elaboraDati() {
   let fasciaEta = [...new Set(data.getColumn("fascia"))];
 
   for (let fascia of fasciaEta) {
@@ -94,28 +89,14 @@ function setup() {
   }
 }
 
-function draw() {
-  background(img); // Sfondo
-  disegnaAssi(); // Disegna gli assi
-  lineeLegenda();
-  testi();
-
-  // Disegna le linee per i bottoni attivi
-  for (let btn of buttons) {
-    if (btn.active) {
-      let dati = btn.sesso === "M" ? datiMaschi[btn.fascia] : datiFemmine[btn.fascia];
-      disegnaLinea(dati, btn.fascia);
-    }
-  }
-  
-}
+//------------------FUNZIONI PER DISEGNARE IL GRAFICO----------------
 
 //FUN<IONE PER DISEGNARE GLI ASSI
 function disegnaAssi() {
-  let margineX = 110; // Margine per l'asse X
-  let margineY = 50; // Margine per l'asse Y
-  let lunghezzaAsseX = width * 0.55; // L'asse X sarà lungo il 65% della larghezza della finestra
-  let altezzaAsseY = height * 0.78; // L'asse Y sarà lungo l'85% dell'altezza della finestra
+  let margineX = 110; 
+  let margineY = 50;
+  let lunghezzaAsseX = width * 0.55; 
+  let altezzaAsseY = height * 0.78;
 
   stroke(0);
   strokeWeight(1);
@@ -150,9 +131,9 @@ function disegnaLinea(dati, fascia) {
   stroke(coloriFasce[fascia]);
   strokeWeight(2);
 
-  // Imposta lo spessore della linea in base al sesso
+  // Imposta il tratto della linea in base al sesso
   if (dati === datiMaschi[fascia]) {
-    drawingContext.setLineDash([]); //per differenziare le linee dei M e F -->  inserirsco un pattern per le llinee tratteggiate
+    drawingContext.setLineDash([]); //per differenziare le linee dei M e F -->  inserirsco un pattern per le linee tratteggiate
   } else {
     drawingContext.setLineDash([10,5]);
   }
@@ -163,7 +144,8 @@ function disegnaLinea(dati, fascia) {
   let altezzaAsseY = height * 0.78;
   let margineX = 110;
   let margineY = 50;
-
+  
+  //aggiungo dei dati fittizzi --> per come viene costruita la curva con curveVertex servono dei punti di controllo aggointivi che permettono di avere l'inizio e la fine della curva posizionata correttamente 
   let datiEstesi = [...dati];
   if (dati.length > 0) {
     datiEstesi.unshift({
@@ -185,33 +167,7 @@ function disegnaLinea(dati, fascia) {
   endShape();
 }
 
-// Funzione per generare il percorso dell'immagine
-function getImagePath(sex, ageGroup) {
-  // Gestisci l'eccezione per ">75"
-  if (ageGroup === ">75") {
-    return `facce/${sex}_75.jpg`; // Usa "75" al posto di ">75"
-  }
-  // Gestisci i casi standard
-  return `facce/${sex}_${ageGroup}.jpg`;
-}
-
-
-//LINEE LEGENDA
-function lineeLegenda() {
-  let x = width * 0.69; // Posizione X delle linee
-  let y = height * 0.83; // Posizione Y delle linee
-  let h = width * 0.05;
-  let spazio = 30; // Spazio tra le linee
-  let a = 50;
-  
-  line(x, y, x + h, y); // Linea per i maschi
-  text("Maschi", x + h + a, y + 5); // Etichetta per i maschi
-  drawingContext.setLineDash([8,5]);
-  line(x + spazio * 2 + h + a, y, x + spazio * 2 + h*2 + a, y); // Linea per le femmine
-  drawingContext.setLineDash([]);
-  text("Femmine", x + spazio * 2 + h*2 + a*2 + 5, y + 5); // Etichetta per le femmine
-  
-}
+//------------------FUNZIONI PER GESTIRE I BOTTONI-----------------------
 
 //CREAZIONE DEI BOTTONI
 function creazioneBottoniFacce() { //--> creo un ciclo nel ciclo
@@ -222,10 +178,8 @@ function creazioneBottoniFacce() { //--> creo un ciclo nel ciclo
       btn.sesso = sexes[i]; // ci associo il sesso
       btn.fascia = ageGroups[j]; // ci associo la fascia d'età
   
-      // ottieni il percorso dell'immagine
-      let imagePath = getImagePath(sexes[i], ageGroups[j]);
+      let imagePath = getImagePath(sexes[i], ageGroups[j]); // cerco il percorso dell'immagine
   
-      // Personalizzazione dello stile del bottone
       let btnX = windowWidth * 0.08;
       let btnY = windowWidth * 0.08;
   
@@ -239,9 +193,9 @@ function creazioneBottoniFacce() { //--> creo un ciclo nel ciclo
       btn.style('font-family', 'Ribes-Regular');
       btn.style('color', 'white');
       btn.style('cursor', 'pointer');
-      btn.style('opacity', '0.5'); // imposta l'opacità iniziale al 50% (opaco)
+      btn.style('opacity', '0.5');
   
-      // Centrare l'etichetta in basso
+      // centrare l'etichetta in basso
       btn.style("display", "flex"); // Usa Flexbox per controllare il layout interno
       btn.style("flex-direction", "column"); // Colonna: immagine sopra, testo sotto
       btn.style("justify-content", "flex-end"); // Sposta il contenuto in basso
@@ -250,16 +204,16 @@ function creazioneBottoniFacce() { //--> creo un ciclo nel ciclo
       btn.style("padding-right", "5px"); // Sposta il testo leggermente verso sinistra dal bordo
       btn.style("padding-bottom", "3px"); // Sposta il testo leggermente verso l'alto dal bordo inferiore
   
-      // Evento click sul bottone
+      // evento click sul bottone
       btn.mousePressed(() => {
         btn.active = !btn.active; // cambia lo stato attivo del bottone
   
         // aggiorna lo stile in base allo stato
         if (btn.active) {
-          btn.style("opacity", "1"); // bottone completamente visibile
-          btn.style("border", "4px solid black"); // bordo bianco
-        } else {
-          btn.style("opacity", "0.5"); // bottone torna opaco
+          btn.style("opacity", "1"); 
+          btn.style("border", "4px solid black");
+        } else { // ripristonp lo stato iniziale da "non attivo"
+          btn.style("opacity", "0.5"); 
           btn.style("border", "none");
         }
       });
@@ -267,11 +221,6 @@ function creazioneBottoniFacce() { //--> creo un ciclo nel ciclo
       buttons.push(btn); // --> lo salvo (il bottone) nell'array
     }
   }
-}
-
-//STILE DEI BOTTONI 
-function stileBtn(btn) {
-  
 }
 
 //POSIZIONAMENTO DEI BOTTONI
@@ -291,29 +240,94 @@ function positionBtn() {
   for (let i = 0; i < buttons.length; i++) {
     let btn = buttons[i];
     
-    let colonna = i % numeroColonne; // colonna del bottone
-    let riga = Math.floor(i / numeroColonne); //riga del bottone
+    let colonna = i % numeroColonne; 
+    let riga = Math.floor(i / numeroColonne); 
     
-    let x = windowWidth - margineDestro - spazioXBottoni + (colonna + 0.5) * colonnaX; //posizione x da destra
-    let y = yOffset + riga * colonnaY; //posizione y
+    let x = windowWidth - margineDestro - spazioXBottoni + (colonna + 0.5) * colonnaX; 
+    let y = yOffset + riga * colonnaY; 
 
-    btn.position(x, y); // Applica la posizione al bottone
+    btn.position(x, y);
   }
 }
 
 function positionResetButton() {
   resetButton.position(windowWidth-60, windowHeight*0.03);
 }
-//function toggleButton(btn) {
-  //btn.active = !btn.active; // Cambia stato
-  //btn.style("background-color", btn.active ? "green" : "white"); // Cambia colore
-//}
+
+//BOTTONE FRECCIA 
+function bottoneFreccia() {
+  prevButton = createButton("");
+  prevButton.size(windowWidth*0.05, windowHeight*0.05);
+  prevButton.style("background-color", "transparent");
+  prevButton.style("border", "none");
+  prevButton.style("background-image", "url('ASSETS/freccina.png')"); 
+  prevButton.style("background-size", "contain");
+  prevButton.style("background-repeat", "no-repeat");
+  prevButton.style("cursor", "pointer");
+  positionPrevButton();
+  prevButton.mousePressed(() => window.location.href = "DATAVIZ.html");
+}
 
 //POSIZIONE FRECCIA PRE
-function positionPrevButton(){
+function positionPrevButton() {
   prevButton.position(width*0.96, height*0.93);
 }
 
+//BOTTONE RESET
+function bottoneReset() {
+  resetButton = createButton("");
+  resetButton.size(windowWidth*0.02, windowWidth*0.02);
+  resetButton.style("background-color", "transparent");
+  resetButton.style("background-image", "url(ASSETS/freccina_RESET.png)");
+  resetButton.style("background-repeat", "no-repeat");
+  resetButton.style("background-size", "80%");
+  resetButton.style("background-position", "center");
+  resetButton.style("cursor", "pointer");
+  resetButton.style("border", "none");
+  resetButton.style("border-radius", "50%");
+  resetButton.mousePressed(() => //si spengono tutti i bottoni attivi 
+    buttons.forEach(btn => {
+      btn.active = false;
+      btn.style("opacity", "0.5");
+      btn.style("border", "none");
+    })
+  );
+}
+
+
+//----------------------------------------
+
+// PERCORSO IMMAGINI
+function getImagePath(sex, ageGroup) {
+  // Gestisci l'eccezione per ">75"
+  if (ageGroup === ">75") {
+    return `facce/${sex}_75.jpg`; // usa "75" al posto di ">75"
+  } else {
+  // Gestisci i casi standard
+  return `facce/${sex}_${ageGroup}.jpg`;
+  }
+}
+
+//LINEE LEGENDA
+function lineeLegenda() {
+  let x = width * 0.69; 
+  let y = height * 0.83;
+  let h = width * 0.05; // lunghezza linea
+  let spazio = 30; // spazio tra le linee
+  let a = 50; // spazio linea-etichetta
+  
+  // Linea per i maschi
+  line(x, y, x + h, y); 
+  text("Maschi", x + h + a, y + 5);
+  drawingContext.setLineDash([8,5]);
+  // Linea per le femmine
+  line(x + spazio * 2 + h + a, y, x + spazio * 2 + h*2 + a, y); 
+  drawingContext.setLineDash([]);
+  text("Femmine", x + spazio * 2 + h*2 + a*2 + 5, y + 5);
+  
+}
+
+//TESTO
 function testi(){
   fill(0); // Colore del testo
   noStroke();
@@ -329,3 +343,76 @@ function windowResized() {
   positionPrevButton();
   positionResetButton();
 }
+
+
+
+
+
+
+//FUNZIONE PER IL MOUSE OVER
+/*
+function distanzaMouse(dati) {
+  let minDistanza = Infinity;  // Variabile per la distanza minima
+
+  let lunghezzaAsseX = width * 0.65;
+  let altezzaAsseY = height * 0.80;
+  let margineX = 110;
+  let margineY = 50;
+
+  let datiEstesi = [...dati];
+  if (dati.length > 0) {
+    datiEstesi.unshift({
+      anno: 2010,
+      valore: dati[0].valore,
+    });
+    datiEstesi.push({
+      anno: 2023,
+      valore: dati[dati.length - 1].valore,
+    });
+  }
+
+  for (let i = 0; i < datiEstesi.length - 1; i++) {
+    let punto1 = datiEstesi[i];
+    let punto2 = datiEstesi[i + 1];
+
+    let x1 = map(punto1.anno, 2010, 2023, margineY, margineY + lunghezzaAsseX);
+    let y1 = map(punto1.valore, 10, 30, height - margineX, height - margineX - altezzaAsseY);
+
+    let x2 = map(punto2.anno, 2010, 2023, margineY, margineY + lunghezzaAsseX);
+    let y2 = map(punto2.valore, 10, 30, height - margineX, height - margineX - altezzaAsseY);
+
+    // Calcola la distanza del mouse dal segmento (x1, y1) -> (x2, y2)
+    let distanza = distanzaPuntoASegmento(mouseX, mouseY, x1, y1, x2, y2);
+
+    // Se questa distanza è la più piccola trovata finora, la aggiorniamo
+    if (distanza < minDistanza) {
+      minDistanza = distanza;
+    }
+  }
+   
+   return { distanza: minDistanza };
+}
+  
+//--> dato che non abbiamo una segmento ma una curva facciamo come i fisici e approssiamo tutto ad un segmento utilizzando le proiezioni e il prodotto scalare
+// Funzione che calcola la distanza tra un punto (px, py) e un segmento (x1, y1) -> (x2, y2) 
+function distanzaPuntoASegmento(px, py, x1, y1, x2, y2) {
+  // calcola la lunghezza del segmento
+  let segmentoLen = dist(x1, y1, x2, y2);
+  
+  // Se il segmento è un punto (x1 == x2 e y1 == y2) --> fare la distanza
+  if (segmentoLen == 0) return dist(px, py, x1, y1);
+
+  // Proiezione del punto sul segmento
+  let t = ((px - x1) * (x2 - x1) + (py - y1) * (y2 - y1)) / (segmentoLen * segmentoLen);
+
+  // Limita la proiezione tra 0 e 1
+  t = max(0, min(1, t));
+
+  // Trova il punto di proiezione sul segmento
+  let xProj = x1 + t * (x2 - x1);
+  let yProj = y1 + t * (y2 - y1);
+
+  // Calcola la distanza tra il punto (px, py) e il punto di proiezione
+  return dist(px, py, xProj, yProj);
+}
+*/
