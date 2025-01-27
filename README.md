@@ -33,7 +33,7 @@ Un'ulteriore sezione del sito permette all’utente di confrontare i livelli di 
 
 TEAM 
 
-Silvia Andreoletti: Ideazione della struttura iniziale e realizzazione della struttura finale del sito, sviluppo della sezione di visualizzazione dei dati (grafici con contributo gomitolo), completamento e ottimizzazione del codice 
+Silvia Andreoletti: Ideazione della struttura iniziale e realizzazione della struttura finale del sito, sviluppo della sezione di visualizzazione dei dati (grafici con contributo gomitolo), completamento e ottimizzazione dell'html
 
 Alessandro Castelli: Ideazione della struttura iniziale e realizzazione della struttura finale del sito, sviluppo della sezione di visualizzazione dei dati (gomitolo con contributo grafici) 
 
