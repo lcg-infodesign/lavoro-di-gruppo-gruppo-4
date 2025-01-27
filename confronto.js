@@ -265,7 +265,7 @@ function bottoneFreccia() {
   prevButton.style("background-repeat", "no-repeat");
   prevButton.style("cursor", "pointer");
   positionPrevButton();
-  prevButton.mousePressed(() => window.location.href = "DATAVIZ.html");
+  prevButton.mousePressed(() => window.location.href = "grafico.html");
 }
 
 //POSIZIONE FRECCIA PRE
@@ -345,74 +345,3 @@ function windowResized() {
 }
 
 
-
-
-
-
-//FUNZIONE PER IL MOUSE OVER
-/*
-function distanzaMouse(dati) {
-  let minDistanza = Infinity;  // Variabile per la distanza minima
-
-  let lunghezzaAsseX = width * 0.65;
-  let altezzaAsseY = height * 0.80;
-  let margineX = 110;
-  let margineY = 50;
-
-  let datiEstesi = [...dati];
-  if (dati.length > 0) {
-    datiEstesi.unshift({
-      anno: 2010,
-      valore: dati[0].valore,
-    });
-    datiEstesi.push({
-      anno: 2023,
-      valore: dati[dati.length - 1].valore,
-    });
-  }
-
-  for (let i = 0; i < datiEstesi.length - 1; i++) {
-    let punto1 = datiEstesi[i];
-    let punto2 = datiEstesi[i + 1];
-
-    let x1 = map(punto1.anno, 2010, 2023, margineY, margineY + lunghezzaAsseX);
-    let y1 = map(punto1.valore, 10, 30, height - margineX, height - margineX - altezzaAsseY);
-
-    let x2 = map(punto2.anno, 2010, 2023, margineY, margineY + lunghezzaAsseX);
-    let y2 = map(punto2.valore, 10, 30, height - margineX, height - margineX - altezzaAsseY);
-
-    // Calcola la distanza del mouse dal segmento (x1, y1) -> (x2, y2)
-    let distanza = distanzaPuntoASegmento(mouseX, mouseY, x1, y1, x2, y2);
-
-    // Se questa distanza è la più piccola trovata finora, la aggiorniamo
-    if (distanza < minDistanza) {
-      minDistanza = distanza;
-    }
-  }
-   
-   return { distanza: minDistanza };
-}
-  
-//--> dato che non abbiamo una segmento ma una curva facciamo come i fisici e approssiamo tutto ad un segmento utilizzando le proiezioni e il prodotto scalare
-// Funzione che calcola la distanza tra un punto (px, py) e un segmento (x1, y1) -> (x2, y2) 
-function distanzaPuntoASegmento(px, py, x1, y1, x2, y2) {
-  // calcola la lunghezza del segmento
-  let segmentoLen = dist(x1, y1, x2, y2);
-  
-  // Se il segmento è un punto (x1 == x2 e y1 == y2) --> fare la distanza
-  if (segmentoLen == 0) return dist(px, py, x1, y1);
-
-  // Proiezione del punto sul segmento
-  let t = ((px - x1) * (x2 - x1) + (py - y1) * (y2 - y1)) / (segmentoLen * segmentoLen);
-
-  // Limita la proiezione tra 0 e 1
-  t = max(0, min(1, t));
-
-  // Trova il punto di proiezione sul segmento
-  let xProj = x1 + t * (x2 - x1);
-  let yProj = y1 + t * (y2 - y1);
-
-  // Calcola la distanza tra il punto (px, py) e il punto di proiezione
-  return dist(px, py, xProj, yProj);
-}
-*/

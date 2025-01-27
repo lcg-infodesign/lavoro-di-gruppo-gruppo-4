@@ -59,6 +59,7 @@ function preload() {
 }
 
 function setup() {
+  document.body.style.overflowX = "hidden";
   createCanvas(windowWidth, windowHeight);
   centro = createVector(width / 2, height / 2.5);
   gomitoloPosizioneIniziale = centro.y;
@@ -355,6 +356,6 @@ function windowResized() {
 }
 
 function cambiaPagina() {
-    window.location.href = "DATAVIZ.html"; // Cambia con l'URL della tua seconda pagina
+    window.location.href = "grafico.html";
 }
 
