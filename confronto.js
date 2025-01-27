@@ -41,7 +41,7 @@ function setup() {
 
   //FRECCIA
   prevButton = createButton("");
-  prevButton.size(50, 50);
+  prevButton.size(windowWidth*0.05, windowHeight*0.05);
   prevButton.style("background-color", "transparent");
   prevButton.style("border", "none");
   prevButton.style("background-image", "url('ASSETS/freccina.png')"); // Percorso corretto dell'icona caricata
@@ -53,7 +53,7 @@ function setup() {
 
   // bottone RESET
   resetButton = createButton("");
-  resetButton.size(50, 50);
+  resetButton.size(windowWidth*0.02, windowWidth*0.02);
   resetButton.style("background-color", "transparent");
   resetButton.style("background-image", "url(ASSETS/freccina_RESET.png)"); // Percorso corretto dell'icona caricata
   resetButton.style("background-size", "contain");
@@ -115,7 +115,7 @@ function disegnaAssi() {
   let margineX = 110; // Margine per l'asse X
   let margineY = 50; // Margine per l'asse Y
   let lunghezzaAsseX = width * 0.55; // L'asse X sarà lungo il 65% della larghezza della finestra
-  let altezzaAsseY = height * 0.80; // L'asse Y sarà lungo l'85% dell'altezza della finestra
+  let altezzaAsseY = height * 0.78; // L'asse Y sarà lungo l'85% dell'altezza della finestra
 
   stroke(0);
   strokeWeight(1);
@@ -160,7 +160,7 @@ function disegnaLinea(dati, fascia) {
   noFill();
 
   let lunghezzaAsseX = width * 0.55;
-  let altezzaAsseY = height * 0.80;
+  let altezzaAsseY = height * 0.78;
   let margineX = 110;
   let margineY = 50;
 
@@ -302,7 +302,7 @@ function positionBtn() {
 }
 
 function positionResetButton() {
-  resetButton.position(windowWidth-60, 30);
+  resetButton.position(windowWidth-60, windowHeight*0.03);
 }
 //function toggleButton(btn) {
   //btn.active = !btn.active; // Cambia stato
@@ -311,7 +311,7 @@ function positionResetButton() {
 
 //POSIZIONE FRECCIA PRE
 function positionPrevButton(){
-  prevButton.position(width - 60, height - 60);
+  prevButton.position(width*0.96, height*0.93);
 }
 
 function testi(){
