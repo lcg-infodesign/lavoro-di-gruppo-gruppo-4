@@ -3,27 +3,28 @@ let raggio = 200;
 let numFili = 8;
 let colori = ["#E7D299", "#F7B801", "#F18701", "#E54887", "#FE07C0", "#8E0F9C", "#3A0CA4", "#32A9B5"];
 let spessoreFilo = 3;
-let tangleOffset = 0; // Offset del gomitolo per scorrimento
-let progress = 0; // Progresso delle linee con scrolling
-let paths = [];
-let velocitaDiscesa = []; // Array per la velocità di discesa di ogni filo
-let maxLunghezza = 2000; // Lunghezza massima delle linee
-let scrollSpeed = 8; // Velocità dello scrolling manuale
-let autoScrollSpeed = 8; // Velocità dello scroll automatico
-let sfondo; // Variabile per l'immagine di sfondo
-let gomitoloPosizioneIniziale;
-let autoScroll = false; // Flag per gestire lo scroll automatico
-let scrollButton; // Pulsante per attivare/disattivare lo scroll automatico
-let seed;
+let tangleOffset = 0; // Offset per lo scrolling
+let progress = 0; // Progresso dello scrolling
+let paths = []; // Array per i percorsi di ogni filo
+let velocitaDiscesa = []; // Array per le velocità di discesa di ogni filo
+let maxLunghezza = 2000; 
+let scrollSpeed = 6.5; // Scroll manuale
+let autoScrollSpeed = 5; // Scroll automatico
+let sfondo; 
+let gomitoloPosizioneIniziale; 
+let autoScroll = false; // Flag per lo scroll automatico
+let scrollButton; 
+let seed; // Punto di partenza per la generazione casuale
 let rotationAngle = 0;
-let gomitoloScrollSpeed = 8; // Velocità per il gomitolo
-let filiScrollSpeed = 12;    // Velocità aumentata per i fili
+let gomitoloScrollSpeed = 8;
+let filiScrollSpeed = 12;  
 
+// Testi
 let textData = [
   {
     content: "La fiducia interpersonale\nè una questione INTRICATA !",
-    x: 0.21, // Posizione orizzontale come percentuale 
-    y: 0.1, // Posizione verticale come percentuale 
+    x: 0.21, 
+    y: 0.1, 
     size: 22, 
   },
   {
@@ -45,39 +46,38 @@ let textData = [
     size: 18,
   },
   {
-    content: "Frase collegamento grafico Michela !! .",
+    content: "Tieni d'occhio la pagina ! \ni fili stanno per\nprendere forma . . .",
     x: 0.7,
     y: 3,
     size: 18,
   },
 ];
 
-// Funzione per caricare i font e l'immagine di sfondo
 function preload() {
-  sfondo = loadImage("ASSETS/background04_CREAM(schiarito).jpg"); // Sostituisci con il percorso corretto
-  font = loadFont("ASSETS/RockSalt-Regular.ttf"); // Sostituisci con il percorso corretto
+  sfondo = loadImage("ASSETS/background04_CREAM(schiarito).jpg");
+  font = loadFont("ASSETS/RockSalt-Regular.ttf"); 
 }
 
 function setup() {
   createCanvas(windowWidth, windowHeight);
   centro = createVector(width / 2, height / 2.5);
   gomitoloPosizioneIniziale = centro.y;
-  seed = random(10000);
+  seed = random(10000); 
   randomSeed(seed);
   noFill();
   noLoop();
 
-  // Inizializza percorsi e velocità di discesa
+  // Genera percorsi per ogni filo
   for (let i = 0; i < numFili; i++) {
     paths.push([]);
-    velocitaDiscesa.push(random(0.8, 1.5)); // Velocità casuale per ogni filo
+    velocitaDiscesa.push(random(0.8, 1.5));
     let start = generateDistributedStartPoint(i);
     generateLinePath(i, start);
   }
 
-  draw(); // Disegna una volta inizialmente
+  draw(); 
 
-  // Crea il pulsante per lo scroll automatico
+  // Pulsante per scroll automatico
   scrollButton = createButton("");
   scrollButton.size(50, 50);
   scrollButton.style("background-color", "transparent");
@@ -88,10 +88,9 @@ function setup() {
   scrollButton.style("background-position", "center");
   scrollButton.style("cursor", "pointer");
 
-  // Imposta il bottone con uno stile fixed
   scrollButton.style("position", "fixed");
-  scrollButton.style("right", "20px"); // Distanza dal lato destro della finestra
-  scrollButton.style("bottom", "20px"); // Distanza dal fondo della finestra
+  scrollButton.style("right", "20px"); 
+  scrollButton.style("bottom", "20px"); 
 
   scrollButton.mousePressed(toggleAutoScroll);
 
@@ -106,6 +105,7 @@ function draw() {
     strokeWeight(spessoreFilo);
     noFill();
     beginShape();
+    // Disegna solo i punti fino al progresso
     for (let j = 0; j < progress; j++) {
       if (j < paths[i].length) {
         let point = paths[i][j];
@@ -115,7 +115,6 @@ function draw() {
     endShape();
   }
 
-  // Disegna il gomitolo se è ancora visibile
   if (tangleOffset + centro.y + raggio > 0) {
     push();
     translate(0, tangleOffset);
@@ -123,9 +122,9 @@ function draw() {
     pop();
   }
 
-  autoScrollBehavior(); // Gestisci lo scroll automatico
+  autoScrollBehavior(); 
 
-  // Disegna il testo
+  // Disegna i testi
   textFont(font);
   stroke("black");
   strokeWeight(1);
@@ -133,29 +132,30 @@ function draw() {
   textAlign(CENTER, CENTER);
 
   textData.forEach((textItem) => {
+    // Posizione del testo in base alla finestra
     textSize(textItem.size);
-    let textX = textItem.x * windowWidth; // Posizione orizzontale basata sulla larghezza della finestra
-    let textY = textItem.y * windowHeight + tangleOffset; // Posizione verticale basata sull'altezza della finestra e sullo scroll
+    let textX = textItem.x * windowWidth;
+    let textY = textItem.y * windowHeight + tangleOffset; 
     text(textItem.content, textX, textY);
   });
 }
 
+// Scroll manuale
 function mouseWheel(event) {
   if (!autoScroll) {
     if (event.delta > 0) {
-      // Usa velocità diverse basate sulla posizione
+      // Scroll verso il basso
       if (tangleOffset + centro.y + raggio > 0) {
-        // Quando il gomitolo è ancora visibile
         progress += gomitoloScrollSpeed;
         tangleOffset -= gomitoloScrollSpeed;
         rotationAngle += 0.25;
       } else {
-        // Quando ci sono solo i fili
+        // Se il gomitolo è completamente visibile, scrolla i fili
         progress += filiScrollSpeed;
         tangleOffset -= filiScrollSpeed;
       }
     } else if (tangleOffset < 0) {
-      // Stessa logica per lo scroll verso l'alto
+      // Scroll verso l'alto
       if (tangleOffset + centro.y + raggio > 0) {
         progress -= gomitoloScrollSpeed;
         tangleOffset += gomitoloScrollSpeed;
@@ -166,22 +166,24 @@ function mouseWheel(event) {
       }
     }
 
+    // Limita il progresso e l'offset
     progress = constrain(progress, 0, maxLunghezza);
     tangleOffset = constrain(tangleOffset, -maxLunghezza, 0);
 
-    // Verifica se sei arrivato all'ultimo possibile scroll
+    // Cambia pagina quando il gomitolo è completamente scrollato
     if (tangleOffset <= -maxLunghezza) {
-      cambiaPagina(); // Passa alla nuova pagina
+      cambiaPagina(); 
     }
 
     redraw();
   }
 }
 
+// Scroll automatico
 function toggleAutoScroll() {
   autoScroll = !autoScroll;
   scrollButton.style("opacity", autoScroll ? "0.5" : "1");
-
+  // Avvia o ferma il loop
   if (autoScroll) {
     loop();
   } else {
@@ -193,11 +195,13 @@ function autoScrollBehavior() {
   if (autoScroll) {
     progress += autoScrollSpeed;
     tangleOffset -= autoScrollSpeed;
-    rotationAngle += 0.1 * (autoScrollSpeed/scrollSpeed); // Add rotation proportional to scroll speed
+    rotationAngle += 0.1 * (autoScrollSpeed/scrollSpeed); // Rotazione più lenta rispetto allo scroll manuale
 
+    // Limita il progresso e l'offset
     progress = constrain(progress, 0, maxLunghezza);
     tangleOffset = constrain(tangleOffset, -maxLunghezza, 0);
 
+    // Cambia pagina quando il gomitolo è completamente scrollato
     if (progress >= maxLunghezza || tangleOffset <= -maxLunghezza) {
       autoScroll = false;
       scrollButton.style("opacity", "1");
@@ -208,28 +212,26 @@ function autoScrollBehavior() {
   }
 }
 
+// Gomitolo
 function drawGomitolo() {
-  randomSeed(seed);
-  
-  // Prima passata - fili base
-  //for (let i = 0; i < numFili; i++) {
+  randomSeed(seed); // Resetta il seed per il gomitolo
   randomSeed(seed + 1 * 1000);
   stroke(colori[0]);
   strokeWeight(spessoreFilo);
   drawFilo3D();
-  //}
   
-  // Seconda passata - intrecci
-  for (let k = 0; k < 5; k++) { // Increased passes for more interlacing
-    for (let i = 0; i < numFili; i++) {
-      randomSeed(seed + i * 1000 + k * 10000);
+  // Disegna i fili intrecciati
+  for (let k = 0; k < 5; k++) { 
+    for (let i = 0; i < numFili; i++) { 
+      randomSeed(seed + i * 1000 + k * 10000); // Cambia il seed per ogni filo
       stroke(colori[i]);
-      strokeWeight(spessoreFilo * 1.2); // Slightly thicker for visibility
+      strokeWeight(spessoreFilo * 1.2); 
       drawIntreccio3D();
     }
   }
 }
 
+// Fili
 function drawFilo3D() {
   let punti = [];
   for (let i = 0; i < 200; i++) {
@@ -241,20 +243,22 @@ function drawFilo3D() {
     let y3D = raggio * sin(phi) * sin(theta);
     let z3D = raggio * cos(phi);
 
-    // Applica rotazione
+    // Rotazione del filo attorno all'asse z
     let y3D_rotated = y3D * cos(-rotationAngle) - z3D * sin(-rotationAngle);
     let z3D_rotated = y3D * sin(-rotationAngle) + z3D * cos(-rotationAngle);
 
+    // Prospettiva
     let prospettiva = 0.8 + z3D_rotated / (2 * raggio);
     let x2D = centro.x + x3D * prospettiva;
     let y2D = centro.y - y3D_rotated * prospettiva;
 
+    // Sposta i punti in modo casuale 
     x2D += random(-2, 2);
     y2D += random(-2, 2);
-
     punti.push(createVector(x2D, y2D));
   }
 
+  // Disegna il filo
   beginShape();
   for (let p of punti) {
     curveVertex(p.x, p.y);
@@ -299,7 +303,8 @@ function drawIntreccio3D() {
   endShape();
 }
 
-function generateDistributedStartPoint(index) {
+// Genera un punto di partenza per ogni filo
+function generateDistributedStartPoint(index) { 
   let angle = (TWO_PI / numFili) * index;
   let distance = raggio * 0.5;
   let x = centro.x + cos(angle) * distance;
@@ -307,16 +312,17 @@ function generateDistributedStartPoint(index) {
   return createVector(x, y);
 }
 
+// Genera il percorso per ogni filo
 function generateLinePath(index, start) {
   let x = start.x;
   let y = start.y;
-  let oscillazioneOffset = random(0, TWO_PI);
-  let spintaVariabile = random(1, 1.2);
+  let oscillazioneOffset = random(0, TWO_PI); // Offset per l'oscillazione
+  let spintaVariabile = random(1, 1.2); // Variabile per spingere i fili verso sinistra
 
   for (let i = 0; i < maxLunghezza; i++) {
     let oscillazione = sin(i * 0.05 + oscillazioneOffset) * random(1.5, 2.5);
     let spintaSinistra = 0;
-
+    // Cambia la spinta e l'oscillazione in base alla lunghezza del filo in modo da farli uscire dalla pagina
     if (i >= 1080 && i < 1400) {
       spintaSinistra = map(i, 1100, 1400, 0, -2) * spintaVariabile;
       oscillazione = sin(i * 0.05 + oscillazioneOffset) * random(3.5, 4.5);
@@ -328,8 +334,9 @@ function generateLinePath(index, start) {
       oscillazione = sin(i * 0.05 + oscillazioneOffset) * random(7.5, 8.5);
     }
 
-    let movimentoVerticale = velocitaDiscesa[index]; // Usa la velocità unica per ogni filo
-    x += oscillazione + spintaSinistra;
+    // Discesa
+    let movimentoVerticale = velocitaDiscesa[index]; 
+    x += oscillazione + spintaSinistra; 
     y += movimentoVerticale;
 
     paths[index].push(createVector(x, y));
