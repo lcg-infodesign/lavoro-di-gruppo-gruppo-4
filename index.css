@@ -9,7 +9,8 @@
 
 html, body {
   margin: 0;
-  overflow: hidden;
+  overflow: visible;
+  height: auto;
   position: relative;
 }
 
@@ -161,6 +162,8 @@ h2 {
   font-size: 1.5vh;
   line-height: 1.5;
   text-align: justify;
+  min-height: 100vh; /* Altezza massima del div */
+  overflow-y: auto;  /* Scroll */
 }
 
 .marquee {
