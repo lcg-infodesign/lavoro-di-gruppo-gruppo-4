@@ -33,7 +33,7 @@ Un'ulteriore sezione del sito permette all’utente di confrontare i livelli di 
 
 TEAM 
 
-Silvia Andreoletti: Ideazione della struttura iniziale e realizzazione della struttura finale del sito, sviluppo della sezione di visualizzazione dei dati (grafici con contributo gomitolo) 
+Silvia Andreoletti: Ideazione della struttura iniziale e realizzazione della struttura finale del sito, sviluppo della sezione di visualizzazione dei dati (grafici con contributo gomitolo), completamento e ottimizzazione del codice 
 
 Alessandro Castelli: Ideazione della struttura iniziale e realizzazione della struttura finale del sito, sviluppo della sezione di visualizzazione dei dati (gomitolo con contributo grafici) 
 
@@ -41,7 +41,7 @@ Ilaria Magni: Illustrazioni, sviluppo dell’impianto generale iniziale del sito
 
 Andrea Romani: Sistemazione immagine di sfondo Home
 
-Michela Salerno: Ideazione della struttura iniziale e realizzazione della struttura finale del sito, sviluppo della sezione di visualizzazione dei dati (gomitolo con contributo grafici) 
+Michela Salerno: Ideazione della struttura iniziale e realizzazione della struttura finale del sito, sviluppo della sezione di visualizzazione dei dati (gomitolo con contributo grafici), stesura della parte testuale
 
 Alessia Tagliaferri: Elaborazione e organizzazione del dataset, ideazione della struttura iniziale e realizzazione della struttura finale del sito, sviluppo della sezione di visualizzazione dei dati (grafici con contributo gomitolo) 
 
