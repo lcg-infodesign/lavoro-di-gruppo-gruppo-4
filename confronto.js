@@ -52,10 +52,16 @@ function setup() {
   prevButton.mousePressed(() => window.location.href = "DATAVIZ.html");
 
   // bottone RESET
-  resetButton = createButton("Reset");
+  resetButton = createButton("");
   resetButton.size(50, 50);
-  resetButton.position(windowWidth-60, 30);
-  resetButton.style("background-color", "white"); 
+  resetButton.style("background-color", "transparent");
+  resetButton.style("background-image", "url('ASSETS/freccina reset.png')"); // Percorso corretto dell'icona caricata
+  resetButton.style("background-size", "contain");
+  resetButton.style("background-repeat", "no-repeat");
+  resetButton.style("background-size", "80%");
+  resetButton.style("background-position", "center");
+  resetButton.style("cursor", "pointer");
+  resetButton.style("border", "none");
   resetButton.style("border-radius", "50%");
   resetButton.mousePressed(() => //si spengono tutti i bottoni attivi 
     buttons.forEach(btn => {
@@ -64,6 +70,7 @@ function setup() {
       btn.style("border", "none");
     })
   );
+  positionResetButton();
 
   // Elaborazione dati
   let fasciaEta = [...new Set(data.getColumn("fascia"))];
@@ -294,6 +301,9 @@ function positionBtn() {
   }
 }
 
+function positionResetButton() {
+  resetButton.position(windowWidth-60, 30);
+}
 //function toggleButton(btn) {
   //btn.active = !btn.active; // Cambia stato
   //btn.style("background-color", btn.active ? "green" : "white"); // Cambia colore
@@ -317,4 +327,5 @@ function windowResized() {
   resizeCanvas(windowWidth, windowHeight); 
   positionBtn();
   positionPrevButton();
+  positionResetButton();
 }
