@@ -118,7 +118,7 @@ h1 {
   font-size: 5em;
   line-height: 0.9;
   margin: 0;
-  padding-top: 1.5%;
+  padding-top: 3%;
   color: black;
 }
 
@@ -127,6 +127,10 @@ h2 {
   font-size: 2em;
   
   margin-top: 1%;
+}
+
+.titolo-container {
+  padding-top: 2%;
 }
 
 .text-container2 {
