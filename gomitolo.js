@@ -46,7 +46,7 @@ let textData = [
     size: 18,
   },
   {
-    content: "Frase collegamento grafico Michela !! .",
+    content: "Tieni d'occhio la pagina ! \ni fili stanno per\nprendere forma . . .",
     x: 0.7,
     y: 3,
     size: 18,
