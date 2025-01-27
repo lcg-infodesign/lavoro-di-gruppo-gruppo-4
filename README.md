@@ -3,7 +3,7 @@ FONTE E ANALISI DEI DATI
 L'indagine campionaria "Aspetti della vita quotidiana", realizzata dall'ISTAT, fa parte delle Indagini Multiscopo sulle famiglie. La ricerca raccoglie molte informazioni sulla vita quotidiana degli individui e delle famiglie ma, in questo progetto, abbiamo analizzato i dati raccolti tra il 2010 e il 2023 per studiare la fiducia interpersonale.
 La domanda analizzata era: "Ti fidi degli altri?", con due possibili risposte: "Tutti sono degni di fiducia" e "Bisogna stare molto attenti". 
 
-link del dataset: https://esploradati.istat.it/databrowser/#/it/dw/categories/IT1,Z0850DAI,1.0/INTERP_TRUST
+Link del dataset: https://esploradati.istat.it/databrowser/#/it/dw/categories/IT1,Z0850DAI,1.0/INTERP_TRUST
 
 STRUTTURA DELLA PAGINA WEB
 
@@ -36,16 +36,16 @@ Un'ulteriore sezione del sito permette all’utente di confrontare i livelli di 
 
 TEAM 
 
-Silvia Andreoletti: Ideazione della struttura iniziale e realizzazione della struttura finale del sito, sviluppo della sezione di visualizzazione dei dati (grafici con contributo gomitolo), completamento e ottimizzazione dell'html e css
+Silvia Andreoletti: Ideazione della struttura iniziale e realizzazione della struttura finale del sito, sviluppo della sezione di visualizzazione dei dati (grafici con contributo al gomitolo), completamento e ottimizzazione dell'html e css
 
-Alessandro Castelli: Ideazione della struttura iniziale e realizzazione della struttura finale del sito, sviluppo della sezione di visualizzazione dei dati (gomitolo con contributo grafici) 
+Alessandro Castelli: Ideazione della struttura iniziale e realizzazione della struttura finale del sito, sviluppo della sezione di visualizzazione dei dati (gomitolo con contributo ai grafici) 
 
 Ilaria Magni: Illustrazioni, sviluppo dell’impianto generale iniziale del sito (html e css), realizzazione del materiale degli assets
 
 Andrea Romani: Sistemazione immagine di sfondo Home
 
-Michela Salerno: Ideazione della struttura iniziale e realizzazione della struttura finale del sito, sviluppo della sezione di visualizzazione dei dati (gomitolo con contributo grafici), stesura della parte testuale
+Michela Salerno: Ideazione della struttura iniziale e realizzazione della struttura finale del sito, sviluppo della sezione di visualizzazione dei dati (gomitolo con contributo ai grafici), stesura della parte testuale
 
-Alessia Tagliaferri: Elaborazione e organizzazione del dataset, ideazione della struttura iniziale e realizzazione della struttura finale del sito, sviluppo della sezione di visualizzazione dei dati (grafici con contributo gomitolo) 
+Alessia Tagliaferri: Elaborazione e organizzazione del dataset, ideazione della struttura iniziale e realizzazione della struttura finale del sito, sviluppo della sezione di visualizzazione dei dati (grafici con contributo al gomitolo) 
 
 Siyue Wang: Ideazione e realizzazione dello swipe di cambio pagina 
