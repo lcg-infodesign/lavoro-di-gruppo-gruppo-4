@@ -28,6 +28,9 @@ let imagesMaschi = [];
 let imagesMF = [];
 let imgBottoneF;
 
+let font;
+let fontScritte;
+
 // Mappa dei colori per le fasce d'età
 const coloriFasce = {
   "14-17": "#32a9b5",
@@ -45,6 +48,7 @@ function preload() {
   data = loadTable("fiducia Per.csv", "csv", "header");
   img = loadImage("ASSETS/background04_CREAM(schiarito).jpg");
   font = loadFont("ASSETS/Ribes-Regular.otf");
+  fontScritte = loadFont("ASSETS/RockSalt-Regular.ttf");
   for (let age of ageGroups) {
     let ageFormatted = age.replace(">", "").trim();  // Rimuove il ">" da ">75" e altre fasce d'età
 
@@ -130,7 +134,9 @@ function setup() {
 function draw() {
   background(img);
   disegnaAssi();
-  drawCard(); 
+  drawCard();
+  testi();
+  
 
   if (isAnimating) {
     animationProgress = (millis() - animationStartTime) / animationDuration;
@@ -172,6 +178,7 @@ function draw() {
       }
     }
   }
+
 }
 
 // Funzione per calcolare la media dei dati
@@ -194,12 +201,13 @@ function disegnaAssi() {
 
   stroke(0);
   strokeWeight(1);
+  textFont(font);
 
   // Linea asse X
   line(margineY, height - margineX, margineY + lunghezzaAsseX, height - margineX);
 
   // Linea asse Y
-  line(margineY, height - margineX, margineY, height - margineX - altezzaAsseY);
+  line(margineY, height - margineX, margineY, height - margineX - altezzaAsseY -15);
 
   // Etichette asse X (anni)
   for (let anno = 2010; anno <= 2023; anno++) {
@@ -215,7 +223,8 @@ function disegnaAssi() {
     let y = map(valore, 10, 30, height - margineX, height - margineX - altezzaAsseY );
     line(margineY - 5, y, margineY + 5, y);
     textAlign(RIGHT);
-    text(valore, margineY - 12, y - 6);
+    //aggiungi testo con valore percentuale
+    text(valore, margineY -9, y - 6);
   }
 }
 
@@ -278,9 +287,9 @@ function disegnaLineeOrizzontali(dati) {
 //CARTA D'INDENTITà 
 function drawCard() {
   let rectX = windowWidth * 0.72;
-  let rectY = windowHeight * 0.1;
+  let rectY = windowHeight * 0.45;
   let rectW = windowWidth * 0.27;
-  let rectH = windowHeight * 0.3;
+  let rectH = windowHeight * 0.35;
   
   let fillColor = coloriFasce[fasciaSelezionata] || "#ffffff"; 
   let sessoSelezionato = isButtonFOn ? "F" : isButtonMOn ? "M" : "Media";
@@ -291,6 +300,7 @@ function drawCard() {
 
   // Rettangolo
   fill(250, 250, 250, 220);
+  fill(color(coloriFasce[fasciaSelezionata] + "80"));
   stroke(fillColor); // Bordo nero
   strokeWeight(3);
   rect(rectX, rectY, rectW, rectH);
@@ -298,7 +308,8 @@ function drawCard() {
   // Testo
   fill(0); // Colore del testo
   noStroke();
-  textSize(24);
+  textFont(font);
+  textSize(32);
   textAlign(LEFT, TOP);
 
   let fasciaText = fasciaSelezionata ? `${fasciaSelezionata}` : "- - -";
@@ -309,22 +320,22 @@ function drawCard() {
   else tipoText += "Nessuno selezionato";
 
   // Disegna il testo nel rettangolo  
-  text(tipoText, rectX + 10, rectH*0.37);
-  textSize(24);
-  text(fasciaText, rectX + 10, rectH*0.57);
+  text(tipoText, rectX + 10, rectH*1.30);
+  
+  text(fasciaText, rectX + 10, rectH*1.45);
   
   textSize(16);
 
-  text(`Valore Medio: ${valoreMedio.toFixed(2)}`, rectX + 10, rectH);
-  text(`Fiducia massima nell'anno ${annoMassimo}`, rectX + 10, rectH*1.1);
-  text(`Fiducia minima nell'anno ${annoMinimo}`, rectX + 10, rectH*1.2);
+  text(`Valore Medio: ${valoreMedio.toFixed(2)}%`, rectX + 10, rectH*1.95);
+  text(`Fiducia massima nell'anno ${annoMassimo}`, rectX + 10, rectH*2.05);
+  text(`Fiducia minima nell'anno ${annoMinimo}`, rectX + 10, rectH*2.15);
   
 
   // Immagine faccia
   if (fasciaSelezionata) {
-    let imgX = rectX * 1.24;
-    let imgY =rectY * 1.3;
-    let imgSize = imgX * 0.1;
+    let imgX = rectX * 1.213;
+    let imgY =rectH * 1.33;
+    let imgSize = imgX * 0.12;
     let imgIndex = ageGroups.indexOf(fasciaSelezionata);
 
     if (isButtonFOn) {
@@ -334,7 +345,7 @@ function drawCard() {
     } else if (isButtonMediaOn) {
       //image(imagesFemmine[imgIndex], imgX - (rectX * 0.08), imgY, imgSize, imgSize);
       //image(imagesMaschi[imgIndex], imgX, imgY, imgSize, imgSize);
-      image(imagesMF[imgIndex], imgX - rectX * 0.06, imgY, imgSize * 1.5, imgSize);
+      image(imagesMF[imgIndex], imgX - rectX * 0.07, imgY, imgSize * 1.5, imgSize);
     } else {
       // nessuna selezione
       text("Nessuna selezione", rectX + 10, rectY + 160);
@@ -423,11 +434,11 @@ function styleButton(button) {
 //POSIZIONE DEI BOTTONI M/F
 function positionButton() {
   // Calcolare la posizione iniziale a destra della finestra
-  let buttonStartX = windowWidth - (windowWidth / 5); // Posizione a destra
-  let buttonStartY = windowHeight * 0.60; // Posizione iniziale in alto, sarà incrementata per i bottoni successivi
+  let buttonStartX = windowWidth - (windowWidth / 5.5); // Posizione a destra
+  let buttonStartY = windowHeight * 0.28; // Posizione iniziale in alto, sarà incrementata per i bottoni successivi
   buttonF.position(buttonStartX, buttonStartY);
-  buttonM.position(buttonStartX, buttonStartY + windowHeight*0.1); // 50px sotto il primo
-  buttonMedia.position(buttonStartX, buttonStartY + windowHeight*0.2); // 100px sotto il primo
+  buttonM.position(buttonStartX, buttonStartY + windowHeight*0.07); 
+  buttonMedia.position(buttonStartX, buttonStartY + windowHeight*0.14); 
 }
 
 //POSIZIONE FRECCIA
@@ -550,6 +561,24 @@ function toggleBottoniFasce(btn) {
   }
 }
 
+
+//testi
+function testi(){
+  textFont(font);
+  text("% di fiducia", width *0.01, height * 0.03);
+
+  textFont(fontScritte);
+  textSize(14);
+  push();
+  rotate(-PI/15);
+
+  text("eh sì,\nci fidiamo poco", width * 0.035, height * 0.1);
+  pop();
+
+  text("Seleziona una fascia d'età\ne un genere per scoprire\nl'andamento della fiducia", width * 0.78, 0);
+}
+
+
 //GESTIONE RIDIMENSIONAMENTO DELLO SCHERMO
 function windowResized() {
   resizeCanvas(windowWidth, windowHeight); 
@@ -557,3 +586,13 @@ function windowResized() {
   positionBottoniFasce();
   positionNextButton();
 }
+
+//TORNARE AL GOMITOLO
+// usare l'evento "wheel" di js per tornare al gomitolo
+window.addEventListener("wheel", (event) => {
+  //se lo scroll è verso l'alto (=se è negativo)
+  if (event.deltaY < -50) {
+    // --> torno alla pagina
+    window.location.href = "gomitolo.html";
+  }
+});

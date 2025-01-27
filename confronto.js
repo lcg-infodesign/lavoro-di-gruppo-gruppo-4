@@ -91,6 +91,7 @@ function draw() {
   background(img); // Sfondo
   disegnaAssi(); // Disegna gli assi
   lineeLegenda();
+  testi();
 
   // Disegna le linee per i bottoni attivi
   for (let btn of buttons) {
@@ -112,12 +113,13 @@ function disegnaAssi() {
   stroke(0);
   strokeWeight(1);
   drawingContext.setLineDash([]); // NON tratteggio gli assi
+  textSize(12);
 
   // Linea asse X
   line(margineY, height - margineX, margineY + lunghezzaAsseX, height - margineX);
 
   // Linea asse Y
-  line(margineY, height - margineX, margineY, height - margineX - altezzaAsseY);
+  line(margineY, height - margineX, margineY, height - margineX - altezzaAsseY -15);
 
   // Etichette asse X (anni)
   for (let anno = 2010; anno <= 2023; anno++) {
@@ -300,6 +302,14 @@ function positionBtn() {
 //POSIZIONE FRECCIA PRE
 function positionPrevButton(){
   prevButton.position(width - 60, height - 60);
+}
+
+function testi(){
+  fill(0); // Colore del testo
+  noStroke();
+  textFont(font);
+  textSize(16);
+  text("% di fiducia", width *0.06, height * 0.03);
 }
 
 //RIDIMENSIONAMENTO FINESTRA
