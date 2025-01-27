@@ -14,7 +14,7 @@ html, body {
 }
 
 body {
-  background-image: url("ASSETS/PINKbackground_flesh_light.jpg");
+  background-image: url("ASSETS/PINKbackground_medium.jpg");
   background-attachment: fixed;
   background-size: cover;
   padding: 0; /* Rimuovi il padding superiore */
