@@ -214,19 +214,20 @@ function autoScrollBehavior() {
 }
 
 // Gomitolo
-function drawGomitolo() {
-  randomSeed(seed); // Resetta il seed per il gomitolo
-  randomSeed(seed + 1 * 1000);
-  stroke(colori[0]);
-  strokeWeight(spessoreFilo);
-  drawFilo3D();
+function drawGomitolo() {  
+  for (let i = 1; i < numFili; i++) {
+    randomSeed(seed + i * 1000);
+    stroke(colori[i]);
+    strokeWeight(spessoreFilo);
+    drawFilo3D();
+  }
   
   // Disegna i fili intrecciati
-  for (let k = 0; k < 5; k++) { 
+  for (let k = 0; k < 4; k++) { 
     for (let i = 0; i < numFili; i++) { 
       randomSeed(seed + i * 1000 + k * 10000); // Cambia il seed per ogni filo
       stroke(colori[i]);
-      strokeWeight(spessoreFilo * 1.2); 
+      strokeWeight(spessoreFilo); 
       drawIntreccio3D();
     }
   }
@@ -276,8 +277,9 @@ function drawIntreccio3D() {
     let phi = acos(u);
 
     // Reduce radius slightly for interlacing effect
-    let raggioIntreccio = raggio * 0.9;
+    let raggioIntreccio = raggio;
     
+    // equazione parametrica della sfera
     let x3D = raggioIntreccio * sin(phi) * cos(theta);
     let y3D = raggioIntreccio * sin(phi) * sin(theta);
     let z3D = raggioIntreccio * cos(phi);
@@ -291,8 +293,8 @@ function drawIntreccio3D() {
     let y2D = centro.y - y3D_rotated * prospettiva;
 
     // Larger random displacement for more chaotic look
-    x2D += random(-5, 5);
-    y2D += random(-5, 5);
+    x2D += random(-2, 2);
+    y2D += random(-2, 2);
 
     punti.push(createVector(x2D, y2D));
   }
@@ -307,7 +309,7 @@ function drawIntreccio3D() {
 // Genera un punto di partenza per ogni filo
 function generateDistributedStartPoint(index) { 
   let angle = (TWO_PI / numFili) * index;
-  let distance = raggio * 0.5;
+  let distance = raggio * 0.2;
   let x = centro.x + cos(angle) * distance;
   let y = centro.y + sin(angle) * distance;
   return createVector(x, y);
@@ -318,21 +320,21 @@ function generateLinePath(index, start) {
   let x = start.x;
   let y = start.y;
   let oscillazioneOffset = random(0, TWO_PI); // Offset per l'oscillazione
-  let spintaVariabile = random(1, 1.2); // Variabile per spingere i fili verso sinistra
+  let spintaVariabile = random(0.8, 1); // Variabile per spingere i fili verso sinistra
 
   for (let i = 0; i < maxLunghezza; i++) {
-    let oscillazione = sin(i * 0.05 + oscillazioneOffset) * random(1.5, 2.5);
+    let oscillazione = sin(i * 0.03 + oscillazioneOffset) * random(0.3, 0.8);
     let spintaSinistra = 0;
     // Cambia la spinta e l'oscillazione in base alla lunghezza del filo in modo da farli uscire dalla pagina
-    if (i >= 1080 && i < 1400) {
-      spintaSinistra = map(i, 1100, 1400, 0, -2) * spintaVariabile;
-      oscillazione = sin(i * 0.05 + oscillazioneOffset) * random(3.5, 4.5);
-    } else if (i >= 1400 && i < 1700) {
+    if (i >= 1500 && i < 1700) {
+      spintaSinistra = map(i, 1500, 1700, 0, -2) * spintaVariabile;
+      oscillazione = sin(i * 0.05 + oscillazioneOffset) * random(2, 3);
+    } else if (i >= 1700 && i < 1900) {
       spintaSinistra = map(i, 1400, 1700, -2, -4) * spintaVariabile;
-      oscillazione = sin(i * 0.05 + oscillazioneOffset) * random(5.5, 6.5);
-    } else if (i >= 1700) {
+      oscillazione = sin(i * 0.05 + oscillazioneOffset) * random(3, 4);
+    } else if (i >= 1900) {
       spintaSinistra = -6 * spintaVariabile;
-      oscillazione = sin(i * 0.05 + oscillazioneOffset) * random(7.5, 8.5);
+      oscillazione = sin(i * 0.05 + oscillazioneOffset) * random(4, 5);
     }
 
     // Discesa
