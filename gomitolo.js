@@ -22,26 +22,32 @@ let filiScrollSpeed = 12;    // Velocità aumentata per i fili
 let textData = [
   {
     content: "La fiducia interpersonale\nè una questione INTRICATA !",
-    x: 0.2, // Posizione orizzontale come percentuale 
+    x: 0.21, // Posizione orizzontale come percentuale 
     y: 0.1, // Posizione verticale come percentuale 
-    size: 18, 
+    size: 22, 
   },
   {
-    content: "Per renderla più comprensibile\nabbiamo provato a sciogliere alcuni nodi .",
-    x: 0.60,
+    content: "Per renderla più comprensibile\nabbiamo provato a\nsciogliere alcuni nodi .",
+    x: 0.75,
     y: 0.8,
     size: 18,
   },
   {
     content: "Ogni filo rappresenta diversi\ngruppi di età .",
-    x: 0.1,
+    x: 0.16,
     y: 1.4,
     size: 18,
   },
   {
-    content: "Ogni colore racconta una storia di fiducia\nin base alla generazione\na cui appartieni .",
-    x: 0.6,
+    content: "Ogni colore racconta\nuna storia di fiducia\nin base alla generazione\na cui appartieni .",
+    x: 0.75,
     y: 2,
+    size: 18,
+  },
+  {
+    content: "Frase collegamento grafico Michela !! .",
+    x: 0.7,
+    y: 3,
     size: 18,
   },
 ];
@@ -124,6 +130,7 @@ function draw() {
   stroke("black");
   strokeWeight(1);
   fill("black");
+  textAlign(CENTER, CENTER);
 
   textData.forEach((textItem) => {
     textSize(textItem.size);
