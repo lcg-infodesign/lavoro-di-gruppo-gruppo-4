@@ -48,7 +48,7 @@ let textData = [
   {
     content: "Tieni d'occhio la pagina ! \ni fili stanno per\nprendere forma . . .",
     x: 0.7,
-    y: 3,
+    y: 2.85,
     size: 18,
   },
 ];
