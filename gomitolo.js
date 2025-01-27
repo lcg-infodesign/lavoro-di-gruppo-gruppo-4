@@ -67,7 +67,6 @@ function setup() {
   randomSeed(seed);
   noFill();
   noLoop();
-
   // Genera percorsi per ogni filo
   for (let i = 0; i < numFili; i++) {
     paths.push([]);
@@ -215,15 +214,19 @@ function autoScrollBehavior() {
 
 // Gomitolo
 function drawGomitolo() {  
-  for (let i = 1; i < numFili; i++) {
-    randomSeed(seed + i * 1000);
-    stroke(colori[i]);
-    strokeWeight(spessoreFilo);
-    drawFilo3D();
-  }
+  randomSeed(seed);
+  stroke(colori[0]);
+  strokeWeight(spessoreFilo);
+  drawFilo3D();
+  // for (let i = 1; i < numFili; i++) {
+  //   randomSeed(seed + i * 1000);
+  //   stroke(colori[i]);
+  //   strokeWeight(spessoreFilo);
+  //   drawFilo3D();
+  // }
   
   // Disegna i fili intrecciati
-  for (let k = 0; k < 4; k++) { 
+  for (let k = 0; k < 5; k++) { 
     for (let i = 0; i < numFili; i++) { 
       randomSeed(seed + i * 1000 + k * 10000); // Cambia il seed per ogni filo
       stroke(colori[i]);
@@ -255,8 +258,8 @@ function drawFilo3D() {
     let y2D = centro.y - y3D_rotated * prospettiva;
 
     // Sposta i punti in modo casuale 
-    x2D += random(-2, 2);
-    y2D += random(-2, 2);
+    x2D += random(-1, 1);
+    y2D += random(-1, 1);
     punti.push(createVector(x2D, y2D));
   }
 
